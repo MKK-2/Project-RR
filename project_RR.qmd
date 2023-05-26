@@ -48,18 +48,20 @@ library(RSBID) #We will need SMOTE_NC from it
 library(tidyverse)
 ```
 
-
 Data loading:
+
 ```{r}
 rain_df <- read.csv("weatherAUS.csv")
 ```
 
-
 ## 2. Exploration and preprocessing
 
 ```{r}
-
+head(rain_df)
+summary(rain_df)
+sapply(rain_df, function(x) sum(is.na (x)))
 ```
+
 MICHALS PART
 
 ## 3. Selecting Features
@@ -72,7 +74,15 @@ NADIMS PART
 
 ## 5. Split train and test
 
-NADIMS PART
+```{r}
+set.seed(111)
+
+split1<- sample(nrow(rain_df),floor(nrow(rain_df)*0.7),replace=FALSE)
+
+train <- rain_df[split1,]
+
+test <- rain_df[-split1,]
+```
 
 ## 6. Logistic Regression
 

@@ -176,7 +176,101 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="exploration-and-preprocessing" class="level2">
 <h2 class="anchored" data-anchor-id="exploration-and-preprocessing">2. Exploration and preprocessing</h2>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rain_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Date Location MinTemp MaxTemp Rainfall Evaporation Sunshine WindGustDir
+1 2008-12-01   Albury    13.4    22.9      0.6          NA       NA           W
+2 2008-12-02   Albury     7.4    25.1      0.0          NA       NA         WNW
+3 2008-12-03   Albury    12.9    25.7      0.0          NA       NA         WSW
+4 2008-12-04   Albury     9.2    28.0      0.0          NA       NA          NE
+5 2008-12-05   Albury    17.5    32.3      1.0          NA       NA           W
+6 2008-12-06   Albury    14.6    29.7      0.2          NA       NA         WNW
+  WindGustSpeed WindDir9am WindDir3pm WindSpeed9am WindSpeed3pm Humidity9am
+1            44          W        WNW           20           24          71
+2            44        NNW        WSW            4           22          44
+3            46          W        WSW           19           26          38
+4            24         SE          E           11            9          45
+5            41        ENE         NW            7           20          82
+6            56          W          W           19           24          55
+  Humidity3pm Pressure9am Pressure3pm Cloud9am Cloud3pm Temp9am Temp3pm
+1          22      1007.7      1007.1        8       NA    16.9    21.8
+2          25      1010.6      1007.8       NA       NA    17.2    24.3
+3          30      1007.6      1008.7       NA        2    21.0    23.2
+4          16      1017.6      1012.8       NA       NA    18.1    26.5
+5          33      1010.8      1006.0        7        8    17.8    29.7
+6          23      1009.2      1005.4       NA       NA    20.6    28.9
+  RainToday RainTomorrow
+1        No           No
+2        No           No
+3        No           No
+4        No           No
+5        No           No
+6        No           No</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rain_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Date             Location            MinTemp         MaxTemp     
+ Length:145460      Length:145460      Min.   :-8.50   Min.   :-4.80  
+ Class :character   Class :character   1st Qu.: 7.60   1st Qu.:17.90  
+ Mode  :character   Mode  :character   Median :12.00   Median :22.60  
+                                       Mean   :12.19   Mean   :23.22  
+                                       3rd Qu.:16.90   3rd Qu.:28.20  
+                                       Max.   :33.90   Max.   :48.10  
+                                       NA's   :1485    NA's   :1261   
+    Rainfall        Evaporation        Sunshine     WindGustDir       
+ Min.   :  0.000   Min.   :  0.00   Min.   : 0.00   Length:145460     
+ 1st Qu.:  0.000   1st Qu.:  2.60   1st Qu.: 4.80   Class :character  
+ Median :  0.000   Median :  4.80   Median : 8.40   Mode  :character  
+ Mean   :  2.361   Mean   :  5.47   Mean   : 7.61                     
+ 3rd Qu.:  0.800   3rd Qu.:  7.40   3rd Qu.:10.60                     
+ Max.   :371.000   Max.   :145.00   Max.   :14.50                     
+ NA's   :3261      NA's   :62790    NA's   :69835                     
+ WindGustSpeed     WindDir9am         WindDir3pm         WindSpeed9am   
+ Min.   :  6.00   Length:145460      Length:145460      Min.   :  0.00  
+ 1st Qu.: 31.00   Class :character   Class :character   1st Qu.:  7.00  
+ Median : 39.00   Mode  :character   Mode  :character   Median : 13.00  
+ Mean   : 40.03                                         Mean   : 14.04  
+ 3rd Qu.: 48.00                                         3rd Qu.: 19.00  
+ Max.   :135.00                                         Max.   :130.00  
+ NA's   :10263                                          NA's   :1767    
+  WindSpeed3pm    Humidity9am      Humidity3pm      Pressure9am    
+ Min.   : 0.00   Min.   :  0.00   Min.   :  0.00   Min.   : 980.5  
+ 1st Qu.:13.00   1st Qu.: 57.00   1st Qu.: 37.00   1st Qu.:1012.9  
+ Median :19.00   Median : 70.00   Median : 52.00   Median :1017.6  
+ Mean   :18.66   Mean   : 68.88   Mean   : 51.54   Mean   :1017.6  
+ 3rd Qu.:24.00   3rd Qu.: 83.00   3rd Qu.: 66.00   3rd Qu.:1022.4  
+ Max.   :87.00   Max.   :100.00   Max.   :100.00   Max.   :1041.0  
+ NA's   :3062    NA's   :2654     NA's   :4507     NA's   :15065   
+  Pressure3pm        Cloud9am        Cloud3pm        Temp9am     
+ Min.   : 977.1   Min.   :0.00    Min.   :0.00    Min.   :-7.20  
+ 1st Qu.:1010.4   1st Qu.:1.00    1st Qu.:2.00    1st Qu.:12.30  
+ Median :1015.2   Median :5.00    Median :5.00    Median :16.70  
+ Mean   :1015.3   Mean   :4.45    Mean   :4.51    Mean   :16.99  
+ 3rd Qu.:1020.0   3rd Qu.:7.00    3rd Qu.:7.00    3rd Qu.:21.60  
+ Max.   :1039.6   Max.   :9.00    Max.   :9.00    Max.   :40.20  
+ NA's   :15028    NA's   :55888   NA's   :59358   NA's   :1767   
+    Temp3pm       RainToday         RainTomorrow      
+ Min.   :-5.40   Length:145460      Length:145460     
+ 1st Qu.:16.60   Class :character   Class :character  
+ Median :21.10   Mode  :character   Mode  :character  
+ Mean   :21.68                                        
+ 3rd Qu.:26.40                                        
+ Max.   :46.70                                        
+ NA's   :3609                                         </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(rain_df, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span> (x)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Date      Location       MinTemp       MaxTemp      Rainfall 
+            0             0          1485          1261          3261 
+  Evaporation      Sunshine   WindGustDir WindGustSpeed    WindDir9am 
+        62790         69835         10326         10263         10566 
+   WindDir3pm  WindSpeed9am  WindSpeed3pm   Humidity9am   Humidity3pm 
+         4228          1767          3062          2654          4507 
+  Pressure9am   Pressure3pm      Cloud9am      Cloud3pm       Temp9am 
+        15065         15028         55888         59358          1767 
+      Temp3pm     RainToday  RainTomorrow 
+         3609          3261          3267 </code></pre>
+</div>
 </div>
 <p>MICHALS PART</p>
 </section>
@@ -190,7 +284,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="split-train-and-test" class="level2">
 <h2 class="anchored" data-anchor-id="split-train-and-test">5. Split train and test</h2>
-<p>NADIMS PART</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">111</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>split1<span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(rain_df),<span class="fu">floor</span>(<span class="fu">nrow</span>(rain_df)<span class="sc">*</span><span class="fl">0.7</span>),<span class="at">replace=</span><span class="cn">FALSE</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> rain_df[split1,]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> rain_df[<span class="sc">-</span>split1,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="logistic-regression" class="level2">
 <h2 class="anchored" data-anchor-id="logistic-regression">6. Logistic Regression</h2>
