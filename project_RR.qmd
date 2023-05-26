@@ -1,0 +1,95 @@
+---
+title: "Project for Reproducible Research"
+author: "Nadim Muhammad, Michał Kulbat"
+date: "26/05/2023"
+format: html
+editor: visual
+output: 
+  html_document:
+    theme: spacelab
+    highlight: tango
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+---
+
+## 1. Importing libraries and loading dataset
+
+(install Rtools43 first: https://cran.r-project.org/bin/windows/Rtools/rtools43/rtools.html)
+
+```{r}
+library(devtools)
+```
+
+```{r}
+#| eval: false
+devtools::install_github("dongyuanwu/RSBID")
+```
+
+```{r}
+#| warning: false
+library(xts)
+library(lmtest)
+library(quantmod)
+library(dplyr)
+library(fUnitRoots)
+library(vars)
+library(tseries)
+library(aTSA)
+library(car)
+library(seasonal)
+library(forecast)
+library(kableExtra)
+library(formattable)
+library(Metrics)
+library(TSEwgt)
+library(RSBID) #We will need SMOTE_NC from it
+library(tidyverse)
+```
+
+
+Data loading:
+```{r}
+rain_df <- read.csv("weatherAUS.csv")
+```
+
+
+## 2. Exploration and preprocessing
+
+```{r}
+
+```
+MICHALS PART
+
+## 3. Selecting Features
+
+NADIMS + MICHALS PART
+
+## 4. Balancing and Standarizing
+
+NADIMS PART
+
+## 5. Split train and test
+
+NADIMS PART
+
+## 6. Logistic Regression
+
+NADIMS PART
+
+## 7. SVC
+
+NADIMS PART
+
+## 8. Random Forest
+
+NADIMS PART
+
+## 9. xgboost
+
+NADIMS PART
+
+## 10. Conclusion
+
+MICHALS PART
