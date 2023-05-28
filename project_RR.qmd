@@ -62,6 +62,11 @@ summary(rain_df)
 sapply(rain_df, function(x) sum(is.na (x)))
 ```
 
+```{r}
+rain_df["RainTomorrow"][rain_df["RainTomorrow"] == "Yes"] <- 1
+rain_df["RainTomorrow"][rain_df["RainTomorrow"] == "No"] <- 0
+rain_df["RainTomorrow"]
+```
 MICHALS PART
 
 ## 3. Selecting Features
@@ -82,11 +87,14 @@ split1<- sample(nrow(rain_df),floor(nrow(rain_df)*0.7),replace=FALSE)
 train <- rain_df[split1,]
 
 test <- rain_df[-split1,]
+head(train)
 ```
 
 ## 6. Logistic Regression
-
-NADIMS PART
+```{r}
+logistic_reg <- glm(RainTomorrow~.,family = binomial(link = "logit"),data=train)
+```
+We won't be doing hyperparameter tuning for logistic regression, as there is not much it could be done.
 
 ## 7. SVC
 
