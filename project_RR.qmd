@@ -29,6 +29,27 @@ devtools::install_github("dongyuanwu/RSBID")
 
 ```{r}
 #| warning: false
+<<<<<<< HEAD
+library(xts)
+library(lmtest)
+library(quantmod)
+library(dplyr)
+library(tidyr)
+library(fUnitRoots)
+library(vars)
+library(tseries)
+library(aTSA)
+library(car)
+library(seasonal)
+library(ggplot2) #Tables
+library(forecast)
+library(kableExtra)
+library(formattable)
+library(Metrics)
+library(TSEwgt)
+#library(RSBID) #We will need SMOTE_NC from it
+library(tidyverse)
+=======
 library(dplyr) #data manipulation
 library(formattable) #data manipulation
 library(Metrics) #metrics
@@ -38,6 +59,7 @@ library(xgboost) #xgboost model
 library(caret) #dummy variables, precision metrics, knn
 library(RSBID) #We will need SMOTE_NC from it
 library(tidyverse) #collection of packages for data science
+>>>>>>> 1b3e2b3bbf38c00b31d322a3bd672e29a047b39a
 ```
 
 Data loading:
@@ -46,20 +68,82 @@ Data loading:
 rain_df <- read.csv("weatherAUS.csv")
 ```
 
+```{r}
+tail(rain_df)
+```
+
 ## 2. Exploration and preprocessing
+```{r}
+sum(is.na(rain_df$RainTomorrow))
+```
 
 ```{r}
+table(rain_df$RainTomorrow)
+```
+
+```{r}
+rain_df$RainTomorrow <- as.numeric(rain_df$RainTomorrow)
+    rain_df$RainTomorrow[rain_df$RainTomorrow == "No"] <- 2
+    rain_df$RainTomorrow[rain_df$RainTomorrow == "Yes"] <- 1
+```
+
+```{r}
+rain_df %>% drop_na(c("RainTomorrow"))
+```
+```{r}
+
+class(rain_df$RainTomorrow) 
+rain_df$RainTomorrow <- as.numeric(data)
+ 
+barplot(rain_df$RainTomorrow) 
+```
+
+```{r}
+str(rain_df)
+```
+
+```{r}
+summary(rain_df)
+```
+
+```{r}
+sum(is.na(rain_df$Date))
+sum(is.na(rain_df$Location))
+sum(is.na(rain_df$MinTemp))
+sum(is.na(rain_df$MaxTemp))
+sum(is.na(rain_df$Rainfall))
+sum(is.na(rain_df$Evaporation))
+sum(is.na(rain_df$Sunshine))
+sum(is.na(rain_df$WindGustDir))
+sum(is.na(rain_df$WindGustDir))
+sum(is.na(rain_df$WindGustSpeed))
+sum(is.na(rain_df$WindDir9am))
+sum(is.na(rain_df$WindDir3pm))
+sum(is.na(rain_df$WindSpeed9am))
+sum(is.na(rain_df$WindSpeed3pm))
+sum(is.na(rain_df$Humidity9am))
+sum(is.na(rain_df$Humidity3pm))
+sum(is.na(rain_df$Pressure9am))
+sum(is.na(rain_df$Pressure3pm))
+sum(is.na(rain_df$Cloud9am))
+sum(is.na(rain_df$Cloud3pm))
+sum(is.na(rain_df$Temp9am))
+sum(is.na(rain_df$Temp3pm))
+sum(is.na(rain_df$RainToday))
+sum(is.na(rain_df$RainTomorrow))
+```
+
+#```{r}
 head(rain_df)
 summary(rain_df)
 sapply(rain_df, function(x) sum(is.na (x)))
-```
+#```
 
 ```{r}
 rain_df["RainTomorrow"][rain_df["RainTomorrow"] == "Yes"] <- 1
 rain_df["RainTomorrow"][rain_df["RainTomorrow"] == "No"] <- 0
 rain_df["RainTomorrow"]
 ```
-MICHALS PART
 
 ## 3. Selecting Features
 
@@ -71,7 +155,7 @@ NADIMS PART
 
 ## 5. Split train and test
 
-```{r}
+#```{r}
 set.seed(111)
 
 split1<- sample(nrow(rain_df),floor(nrow(rain_df)*0.7),replace=FALSE)
@@ -79,8 +163,12 @@ split1<- sample(nrow(rain_df),floor(nrow(rain_df)*0.7),replace=FALSE)
 train <- rain_df[split1,]
 
 test <- rain_df[-split1,]
+<<<<<<< HEAD
+#```
+=======
 head(train)
 ```
+>>>>>>> 1b3e2b3bbf38c00b31d322a3bd672e29a047b39a
 
 ## 6. Logistic Regression
 ```{r}
