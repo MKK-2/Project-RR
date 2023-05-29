@@ -29,23 +29,15 @@ devtools::install_github("dongyuanwu/RSBID")
 
 ```{r}
 #| warning: false
-library(xts)
-library(lmtest)
-library(quantmod)
-library(dplyr)
-library(fUnitRoots)
-library(vars)
-library(tseries)
-library(aTSA)
-library(car)
-library(seasonal)
-library(forecast)
-library(kableExtra)
-library(formattable)
-library(Metrics)
-library(TSEwgt)
+library(dplyr) #data manipulation
+library(formattable) #data manipulation
+library(Metrics) #metrics
+library(MLmetrics) #metrics for machine learning (similar to Metrics library)
+library(e1071) #svm
+library(xgboost) #xgboost model
+library(caret) #dummy variables, precision metrics, knn
 library(RSBID) #We will need SMOTE_NC from it
-library(tidyverse)
+library(tidyverse) #collection of packages for data science
 ```
 
 Data loading:
@@ -97,9 +89,18 @@ logistic_reg <- glm(RainTomorrow~.,family = binomial(link = "logit"),data=train)
 We won't be doing hyperparameter tuning for logistic regression, as there is not much it could be done.
 
 ## 7. SVC
+```{r}
+SVM_model <- svm(RainTomorrow~., data=train)
 
-NADIMS PART
-
+SVM_tuned <- tune.svm(RainTomorrow~., data=train,
+                      degree = c(3,4),
+                      gamma = c(0.001 ,.005 ,0.01 ,0.1),
+                      cost = seq(0.1,1, by = 0.1),
+                      epsilon = c(0.1,0.05)
+                      )
+print(SVM_tuned$best.performance)
+SVM_tuned$best.model
+```
 ## 8. Random Forest
 
 NADIMS PART
