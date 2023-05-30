@@ -14,22 +14,22 @@ output:
       smooth_scroll: true
 ---
 
-## 1. Importing libraries and loading dataset
+# 1. Importing libraries and loading dataset
 
 (install Rtools43 first: https://cran.r-project.org/bin/windows/Rtools/rtools43/rtools.html)
 
-```{r}
+```{r warning=FALSE}
 library(devtools)
 ```
 
-```{r}
+```{r warning=FALSE}
 #| eval: false
 devtools::install_github("dongyuanwu/RSBID")
 ```
 
-```{r}
+```{r warning=FALSE}
 #| warning: false
-<<<<<<< HEAD
+#<<<<<<< HEAD
 library(xts)
 library(lmtest)
 library(quantmod)
@@ -49,17 +49,17 @@ library(Metrics)
 library(TSEwgt)
 #library(RSBID) #We will need SMOTE_NC from it
 library(tidyverse)
-=======
+#=======
 library(dplyr) #data manipulation
 library(formattable) #data manipulation
 library(Metrics) #metrics
-library(MLmetrics) #metrics for machine learning (similar to Metrics library)
-library(e1071) #svm
-library(xgboost) #xgboost model
-library(caret) #dummy variables, precision metrics, knn
-library(RSBID) #We will need SMOTE_NC from it
+#library(MLmetrics) #metrics for machine learning (similar to Metrics library)
+#library(e1071) #svm
+#library(xgboost) #xgboost model
+#library(caret) #dummy variables, precision metrics, knn
+#library(RSBID) #We will need SMOTE_NC from it
 library(tidyverse) #collection of packages for data science
->>>>>>> 1b3e2b3bbf38c00b31d322a3bd672e29a047b39a
+#>>>>>>> 1b3e2b3bbf38c00b31d322a3bd672e29a047b39a
 ```
 
 Data loading:
@@ -72,41 +72,115 @@ rain_df <- read.csv("weatherAUS.csv")
 tail(rain_df)
 ```
 
-## 2. Exploration and preprocessing
+# 2. Exploration and preprocessing
+
+## 2.1. RainTomorrow distribution
+
 ```{r}
+# Check the original shape of the dataset (rows, columns)
+
+dim(rain_df)
+```
+
+
+```{r}
+# Check for missing data in target variable
+
 sum(is.na(rain_df$RainTomorrow))
 ```
 
+#```{r}
+# Drop the data not including target variable since using them may later negativley influence the model
+
+rain_df <- rain_df %>% drop_na(c("RainTomorrow"))
+dim(rain_df)
+```
+
 ```{r}
+# Check distribution, look if balanced/imbalanced
+
 table(rain_df$RainTomorrow)
 ```
 
 ```{r}
+# Visualise distibution to check the impalance
+
+barplot(table(rain_df$RainTomorrow)) 
+```
+
+There is a class imbalance in **RainTommorow** - Our target variable is imbalanced.
+
+The data will be transformed from categorical into a numerical for process convinience where 1 will mean that it will rain tomorrow and 0 that it will not rain
+
+```{r echo=TRUE, results='hide'}
+# Replace objects Yes with 1 and No with 0
+
+rain_df["RainTomorrow"][rain_df["RainTomorrow"] == "Yes"] <- 1
+rain_df["RainTomorrow"][rain_df["RainTomorrow"] == "No"] <- 0
 rain_df$RainTomorrow <- as.numeric(rain_df$RainTomorrow)
-    rain_df$RainTomorrow[rain_df$RainTomorrow == "No"] <- 2
-    rain_df$RainTomorrow[rain_df$RainTomorrow == "Yes"] <- 1
+rain_df["RainTomorrow"]
 ```
 
-```{r}
-rain_df %>% drop_na(c("RainTomorrow"))
-```
-```{r}
-
-class(rain_df$RainTomorrow) 
-rain_df$RainTomorrow <- as.numeric(data)
- 
-barplot(rain_df$RainTomorrow) 
-```
+## 2.2. Data tpyes
 
 ```{r}
+# Check for data type and data amount in columns.
+
 str(rain_df)
 ```
 
+We can see that there are 23 variables in which:
+
+**1 Date:** Date
+
+**7 Integer:** Cloud9am, Cloud3pm, WindSpeed9am, WindSpeed3pm, Humidity9am, Humidity3pm, WindGustSpeed.
+
+**5 Character:** Location, WindGustDir, WindDir9am, WindDir3pm ,RainToday.
+
+**9 Numerical:** Temp9am, Temp3pm, Pressure9am, Pressure3pm, MinTemp, MaxTemp, Rainfall, Evaporation, Sunshine, RainTomorrow.  
+
 ```{r}
+# Check for unique data for Categorical in order to decide weather one hot encoding is viable option.
+
+n_distinct(rain_df$Date)
+n_distinct(rain_df$Location)
+n_distinct(rain_df$MinTemp)
+n_distinct(rain_df$MaxTemp)
+n_distinct(rain_df$Rainfall)
+n_distinct(rain_df$Evaporation)
+n_distinct(rain_df$Sunshine)
+n_distinct(rain_df$WindGustDir)
+n_distinct(rain_df$WindGustDir)
+n_distinct(rain_df$WindGustSpeed)
+n_distinct(rain_df$WindDir9am)
+n_distinct(rain_df$WindDir3pm)
+n_distinct(rain_df$WindSpeed9am)
+n_distinct(rain_df$WindSpeed3pm)
+n_distinct(rain_df$Humidity9am)
+n_distinct(rain_df$Humidity3pm)
+n_distinct(rain_df$Pressure9am)
+n_distinct(rain_df$Pressure3pm)
+n_distinct(rain_df$Cloud9am)
+n_distinct(rain_df$Cloud3pm)
+n_distinct(rain_df$Temp9am)
+n_distinct(rain_df$Temp3pm)
+n_distinct(rain_df$RainToday)
+n_distinct(rain_df$RainTomorrow)
+```
+
+**Character** data have to be further transofrmed in order to be used in the model.
+
+## 2.3. Search for invalid and missing data
+
+```{r}
+# Look for invalid data
+
 summary(rain_df)
 ```
 
 ```{r}
+# Look for missing data
+
 sum(is.na(rain_df$Date))
 sum(is.na(rain_df$Location))
 sum(is.na(rain_df$MinTemp))
@@ -133,27 +207,439 @@ sum(is.na(rain_df$RainToday))
 sum(is.na(rain_df$RainTomorrow))
 ```
 
-#```{r}
-head(rain_df)
-summary(rain_df)
-sapply(rain_df, function(x) sum(is.na (x)))
-#```
+There seems to be a lot of missing data epsepcially in: **Evaporation, Sunshine, Cloud9am, and Cloud3pm**
+
+It seems that variables **Rainfall, Evaporation, WindGustSpeed, WindSpeed9am, WindSpeed3pm** have very high difference betwen the mean and max value we will investigate this data using box plot.
+
+## 2.4. Handling missing data
+
+IMPORTANT: We decided to limit our test and training data to those where 'Sunshine' variable is not null in order to reduce the amount of data used and to lower the number of null values in whole dataset
 
 ```{r}
-rain_df["RainTomorrow"][rain_df["RainTomorrow"] == "Yes"] <- 1
-rain_df["RainTomorrow"][rain_df["RainTomorrow"] == "No"] <- 0
-rain_df["RainTomorrow"]
+rain_df <- rain_df %>% drop_na(c("Sunshine"))
 ```
 
-## 3. Selecting Features
+```{r}
+# Check for missing data
+
+sum(is.na(rain_df$Date)) 
+sum(is.na(rain_df$Location))
+sum(is.na(rain_df$MinTemp))
+sum(is.na(rain_df$MaxTemp))
+sum(is.na(rain_df$Rainfall))
+sum(is.na(rain_df$Evaporation))
+sum(is.na(rain_df$Sunshine))
+sum(is.na(rain_df$WindGustDir))
+sum(is.na(rain_df$WindGustDir))
+sum(is.na(rain_df$WindGustSpeed))
+sum(is.na(rain_df$WindDir9am))
+sum(is.na(rain_df$WindDir3pm))
+sum(is.na(rain_df$WindSpeed9am))
+sum(is.na(rain_df$WindSpeed3pm))
+sum(is.na(rain_df$Humidity9am))
+sum(is.na(rain_df$Humidity3pm))
+sum(is.na(rain_df$Pressure9am))
+sum(is.na(rain_df$Pressure3pm))
+sum(is.na(rain_df$Cloud9am))
+sum(is.na(rain_df$Cloud3pm))
+sum(is.na(rain_df$Temp9am))
+sum(is.na(rain_df$Temp3pm))
+sum(is.na(rain_df$RainToday))
+sum(is.na(rain_df$RainTomorrow))
+```
+
+```{r}
+# fill missing data for numeric attributes with mean and median (if there are outliers [max values are much bigger than mean values] in our attribute we will use median)
+
+rain_df$Temp3pm[is.na(rain_df$Temp3pm)] <- mean(rain_df$Temp3pm, na.rm = TRUE)
+rain_df$Temp9am[is.na(rain_df$Temp9am)] <- mean(rain_df$Temp9am, na.rm = TRUE)
+rain_df$Cloud3pm[is.na(rain_df$Cloud3pm)] <- mean(rain_df$Cloud3pm, na.rm = TRUE)
+rain_df$Cloud9am[is.na(rain_df$Cloud9am)] <- mean(rain_df$Cloud9am, na.rm = TRUE)
+rain_df$Pressure3pm[is.na(rain_df$Pressure3pm)] <- mean(rain_df$Pressure3pm, na.rm = TRUE)
+rain_df$Pressure9am[is.na(rain_df$Pressure9am)] <- mean(rain_df$Pressure9am, na.rm = TRUE)
+rain_df$Humidity3pm[is.na(rain_df$Humidity3pm)] <- mean(rain_df$Humidity3pm, na.rm = TRUE)
+rain_df$Humidity9am[is.na(rain_df$Humidity9am)] <- mean(rain_df$Humidity9am, na.rm = TRUE)
+rain_df$WindSpeed3pm[is.na(rain_df$WindSpeed3pm)] <- median(rain_df$WindSpeed3pm, na.rm = TRUE)
+rain_df$WindSpeed9am[is.na(rain_df$WindSpeed9am)] <- median(rain_df$WindSpeed9am, na.rm = TRUE)
+rain_df$WindGustSpeed[is.na(rain_df$WindGustSpeed)] <- median(rain_df$WindGustSpeed, na.rm = TRUE)
+rain_df$Sunshine[is.na(rain_df$Sunshine)] <- mean(rain_df$Sunshine, na.rm = TRUE)
+rain_df$Evaporation <- ifelse(is.na(rain_df$Evaporation), median(rain_df$Evaporation, na.rm = TRUE), rain_df$Evaporation)
+rain_df$Rainfall <- ifelse(is.na(rain_df$Rainfall), median(rain_df$Rainfall, na.rm = TRUE), rain_df$Rainfall)
+rain_df$MaxTemp <- ifelse(is.na(rain_df$MaxTemp), mean(rain_df$MaxTemp, na.rm = TRUE), rain_df$MaxTemp)
+rain_df$MinTemp <- ifelse(is.na(rain_df$MinTemp), mean(rain_df$MinTemp, na.rm = TRUE), rain_df$MinTemp)
+```
+
+```{r}
+# Look for missing data again
+
+sum(is.na(rain_df$Date)) 
+sum(is.na(rain_df$Location))
+sum(is.na(rain_df$MinTemp))
+sum(is.na(rain_df$MaxTemp))
+sum(is.na(rain_df$Rainfall))
+sum(is.na(rain_df$Evaporation))
+sum(is.na(rain_df$Sunshine))
+sum(is.na(rain_df$WindGustDir))
+sum(is.na(rain_df$WindGustSpeed))
+sum(is.na(rain_df$WindDir9am))
+sum(is.na(rain_df$WindDir3pm))
+sum(is.na(rain_df$WindSpeed9am))
+sum(is.na(rain_df$WindSpeed3pm))
+sum(is.na(rain_df$Humidity9am))
+sum(is.na(rain_df$Humidity3pm))
+sum(is.na(rain_df$Pressure9am))
+sum(is.na(rain_df$Pressure3pm))
+sum(is.na(rain_df$Cloud9am))
+sum(is.na(rain_df$Cloud3pm))
+sum(is.na(rain_df$Temp9am))
+sum(is.na(rain_df$Temp3pm))
+sum(is.na(rain_df$RainToday))
+sum(is.na(rain_df$RainTomorrow))
+```
+
+```{r}
+# Chgeck the amount of data after dropping sunshine variable na
+
+dim(rain_df)
+```
+
+## 2.5. Handling the outliers
+
+### Rainfall
+
+```{r}
+# Check for outliers using Box Plot
+
+boxplot(Rainfall ~ RainTomorrow, data = rain_df) 
+```
+
+```{r}
+# Check on histogram
+
+hist(rain_df$Rainfall)
+```
+
+```{r}
+# Use IQR to define range of valid data 
+
+Q1 <- quantile(rain_df$Rainfall, 0.25)
+Q3 <- quantile(rain_df$Rainfall, 0.75)
+
+IQR <- Q3 - Q1
+
+Low <- Q1 - IQR * 1.5
+High <- Q3 + IQR * 1.5
+
+print(Low)
+print(High)
+```
+
+```{r}
+# Check the amount of outliers 
+
+count1 <- sum(rain_df$Rainfall > High)
+count2 <- sum(rain_df$Rainfall < Low)
+count3 <- count1 + count2
+
+print(count1)
+print(count2)
+```
+
+```{r}
+# We decided to censor our data to value of 75, because our variable is not normally distributed (high density of data near 0)
+
+rain_df$Rainfall[rain_df$Rainfall > 75] <- 75
+```
+
+```{r}
+# Check changes on histogram
+
+hist(rain_df$Rainfall)
+```
+
+```{r}
+# Check Box Plot again
+
+boxplot(Rainfall ~ RainTomorrow, data = rain_df)
+```
+
+### Evaporation
+
+```{r}
+# Check for outliers using Box Plot
+
+boxplot(Evaporation ~ RainTomorrow, data = rain_df) 
+```
+
+```{r}
+# Check on histogram
+
+hist(rain_df$Evaporation)
+```
+
+```{r}
+# Use IQR to define range of valid data 
+
+Q1 <- quantile(rain_df$Evaporation, 0.25)
+Q3 <- quantile(rain_df$Evaporation, 0.75)
+
+IQR <- Q3 - Q1
+
+Low <- Q1 - IQR * 1.5
+High <- Q3 + IQR * 1.5
+
+print(Low)
+print(High)
+```
+
+```{r}
+# Check the amount of outliers 
+
+count1 <- sum(rain_df$Evaporation > High)
+count2 <- sum(rain_df$Evaporation < Low)
+count3 <- count1 + count2
+
+print(count1)
+print(count2)
+```
+
+```{r}
+# Change outliers respectivley to upper boundry since (relativley) there is not too many outliers
+
+rain_df$Evaporation[rain_df$Evaporation > High] <- High
+```
+
+```{r}
+# Check changes on histogram
+
+hist(rain_df$Evaporation)
+```
+
+```{r}
+# Check Box Plot again
+
+boxplot(Evaporation ~ RainTomorrow, data = rain_df)
+```
+
+### WindGustSpeed
+
+```{r}
+# Check for outliers using Box Plot
+
+boxplot(WindGustSpeed ~ RainTomorrow, data = rain_df) 
+```
+
+```{r}
+# Check on histogram
+
+hist(rain_df$WindGustSpeed)
+```
+
+```{r}
+# Use IQR to define range of valid data 
+
+Q1 <- quantile(rain_df$WindGustSpeed, 0.25)
+Q3 <- quantile(rain_df$WindGustSpeed, 0.75)
+
+IQR <- Q3 - Q1
+
+Low <- Q1 - IQR * 1.5
+High <- Q3 + IQR * 1.5
+
+print(Low)
+print(High)
+```
+
+```{r}
+# Check the amount of outliers 
+
+count1 <- sum(rain_df$WindGustSpeed > High)
+count2 <- sum(rain_df$WindGustSpeed < Low)
+count3 <- count1 + count2
+
+print(count1)
+print(count2)
+```
+
+```{r}
+# Change outliers respectivley to upper boundry since (relativley) there is not too many outliers
+
+rain_df$WindGustSpeed[rain_df$WindGustSpeed > High] <- High
+```
+
+```{r}
+# Check changes on histogram
+
+hist(rain_df$WindGustSpeed)
+```
+
+```{r}
+# Check Box Plot again
+
+boxplot(WindGustSpeed ~ RainTomorrow, data = rain_df)
+```
+
+### WindSpeed9am
+
+
+```{r}
+# Check for outliers using Box Plot
+
+boxplot(WindSpeed9am ~ RainTomorrow, data = rain_df) 
+```
+
+```{r}
+# Check on histogram
+
+hist(rain_df$WindSpeed9am)
+```
+
+```{r}
+# Use IQR to define range of valid data 
+
+Q1 <- quantile(rain_df$WindSpeed9am, 0.25)
+Q3 <- quantile(rain_df$WindSpeed9am, 0.75)
+
+IQR <- Q3 - Q1
+
+Low <- Q1 - IQR * 1.5
+High <- Q3 + IQR * 1.5
+
+print(Low)
+print(High)
+```
+
+```{r}
+# Check the amount of outliers 
+
+count1 <- sum(rain_df$WindSpeed9am > High)
+count2 <- sum(rain_df$WindSpeed9am < Low)
+count3 <- count1 + count2
+
+print(count1)
+print(count2)
+```
+
+```{r}
+# Change outliers respectivley to upper boundry since (relativley) there is not too many outliers
+
+rain_df$WindSpeed9am[rain_df$WindSpeed9am > High] <- High
+```
+
+```{r}
+# Check changes on histogram
+
+hist(rain_df$WindSpeed9am)
+```
+
+```{r}
+# Check Box Plot again
+
+boxplot(WindSpeed9am ~ RainTomorrow, data = rain_df)
+```
+
+### WindSpeed3pm
+
+```{r}
+# Check for outliers using Box Plot
+
+boxplot(WindSpeed3pm ~ RainTomorrow, data = rain_df) 
+```
+
+```{r}
+# Check on histogram
+
+hist(rain_df$WindSpeed3pm)
+```
+
+```{r}
+# Use IQR to define range of valid data 
+
+Q1 <- quantile(rain_df$WindSpeed3pm, 0.25)
+Q3 <- quantile(rain_df$WindSpeed3pm, 0.75)
+
+IQR <- Q3 - Q1
+
+Low <- Q1 - IQR * 1.5
+High <- Q3 + IQR * 1.5
+
+print(Low)
+print(High)
+```
+
+```{r}
+# Check the amount of outliers 
+
+count1 <- sum(rain_df$WindSpeed3pm > High)
+count2 <- sum(rain_df$WindSpeed3pm < Low)
+count3 <- count1 + count2
+
+print(count1)
+print(count2)
+```
+
+```{r}
+# Change outliers respectivley to upper boundry since (relativley) there is not too many outliers
+
+rain_df$WindSpeed3pm[rain_df$WindSpeed3pm > High] <- High
+```
+
+```{r}
+# Check changes on histogram
+
+hist(rain_df$WindSpeed3pm)
+```
+
+```{r}
+# Check Box Plot again
+
+boxplot(WindSpeed3pm ~ RainTomorrow, data = rain_df)
+```
+
+There was a lot of outliers in variables **Rainfall, Evaporation, WindGustSpeed, WindSpeed9am, WindSpeed3pm** after further investigation we decided to change the outstanding values, using IQR in order to determine the maximal and minimal value we changed the data respectivley.
+
+## 2.6. Data Simplification
+
+#```{r}
+# Since the wind direction were wide spread and very specific we decided to simplify the data by puting them into categories based on dominant direction, filled the missing data for wind direction using mode.
+
+rain_df$WindDir9am <- replace("NNW", rain_df$WindDir9am, "N")
+
+
+rain_df$WindDir9am <- ifelse(is.na(rain_df$WindDir9am), mode(rain_df$WindDir9am)[1], rain_df$WindDir9am)
+rain_df$WindDir3pm <- ifelse(is.na(rain_df$WindDir3pm), mode(rain_df$WindDir3pm)[1], rain_df$WindDir3pm)
+rain_df$WindGustDir <- ifelse(is.na(rain_df$WindGustDir), mode(rain_df$WindGustDir)[1], rain_df$WindGustDir)
+
+tail(rain_df)
+#```
+
+## 2.7. Handling Date
+
+```{r}
+n_distinct(rain_df$Date)
+```
+
+```{r}
+# Change into datetime format in order to extarct month.
+
+rain_df$Date <- as.POSIXct(rain_df$Date)
+rain_df$Date <- month(rain_df$Date)
+names(rain_df)[names(rain_df) == "Date"] <- "Month"
+
+tail(rain_df)
+```
+
+# 3. Selecting Features
+
+## 3.1. Creating new numerical variables
 
 NADIMS + MICHALS PART
 
-## 4. Balancing and Standarizing
+# 4. Balancing and Standarizing
 
 NADIMS PART
 
-## 5. Split train and test
+# 5. Split train and test
 
 #```{r}
 set.seed(111)
@@ -163,21 +649,21 @@ split1<- sample(nrow(rain_df),floor(nrow(rain_df)*0.7),replace=FALSE)
 train <- rain_df[split1,]
 
 test <- rain_df[-split1,]
-<<<<<<< HEAD
+#<<<<<<< HEAD
 #```
 =======
 head(train)
 ```
 >>>>>>> 1b3e2b3bbf38c00b31d322a3bd672e29a047b39a
 
-## 6. Logistic Regression
-```{r}
+# 6. Logistic Regression
+#```{r}
 logistic_reg <- glm(RainTomorrow~.,family = binomial(link = "logit"),data=train)
 ```
 We won't be doing hyperparameter tuning for logistic regression, as there is not much it could be done.
 
-## 7. SVC
-```{r}
+# 7. SVC
+#```{r}
 SVM_model <- svm(RainTomorrow~., data=train)
 
 SVM_tuned <- tune.svm(RainTomorrow~., data=train,
@@ -189,14 +675,14 @@ SVM_tuned <- tune.svm(RainTomorrow~., data=train,
 print(SVM_tuned$best.performance)
 SVM_tuned$best.model
 ```
-## 8. Random Forest
+# 8. Random Forest
 
 NADIMS PART
 
-## 9. xgboost
+# 9. xgboost
 
 NADIMS PART
 
-## 10. Conclusion
+# 10. Conclusion
 
 MICHALS PART
