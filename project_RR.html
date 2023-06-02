@@ -152,36 +152,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xts)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quantmod)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fUnitRoots)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vars)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aTSA)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(seasonal)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co">#Tables</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(formattable)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Metrics)</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(TSEwgt)</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#library(RSBID) #We will need SMOTE_NC from it</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#=======</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co">#data manipulation</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(formattable) <span class="co">#data manipulation</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Metrics) <span class="co">#metrics</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#library(MLmetrics) #metrics for machine learning (similar to Metrics library)</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">#library(e1071) #svm</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#library(xgboost) #xgboost model</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#library(caret) #dummy variables, precision metrics, knn</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">#library(RSBID) #We will need SMOTE_NC from it</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#collection of packages for data science</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;&gt;&gt;&gt;&gt;&gt;&gt; 1b3e2b3bbf38c00b31d322a3bd672e29a047b39a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xts)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quantmod)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fUnitRoots)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vars)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aTSA)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(seasonal)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2) <span class="co">#For creating correlation matrix for heatmap</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co">#Tables, heatmaps</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(formattable)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Metrics)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(TSEwgt)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#library(RSBID) #We will need SMOTE_NC from it</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#=======</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co">#data manipulation</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(formattable) <span class="co">#data manipulation</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Metrics) <span class="co">#metrics</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#library(MLmetrics) #metrics for machine learning (similar to Metrics library)</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#library(e1071) #svm</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">#library(xgboost) #xgboost model</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">#library(caret) #dummy variables, precision metrics, knn</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">#library(RSBID) #We will need SMOTE_NC from it</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#collection of packages for data science</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;&gt;&gt;&gt;&gt;&gt;&gt; 1b3e2b3bbf38c00b31d322a3bd672e29a047b39a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Data loading:</p>
 <div class="cell">
@@ -700,10 +702,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb167-12"><a href="#cb167-12" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindSpeed9am[<span class="fu">is.na</span>(rain_df<span class="sc">$</span>WindSpeed9am)] <span class="ot">&lt;-</span> <span class="fu">median</span>(rain_df<span class="sc">$</span>WindSpeed9am, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb167-13"><a href="#cb167-13" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustSpeed[<span class="fu">is.na</span>(rain_df<span class="sc">$</span>WindGustSpeed)] <span class="ot">&lt;-</span> <span class="fu">median</span>(rain_df<span class="sc">$</span>WindGustSpeed, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb167-14"><a href="#cb167-14" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>Sunshine[<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Sunshine)] <span class="ot">&lt;-</span> <span class="fu">mean</span>(rain_df<span class="sc">$</span>Sunshine, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb167-15"><a href="#cb167-15" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>Evaporation <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Evaporation), <span class="fu">median</span>(rain_df<span class="sc">$</span>Evaporation, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), rain_df<span class="sc">$</span>Evaporation)</span>
-<span id="cb167-16"><a href="#cb167-16" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>Rainfall <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Rainfall), <span class="fu">median</span>(rain_df<span class="sc">$</span>Rainfall, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), rain_df<span class="sc">$</span>Rainfall)</span>
-<span id="cb167-17"><a href="#cb167-17" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>MaxTemp <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>MaxTemp), <span class="fu">mean</span>(rain_df<span class="sc">$</span>MaxTemp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), rain_df<span class="sc">$</span>MaxTemp)</span>
-<span id="cb167-18"><a href="#cb167-18" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>MinTemp <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>MinTemp), <span class="fu">mean</span>(rain_df<span class="sc">$</span>MinTemp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), rain_df<span class="sc">$</span>MinTemp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb167-15"><a href="#cb167-15" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>RainToday[<span class="fu">is.na</span>(rain_df<span class="sc">$</span>RainToday)] <span class="ot">&lt;-</span> <span class="fu">mode</span>(rain_df<span class="sc">$</span>RainToday)</span>
+<span id="cb167-16"><a href="#cb167-16" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>Evaporation <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Evaporation), <span class="fu">median</span>(rain_df<span class="sc">$</span>Evaporation, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), rain_df<span class="sc">$</span>Evaporation)</span>
+<span id="cb167-17"><a href="#cb167-17" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>Rainfall <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Rainfall), <span class="fu">median</span>(rain_df<span class="sc">$</span>Rainfall, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), rain_df<span class="sc">$</span>Rainfall)</span>
+<span id="cb167-18"><a href="#cb167-18" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>MaxTemp <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>MaxTemp), <span class="fu">mean</span>(rain_df<span class="sc">$</span>MaxTemp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), rain_df<span class="sc">$</span>MaxTemp)</span>
+<span id="cb167-19"><a href="#cb167-19" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>MinTemp <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>MinTemp), <span class="fu">mean</span>(rain_df<span class="sc">$</span>MinTemp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), rain_df<span class="sc">$</span>MinTemp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb168"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Look for missing data again</span></span>
@@ -794,7 +797,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div class="sourceCode cell-code" id="cb210"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb210-1"><a href="#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>RainToday))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 395</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb212"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>RainTomorrow))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1206,42 +1209,152 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="data-simplification" class="level2">
 <h2 class="anchored" data-anchor-id="data-simplification">2.6. Data Simplification</h2>
-<p>#```{r} # Since the wind direction were wide spread and very specific we decided to simplify the data by puting them into categories based on dominant direction, filled the missing data for wind direction using mode.</p>
-<p>rain_df<span class="math inline">\(WindDir9am &lt;- replace("NNW", rain_df\)</span>WindDir9am, “N”)</p>
-<p>rain_df<span class="math inline">\(WindDir9am &lt;- ifelse(is.na(rain_df\)</span>WindDir9am), mode(rain_df<span class="math inline">\(WindDir9am)[1], rain_df\)</span>WindDir9am) rain_df<span class="math inline">\(WindDir3pm &lt;- ifelse(is.na(rain_df\)</span>WindDir3pm), mode(rain_df<span class="math inline">\(WindDir3pm)[1], rain_df\)</span>WindDir3pm) rain_df<span class="math inline">\(WindGustDir &lt;- ifelse(is.na(rain_df\)</span>WindGustDir), mode(rain_df<span class="math inline">\(WindGustDir)[1], rain_df\)</span>WindGustDir)</p>
-<p>tail(rain_df) #```</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb281"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb281-1"><a href="#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Since the wind direction were wide spread and very specific we decided to simplify the data by puting them into categories based on dominant direction, filled the missing data for wind direction using mode.</span></span>
+<span id="cb281-2"><a href="#cb281-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb281-3"><a href="#cb281-3" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"NNW"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-4"><a href="#cb281-4" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"NNE"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-5"><a href="#cb281-5" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"NE"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-6"><a href="#cb281-6" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"N"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-7"><a href="#cb281-7" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"ENE"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-8"><a href="#cb281-8" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"ESE"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-9"><a href="#cb281-9" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"SE"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-10"><a href="#cb281-10" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"E"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-11"><a href="#cb281-11" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"SSE"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-12"><a href="#cb281-12" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"SSW"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-13"><a href="#cb281-13" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"SW"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-14"><a href="#cb281-14" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"s"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-15"><a href="#cb281-15" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"WSW"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-16"><a href="#cb281-16" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"WNW"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-17"><a href="#cb281-17" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"NW"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-18"><a href="#cb281-18" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"W"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-19"><a href="#cb281-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb281-20"><a href="#cb281-20" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"NNW"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-21"><a href="#cb281-21" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"NNE"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-22"><a href="#cb281-22" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"NE"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-23"><a href="#cb281-23" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"N"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-24"><a href="#cb281-24" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"ENE"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-25"><a href="#cb281-25" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"ESE"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-26"><a href="#cb281-26" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"SE"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-27"><a href="#cb281-27" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"E"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-28"><a href="#cb281-28" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"SSE"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-29"><a href="#cb281-29" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"SSW"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-30"><a href="#cb281-30" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"SW"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-31"><a href="#cb281-31" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"s"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-32"><a href="#cb281-32" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"WSW"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-33"><a href="#cb281-33" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"WNW"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-34"><a href="#cb281-34" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"NW"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-35"><a href="#cb281-35" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"W"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-36"><a href="#cb281-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb281-37"><a href="#cb281-37" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"NNW"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-38"><a href="#cb281-38" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"NNE"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-39"><a href="#cb281-39" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"NE"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-40"><a href="#cb281-40" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"N"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-41"><a href="#cb281-41" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"ENE"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-42"><a href="#cb281-42" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"ESE"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-43"><a href="#cb281-43" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"SE"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-44"><a href="#cb281-44" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"E"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-45"><a href="#cb281-45" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"SSE"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-46"><a href="#cb281-46" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"SSW"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-47"><a href="#cb281-47" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"SW"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-48"><a href="#cb281-48" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"S"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-49"><a href="#cb281-49" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"WSW"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-50"><a href="#cb281-50" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"WNW"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-51"><a href="#cb281-51" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"NW"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-52"><a href="#cb281-52" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"W"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-53"><a href="#cb281-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb281-54"><a href="#cb281-54" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"NNW"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-55"><a href="#cb281-55" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"NNE"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-56"><a href="#cb281-56" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"NE"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-57"><a href="#cb281-57" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"N"</span>] <span class="ot">&lt;-</span> <span class="st">"N"</span></span>
+<span id="cb281-58"><a href="#cb281-58" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"ENE"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-59"><a href="#cb281-59" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"ESE"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-60"><a href="#cb281-60" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"SE"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-61"><a href="#cb281-61" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"E"</span>] <span class="ot">&lt;-</span> <span class="st">"E"</span></span>
+<span id="cb281-62"><a href="#cb281-62" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"SSE"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-63"><a href="#cb281-63" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"SSW"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-64"><a href="#cb281-64" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"SW"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-65"><a href="#cb281-65" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"S"</span>] <span class="ot">&lt;-</span> <span class="st">"S"</span></span>
+<span id="cb281-66"><a href="#cb281-66" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"WSW"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-67"><a href="#cb281-67" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"WNW"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-68"><a href="#cb281-68" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"NW"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-69"><a href="#cb281-69" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"W"</span>] <span class="ot">&lt;-</span> <span class="st">"W"</span></span>
+<span id="cb281-70"><a href="#cb281-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb281-71"><a href="#cb281-71" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(rain_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Date Location MinTemp MaxTemp Rainfall Evaporation Sunshine
+74372 2017-06-19   Darwin    21.9    33.0        0         5.2     10.9
+74373 2017-06-20   Darwin    19.3    33.4        0         6.0     11.0
+74374 2017-06-21   Darwin    21.2    32.6        0         7.6      8.6
+74375 2017-06-22   Darwin    20.7    32.8        0         5.6     11.0
+74376 2017-06-23   Darwin    19.5    31.8        0         6.2     10.6
+74377 2017-06-24   Darwin    20.2    31.7        0         5.6     10.7
+      WindGustDir WindGustSpeed WindDir9am WindDir3pm WindSpeed9am WindSpeed3pm
+74372           E            44          E          E           15           19
+74373           E            35          E          N            9           20
+74374           E            37          E          E           13           11
+74375           E            33          E          W           17           11
+74376           E            26          E          N            9           17
+74377           E            30          E          N           15            7
+      Humidity9am Humidity3pm Pressure9am Pressure3pm Cloud9am Cloud3pm Temp9am
+74372          43          28      1014.6      1010.6        1        1    25.1
+74373          63          32      1013.9      1010.5        0        1    24.5
+74374          56          28      1014.6      1011.2        7        0    24.8
+74375          46          23      1015.3      1011.8        0        0    24.8
+74376          62          58      1014.9      1010.7        1        1    24.8
+74377          73          32      1013.9      1009.7        6        5    25.4
+      Temp3pm RainToday RainTomorrow
+74372    32.7        No            0
+74373    32.3        No            0
+74374    32.0        No            0
+74375    32.1        No            0
+74376    29.2        No            0
+74377    31.0        No            0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb283"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb283-1"><a href="#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Filling NA with mode</span></span>
+<span id="cb283-2"><a href="#cb283-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb283-3"><a href="#cb283-3" aria-hidden="true" tabindex="-1"></a>Mode <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb283-4"><a href="#cb283-4" aria-hidden="true" tabindex="-1"></a>  ux <span class="ot">&lt;-</span> <span class="fu">unique</span>(x)</span>
+<span id="cb283-5"><a href="#cb283-5" aria-hidden="true" tabindex="-1"></a>  ux[<span class="fu">which.max</span>(<span class="fu">tabulate</span>(<span class="fu">match</span>(x, ux)))]</span>
+<span id="cb283-6"><a href="#cb283-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb283-7"><a href="#cb283-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb283-8"><a href="#cb283-8" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>RainToday[<span class="fu">is.na</span>(rain_df<span class="sc">$</span>RainToday)] <span class="ot">&lt;-</span> <span class="fu">Mode</span>(rain_df<span class="sc">$</span>RainToday)</span>
+<span id="cb283-9"><a href="#cb283-9" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[<span class="fu">is.na</span>(rain_df<span class="sc">$</span>WindDir9am)] <span class="ot">&lt;-</span> <span class="fu">Mode</span>(rain_df<span class="sc">$</span>WindDir9am)</span>
+<span id="cb283-10"><a href="#cb283-10" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[<span class="fu">is.na</span>(rain_df<span class="sc">$</span>WindDir3pm)] <span class="ot">&lt;-</span> <span class="fu">Mode</span>(rain_df<span class="sc">$</span>WindDir3pm)</span>
+<span id="cb283-11"><a href="#cb283-11" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[<span class="fu">is.na</span>(rain_df<span class="sc">$</span>WindGustDir)] <span class="ot">&lt;-</span> <span class="fu">Mode</span>(rain_df<span class="sc">$</span>WindGustDir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="handling-date" class="level2">
 <h2 class="anchored" data-anchor-id="handling-date">2.7. Handling Date</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb281"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb281-1"><a href="#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="fu">n_distinct</span>(rain_df<span class="sc">$</span>Date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb284"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb284-1"><a href="#cb284-1" aria-hidden="true" tabindex="-1"></a><span class="fu">n_distinct</span>(rain_df<span class="sc">$</span>Date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3436</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb283"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb283-1"><a href="#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Change into datetime format in order to extarct month.</span></span>
-<span id="cb283-2"><a href="#cb283-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb283-3"><a href="#cb283-3" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>Date <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(rain_df<span class="sc">$</span>Date)</span>
-<span id="cb283-4"><a href="#cb283-4" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>Date <span class="ot">&lt;-</span> <span class="fu">month</span>(rain_df<span class="sc">$</span>Date)</span>
-<span id="cb283-5"><a href="#cb283-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(rain_df)[<span class="fu">names</span>(rain_df) <span class="sc">==</span> <span class="st">"Date"</span>] <span class="ot">&lt;-</span> <span class="st">"Month"</span></span>
-<span id="cb283-6"><a href="#cb283-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb283-7"><a href="#cb283-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(rain_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb286"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb286-1"><a href="#cb286-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Change into datetime format in order to extarct month.</span></span>
+<span id="cb286-2"><a href="#cb286-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb286-3"><a href="#cb286-3" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>Date <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(rain_df<span class="sc">$</span>Date)</span>
+<span id="cb286-4"><a href="#cb286-4" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>Date <span class="ot">&lt;-</span> <span class="fu">month</span>(rain_df<span class="sc">$</span>Date)</span>
+<span id="cb286-5"><a href="#cb286-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(rain_df)[<span class="fu">names</span>(rain_df) <span class="sc">==</span> <span class="st">"Date"</span>] <span class="ot">&lt;-</span> <span class="st">"Month"</span></span>
+<span id="cb286-6"><a href="#cb286-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb286-7"><a href="#cb286-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(rain_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Month Location MinTemp MaxTemp Rainfall Evaporation Sunshine WindGustDir
 74372     6   Darwin    21.9    33.0        0         5.2     10.9           E
-74373     6   Darwin    19.3    33.4        0         6.0     11.0         ENE
+74373     6   Darwin    19.3    33.4        0         6.0     11.0           E
 74374     6   Darwin    21.2    32.6        0         7.6      8.6           E
 74375     6   Darwin    20.7    32.8        0         5.6     11.0           E
-74376     6   Darwin    19.5    31.8        0         6.2     10.6         ESE
-74377     6   Darwin    20.2    31.7        0         5.6     10.7         ENE
+74376     6   Darwin    19.5    31.8        0         6.2     10.6           E
+74377     6   Darwin    20.2    31.7        0         5.6     10.7           E
       WindGustSpeed WindDir9am WindDir3pm WindSpeed9am WindSpeed3pm Humidity9am
-74372            44         SE        ENE           15           19          43
-74373            35         SE         NE            9           20          63
-74374            37         SE         SE           13           11          56
+74372            44          E          E           15           19          43
+74373            35          E          N            9           20          63
+74374            37          E          E           13           11          56
 74375            33          E          W           17           11          46
-74376            26         SE        NNW            9           17          62
-74377            30        ENE        NNW           15            7          73
+74376            26          E          N            9           17          62
+74377            30          E          N           15            7          73
       Humidity3pm Pressure9am Pressure3pm Cloud9am Cloud3pm Temp9am Temp3pm
 74372          28      1014.6      1010.6        1        1    25.1    32.7
 74373          32      1013.9      1010.5        0        1    24.5    32.3
@@ -1264,11 +1377,382 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>3. Selecting Features</h1>
 <section id="creating-new-numerical-variables" class="level2">
 <h2 class="anchored" data-anchor-id="creating-new-numerical-variables">3.1. Creating new numerical variables</h2>
-<p>NADIMS + MICHALS PART</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb288"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb288-1"><a href="#cb288-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating delta varibles to check if changes in relation to data for example: change of wind speed from 9am to 3pm has impact on 'raintommorow' prediction</span></span>
+<span id="cb288-2"><a href="#cb288-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb288-3"><a href="#cb288-3" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>DeltaWindSpeed <span class="ot">&lt;-</span> rain_df<span class="sc">$</span>WindSpeed3pm <span class="sc">-</span> rain_df<span class="sc">$</span>WindSpeed9am</span>
+<span id="cb288-4"><a href="#cb288-4" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>DeltaHumidity <span class="ot">&lt;-</span> rain_df<span class="sc">$</span>Humidity3pm <span class="sc">-</span> rain_df<span class="sc">$</span>Humidity9am</span>
+<span id="cb288-5"><a href="#cb288-5" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>DeltaPressure <span class="ot">&lt;-</span> rain_df<span class="sc">$</span>Pressure3pm <span class="sc">-</span> rain_df<span class="sc">$</span>Pressure9am</span>
+<span id="cb288-6"><a href="#cb288-6" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>DeltaCloud <span class="ot">&lt;-</span> rain_df<span class="sc">$</span>Cloud3pm <span class="sc">-</span> rain_df<span class="sc">$</span>Cloud9am</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb289"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb289-1"><a href="#cb289-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(rain_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Month Location MinTemp MaxTemp Rainfall Evaporation Sunshine WindGustDir
+74372     6   Darwin    21.9    33.0        0         5.2     10.9           E
+74373     6   Darwin    19.3    33.4        0         6.0     11.0           E
+74374     6   Darwin    21.2    32.6        0         7.6      8.6           E
+74375     6   Darwin    20.7    32.8        0         5.6     11.0           E
+74376     6   Darwin    19.5    31.8        0         6.2     10.6           E
+74377     6   Darwin    20.2    31.7        0         5.6     10.7           E
+      WindGustSpeed WindDir9am WindDir3pm WindSpeed9am WindSpeed3pm Humidity9am
+74372            44          E          E           15           19          43
+74373            35          E          N            9           20          63
+74374            37          E          E           13           11          56
+74375            33          E          W           17           11          46
+74376            26          E          N            9           17          62
+74377            30          E          N           15            7          73
+      Humidity3pm Pressure9am Pressure3pm Cloud9am Cloud3pm Temp9am Temp3pm
+74372          28      1014.6      1010.6        1        1    25.1    32.7
+74373          32      1013.9      1010.5        0        1    24.5    32.3
+74374          28      1014.6      1011.2        7        0    24.8    32.0
+74375          23      1015.3      1011.8        0        0    24.8    32.1
+74376          58      1014.9      1010.7        1        1    24.8    29.2
+74377          32      1013.9      1009.7        6        5    25.4    31.0
+      RainToday RainTomorrow DeltaWindSpeed DeltaHumidity DeltaPressure
+74372        No            0              4           -15          -4.0
+74373        No            0             11           -31          -3.4
+74374        No            0             -2           -28          -3.4
+74375        No            0             -6           -23          -3.5
+74376        No            0              8            -4          -4.2
+74377        No            0             -8           -41          -4.2
+      DeltaCloud
+74372          0
+74373          1
+74374         -7
+74375          0
+74376          0
+74377         -1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb291"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb291-1"><a href="#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Looking for correlation with the 'RainTommorow' to pick the best attributes</span></span>
+<span id="cb291-2"><a href="#cb291-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb291-3"><a href="#cb291-3" aria-hidden="true" tabindex="-1"></a>Num_rain_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(rain_df<span class="sc">$</span>Month, rain_df<span class="sc">$</span>MinTemp, rain_df<span class="sc">$</span>MaxTemp, rain_df<span class="sc">$</span>Rainfall, rain_df<span class="sc">$</span>Evaporation, rain_df<span class="sc">$</span>Sunshine, rain_df<span class="sc">$</span>WindGustSpeed, rain_df<span class="sc">$</span>WindSpeed9am, rain_df<span class="sc">$</span>WindSpeed3pm, rain_df<span class="sc">$</span>Humidity9am, rain_df<span class="sc">$</span>Humidity3pm, rain_df<span class="sc">$</span>Pressure9am, rain_df<span class="sc">$</span>Pressure3pm, rain_df<span class="sc">$</span>Cloud9am, rain_df<span class="sc">$</span>Cloud3pm, rain_df<span class="sc">$</span>Temp9am, rain_df<span class="sc">$</span>Temp3pm, rain_df<span class="sc">$</span>RainTomorrow, rain_df<span class="sc">$</span>DeltaWindSpeed, rain_df<span class="sc">$</span>DeltaHumidity, rain_df<span class="sc">$</span>DeltaPressure, rain_df<span class="sc">$</span>DeltaCloud) </span>
+<span id="cb291-4"><a href="#cb291-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb291-5"><a href="#cb291-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(Num_rain_df[, <span class="fu">colnames</span>(Num_rain_df) <span class="sc">!=</span><span class="st">"RainTomorrow"</span>], Num_rain_df<span class="sc">$</span>rain_df.RainTomorrow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                               [,1]
+rain_df.Month           0.010489571
+rain_df.MinTemp         0.076784501
+rain_df.MaxTemp        -0.161219235
+rain_df.Rainfall        0.259304203
+rain_df.Evaporation    -0.132726683
+rain_df.Sunshine       -0.450768063
+rain_df.WindGustSpeed   0.227080260
+rain_df.WindSpeed9am    0.085647235
+rain_df.WindSpeed3pm    0.089735509
+rain_df.Humidity9am     0.263618992
+rain_df.Humidity3pm     0.446296092
+rain_df.Pressure9am    -0.262674216
+rain_df.Pressure3pm    -0.238320816
+rain_df.Cloud9am        0.304598027
+rain_df.Cloud3pm        0.367823067
+rain_df.Temp9am        -0.031518458
+rain_df.Temp3pm        -0.195776190
+rain_df.RainTomorrow    1.000000000
+rain_df.DeltaWindSpeed  0.003678791
+rain_df.DeltaHumidity   0.261290262
+rain_df.DeltaPressure   0.093695611
+rain_df.DeltaCloud      0.044685159</code></pre>
+</div>
+</div>
+<p>Most correlated more than <strong>0.09</strong> with <strong>RainTommorow</strong>:</p>
+<p><strong>Sunshine, Pressure9am, Pressure3pm, Temp3pm, MaxTemp, Evaporation, WindGustSpeed, Rainfall, Cloud9am, Humidity9am, DeltaHumidity, Cloud3pm, Humidity3pm, DeltaPressure.</strong></p>
+</section>
+<section id="creating-new-categorical-variable" class="level2">
+<h2 class="anchored" data-anchor-id="creating-new-categorical-variable">3.2. Creating new categorical variable</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb293"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb293-1"><a href="#cb293-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Like the previous case but with categorical data creating the variable to investigate relation of change in wind direction to the 'RainTommorow'</span></span>
+<span id="cb293-2"><a href="#cb293-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb293-3"><a href="#cb293-3" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindChange <span class="ot">&lt;-</span> <span class="fu">cbind</span> (rain_df<span class="sc">$</span>WindDir3pm, rain_df<span class="sc">$</span>WindDir9am)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="investigating-object-typed-attribute-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="investigating-object-typed-attribute-distribution">3.3. Investigating object-typed attribute distribution</h2>
+<p>#<code>{r} pie()</code></p>
+<p>#<code>{r} pie(WindDir9am ~ RainTomorrow, data = rain_df)</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb294"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb294-1"><a href="#cb294-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace objects Yes with 1 and No with 0</span></span>
+<span id="cb294-2"><a href="#cb294-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb294-3"><a href="#cb294-3" aria-hidden="true" tabindex="-1"></a>rain_df[<span class="st">"RainToday"</span>][rain_df[<span class="st">"RainToday"</span>] <span class="sc">==</span> <span class="st">"Yes"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb294-4"><a href="#cb294-4" aria-hidden="true" tabindex="-1"></a>rain_df[<span class="st">"RainToday"</span>][rain_df[<span class="st">"RainToday"</span>] <span class="sc">==</span> <span class="st">"No"</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb294-5"><a href="#cb294-5" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>RainToday <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rain_df<span class="sc">$</span>RainToday)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: pojawiły się wartości NA na skutek przekształcenia</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb296"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb296-1"><a href="#cb296-1" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>RainToday[<span class="fu">is.na</span>(rain_df<span class="sc">$</span>RainToday)] <span class="ot">&lt;-</span> <span class="fu">Mode</span>(rain_df<span class="sc">$</span>RainToday)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb297"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb297-1"><a href="#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Look for missing data</span></span>
+<span id="cb297-2"><a href="#cb297-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb297-3"><a href="#cb297-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Date)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb299"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb299-1"><a href="#cb299-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Location))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb301"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb301-1"><a href="#cb301-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>MinTemp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb303"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb303-1"><a href="#cb303-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>MaxTemp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb305"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb305-1"><a href="#cb305-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Rainfall))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb307"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb307-1"><a href="#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Evaporation))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb309"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb309-1"><a href="#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Sunshine))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb311"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb311-1"><a href="#cb311-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>WindGustDir))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb313"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb313-1"><a href="#cb313-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>WindGustSpeed))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb315"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb315-1"><a href="#cb315-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>WindDir9am))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb317"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb317-1"><a href="#cb317-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>WindDir3pm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb319"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb319-1"><a href="#cb319-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>WindSpeed9am))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb321"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb321-1"><a href="#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>WindSpeed3pm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb323"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb323-1"><a href="#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Humidity9am))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb325"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb325-1"><a href="#cb325-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Humidity3pm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb327"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb327-1"><a href="#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Pressure9am))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb329"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb329-1"><a href="#cb329-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Pressure3pm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb331"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb331-1"><a href="#cb331-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Cloud9am))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb333"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb333-1"><a href="#cb333-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Cloud3pm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb335"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb335-1"><a href="#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Temp9am))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb337"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb337-1"><a href="#cb337-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>Temp3pm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb339"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb339-1"><a href="#cb339-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>RainToday))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb341"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb341-1"><a href="#cb341-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df<span class="sc">$</span>RainTomorrow))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb343"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb343-1"><a href="#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Change all variables into numerical to check correlation **added part**</span></span>
+<span id="cb343-2"><a href="#cb343-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb343-3"><a href="#cb343-3" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"N"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb343-4"><a href="#cb343-4" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"E"</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb343-5"><a href="#cb343-5" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"S"</span>] <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb343-6"><a href="#cb343-6" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"W"</span>] <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb343-7"><a href="#cb343-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb343-8"><a href="#cb343-8" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"N"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb343-9"><a href="#cb343-9" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"E"</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb343-10"><a href="#cb343-10" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"S"</span>] <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb343-11"><a href="#cb343-11" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am[rain_df<span class="sc">$</span>WindDir9am <span class="sc">==</span> <span class="st">"W"</span>] <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb343-12"><a href="#cb343-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb343-13"><a href="#cb343-13" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"N"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb343-14"><a href="#cb343-14" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"E"</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb343-15"><a href="#cb343-15" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"S"</span>] <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb343-16"><a href="#cb343-16" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm[rain_df<span class="sc">$</span>WindDir3pm <span class="sc">==</span> <span class="st">"W"</span>] <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb343-17"><a href="#cb343-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb343-18"><a href="#cb343-18" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"N"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb343-19"><a href="#cb343-19" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"E"</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb343-20"><a href="#cb343-20" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"S"</span>] <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb343-21"><a href="#cb343-21" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir[rain_df<span class="sc">$</span>WindGustDir <span class="sc">==</span> <span class="st">"W"</span>] <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb343-22"><a href="#cb343-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb343-23"><a href="#cb343-23" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustDir <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rain_df<span class="sc">$</span>WindGustDir)</span>
+<span id="cb343-24"><a href="#cb343-24" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir9am <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rain_df<span class="sc">$</span>WindDir9am)</span>
+<span id="cb343-25"><a href="#cb343-25" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindDir3pm <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rain_df<span class="sc">$</span>WindDir3pm)</span>
+<span id="cb343-26"><a href="#cb343-26" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindGustSpeed <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rain_df<span class="sc">$</span>WindGustSpeed)</span>
+<span id="cb343-27"><a href="#cb343-27" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>Humidity3pm <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rain_df<span class="sc">$</span>Humidity3pm)</span>
+<span id="cb343-28"><a href="#cb343-28" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>Humidity9am <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rain_df<span class="sc">$</span>Humidity9am)</span>
+<span id="cb343-29"><a href="#cb343-29" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindSpeed3pm <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rain_df<span class="sc">$</span>WindSpeed3pm)</span>
+<span id="cb343-30"><a href="#cb343-30" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>WindSpeed9am <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rain_df<span class="sc">$</span>WindSpeed9am)</span>
+<span id="cb343-31"><a href="#cb343-31" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>Cloud3pm <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rain_df<span class="sc">$</span>Cloud3pm)</span>
+<span id="cb343-32"><a href="#cb343-32" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>Cloud9am <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rain_df<span class="sc">$</span>Cloud9am)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="final-feature-selection" class="level2">
+<h2 class="anchored" data-anchor-id="final-feature-selection">3.4. Final feature selection</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb344"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb344-1"><a href="#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Select best features</span></span>
+<span id="cb344-2"><a href="#cb344-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb344-3"><a href="#cb344-3" aria-hidden="true" tabindex="-1"></a>rain_df_selected <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(rain_df<span class="sc">$</span>Month, rain_df<span class="sc">$</span>RainTomorrow, rain_df<span class="sc">$</span>Sunshine, rain_df<span class="sc">$</span>Pressure9am, rain_df<span class="sc">$</span>Pressure3pm, rain_df<span class="sc">$</span>Temp3pm, rain_df<span class="sc">$</span>MaxTemp, rain_df<span class="sc">$</span>WindGustSpeed, rain_df<span class="sc">$</span>Rainfall, rain_df<span class="sc">$</span>Cloud9am, rain_df<span class="sc">$</span>Humidity9am, rain_df<span class="sc">$</span>DeltaHumidity, rain_df<span class="sc">$</span>Cloud3pm, rain_df<span class="sc">$</span>Evaporation , rain_df<span class="sc">$</span>RainToday, rain_df<span class="sc">$</span>Humidity3pm, rain_df<span class="sc">$</span>WindGustDir, rain_df<span class="sc">$</span>DeltaPressure)</span>
+<span id="cb344-4"><a href="#cb344-4" aria-hidden="true" tabindex="-1"></a>rain_df_selected<span class="sc">$</span>WindChange <span class="ot">&lt;-</span> rain_df<span class="sc">$</span>WindDir3pm <span class="sc">-</span> rain_df<span class="sc">$</span>WindDir9am</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb345"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb345-1"><a href="#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Look for correlation between features</span></span>
+<span id="cb345-2"><a href="#cb345-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb345-3"><a href="#cb345-3" aria-hidden="true" tabindex="-1"></a>cor_df <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(rain_df_selected), <span class="dv">2</span>)</span>
+<span id="cb345-4"><a href="#cb345-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb345-5"><a href="#cb345-5" aria-hidden="true" tabindex="-1"></a>m_cor_df <span class="ot">&lt;-</span> <span class="fu">melt</span>(cor_df)</span>
+<span id="cb345-6"><a href="#cb345-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb345-7"><a href="#cb345-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> m_cor_df, <span class="fu">aes</span>(<span class="at">x=</span>Var1, <span class="at">y=</span>Var2, <span class="at">fill=</span>value)) <span class="sc">+</span> <span class="fu">geom_tile</span>() <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> value), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"darkred"</span>, <span class="at">high =</span> <span class="st">"red"</span>,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-67-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Strong correlation:</p>
+<p><strong>Pressure9am</strong> and <strong>Pressure3pm</strong></p>
+<p><strong>MaxTemp</strong> and <strong>Temp3pm</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb346"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb346-1"><a href="#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Drop features with strong correlation</span></span>
+<span id="cb346-2"><a href="#cb346-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb346-3"><a href="#cb346-3" aria-hidden="true" tabindex="-1"></a>rain_df_selected <span class="ot">&lt;-</span> rain_df_selected[<span class="sc">-</span><span class="dv">4</span>]</span>
+<span id="cb346-4"><a href="#cb346-4" aria-hidden="true" tabindex="-1"></a>rain_df_selected <span class="ot">&lt;-</span> rain_df_selected[<span class="sc">-</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb347"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb347-1"><a href="#cb347-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check selected data</span></span>
+<span id="cb347-2"><a href="#cb347-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb347-3"><a href="#cb347-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(rain_df_selected)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      rain_df.Month rain_df.RainTomorrow rain_df.Sunshine rain_df.Pressure3pm
+74372             6                    0             10.9              1010.6
+74373             6                    0             11.0              1010.5
+74374             6                    0              8.6              1011.2
+74375             6                    0             11.0              1011.8
+74376             6                    0             10.6              1010.7
+74377             6                    0             10.7              1009.7
+      rain_df.MaxTemp rain_df.WindGustSpeed rain_df.Rainfall rain_df.Cloud9am
+74372            33.0                    44                0                1
+74373            33.4                    35                0                0
+74374            32.6                    37                0                7
+74375            32.8                    33                0                0
+74376            31.8                    26                0                1
+74377            31.7                    30                0                6
+      rain_df.Humidity9am rain_df.DeltaHumidity rain_df.Cloud3pm
+74372                  43                   -15                1
+74373                  63                   -31                1
+74374                  56                   -28                0
+74375                  46                   -23                0
+74376                  62                    -4                1
+74377                  73                   -41                5
+      rain_df.Evaporation rain_df.RainToday rain_df.Humidity3pm
+74372                 5.2                 0                  28
+74373                 6.0                 0                  32
+74374                 7.6                 0                  28
+74375                 5.6                 0                  23
+74376                 6.2                 0                  58
+74377                 5.6                 0                  32
+      rain_df.WindGustDir rain_df.DeltaPressure WindChange
+74372                  10                  -4.0          0
+74373                  10                  -3.4         -9
+74374                  10                  -3.4          0
+74375                  10                  -3.5        990
+74376                  10                  -4.2         -9
+74377                  10                  -4.2         -9</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb349"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb349-1"><a href="#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Check again for strong correlation between features</span></span>
+<span id="cb349-2"><a href="#cb349-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb349-3"><a href="#cb349-3" aria-hidden="true" tabindex="-1"></a>cor_df <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(rain_df_selected), <span class="dv">2</span>)</span>
+<span id="cb349-4"><a href="#cb349-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb349-5"><a href="#cb349-5" aria-hidden="true" tabindex="-1"></a>m_cor_df <span class="ot">&lt;-</span> <span class="fu">melt</span>(cor_df)</span>
+<span id="cb349-6"><a href="#cb349-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb349-7"><a href="#cb349-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> m_cor_df, <span class="fu">aes</span>(<span class="at">x=</span>Var1, <span class="at">y=</span>Var2, <span class="at">fill=</span>value)) <span class="sc">+</span> <span class="fu">geom_tile</span>() <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> value), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"darkred"</span>, <span class="at">high =</span> <span class="st">"red"</span>,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-70-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb350"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb350-1"><a href="#cb350-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Split features and label</span></span>
+<span id="cb350-2"><a href="#cb350-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb350-3"><a href="#cb350-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> rain_df_selected<span class="sc">$</span>rain_df.RainTomorrow</span>
+<span id="cb350-4"><a href="#cb350-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> rain_df_selected[<span class="sc">-</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb351"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb351-1"><a href="#cb351-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 74377    16</code></pre>
+</div>
+</div>
 </section>
 </section>
 <section id="balancing-and-standarizing" class="level1">
 <h1>4. Balancing and Standarizing</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb353"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb353-1"><a href="#cb353-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      rain_df.Month rain_df.Sunshine rain_df.Pressure3pm rain_df.MaxTemp
+74372             6             10.9              1010.6            33.0
+74373             6             11.0              1010.5            33.4
+74374             6              8.6              1011.2            32.6
+74375             6             11.0              1011.8            32.8
+74376             6             10.6              1010.7            31.8
+74377             6             10.7              1009.7            31.7
+      rain_df.WindGustSpeed rain_df.Rainfall rain_df.Cloud9am
+74372                    44                0                1
+74373                    35                0                0
+74374                    37                0                7
+74375                    33                0                0
+74376                    26                0                1
+74377                    30                0                6
+      rain_df.Humidity9am rain_df.DeltaHumidity rain_df.Cloud3pm
+74372                  43                   -15                1
+74373                  63                   -31                1
+74374                  56                   -28                0
+74375                  46                   -23                0
+74376                  62                    -4                1
+74377                  73                   -41                5
+      rain_df.Evaporation rain_df.RainToday rain_df.Humidity3pm
+74372                 5.2                 0                  28
+74373                 6.0                 0                  32
+74374                 7.6                 0                  28
+74375                 5.6                 0                  23
+74376                 6.2                 0                  58
+74377                 5.6                 0                  32
+      rain_df.WindGustDir rain_df.DeltaPressure WindChange
+74372                  10                  -4.0          0
+74373                  10                  -3.4         -9
+74374                  10                  -3.4          0
+74375                  10                  -3.5        990
+74376                  10                  -4.2         -9
+74377                  10                  -4.2         -9</code></pre>
+</div>
+</div>
 <p>NADIMS PART</p>
 </section>
 <section id="split-train-and-test" class="level1">
@@ -1295,6 +1779,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="conclusion" class="level1">
 <h1>10. Conclusion</h1>
 <p>MICHALS PART</p>
+</section>
+<section id="replacing-location-to-make-it-numerical-data-in-order-to-check-corelation" class="level1">
+<h1>Replacing location to make it numerical data in order to check corelation</h1>
+<p>rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Cobar”] &lt;- 1 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “CoffsHarbour”] &lt;- 2 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Moree”] &lt;- 3 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “NorfolkIsland”] &lt;- 4 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Sydney”] &lt;- 5 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “SydneyAirport”] &lt;- 6 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “WaggaWagga”] &lt;- 7 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Williamtown”] &lt;- 8 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Canberra”] &lt;- 9 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Sale”] &lt;- 10 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “MelbourneAirport”] &lt;- 11 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Melbourne”] &lt;- 12 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Mildura”] &lt;- 13 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Portland”] &lt;- 14 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Watsonia”] &lt;- 15 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Dartmoor”] &lt;- 16 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Brisbane”] &lt;- 17 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Cairns”] &lt;- 18 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Townsville”] &lt;- 19 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Adelaide”] &lt;- 20 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “MountGambier”] &lt;- 21 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Nuriootpa”] &lt;- 22 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Woomera”] &lt;- 23 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Albany”] &lt;- 24 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “PearceRAAF”] &lt;- 25 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “PerthAirport”] &lt;- 26 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Perth”] &lt;- 27 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Hobart”] &lt;- 28 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “AliceSprings”] &lt;- 29 rain_df<span class="math inline">\(Location[rain_df\)</span>Location == “Darwin”] &lt;- 30</p>
+<p>#Changing RainToday into numerical</p>
+<p>rain_df<span class="math inline">\(Location &lt;- as.numeric(rain_df\)</span>Location)</p>
 </section>
 
 </main>

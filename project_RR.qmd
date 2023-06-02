@@ -30,6 +30,7 @@ devtools::install_github("dongyuanwu/RSBID")
 ```{r warning=FALSE}
 #| warning: false
 #<<<<<<< HEAD
+library(corrplot)
 library(xts)
 library(lmtest)
 library(quantmod)
@@ -41,7 +42,8 @@ library(tseries)
 library(aTSA)
 library(car)
 library(seasonal)
-library(ggplot2) #Tables
+library(reshape2) #For creating correlation matrix for heatmap
+library(ggplot2) #Tables, heatmaps
 library(forecast)
 library(kableExtra)
 library(formattable)
@@ -89,7 +91,7 @@ dim(rain_df)
 sum(is.na(rain_df$RainTomorrow))
 ```
 
-#```{r}
+```{r}
 # Drop the data not including target variable since using them may later negativley influence the model
 
 rain_df <- rain_df %>% drop_na(c("RainTomorrow"))
@@ -263,6 +265,7 @@ rain_df$WindSpeed3pm[is.na(rain_df$WindSpeed3pm)] <- median(rain_df$WindSpeed3pm
 rain_df$WindSpeed9am[is.na(rain_df$WindSpeed9am)] <- median(rain_df$WindSpeed9am, na.rm = TRUE)
 rain_df$WindGustSpeed[is.na(rain_df$WindGustSpeed)] <- median(rain_df$WindGustSpeed, na.rm = TRUE)
 rain_df$Sunshine[is.na(rain_df$Sunshine)] <- mean(rain_df$Sunshine, na.rm = TRUE)
+rain_df$RainToday[is.na(rain_df$RainToday)] <- mode(rain_df$RainToday)
 rain_df$Evaporation <- ifelse(is.na(rain_df$Evaporation), median(rain_df$Evaporation, na.rm = TRUE), rain_df$Evaporation)
 rain_df$Rainfall <- ifelse(is.na(rain_df$Rainfall), median(rain_df$Rainfall, na.rm = TRUE), rain_df$Rainfall)
 rain_df$MaxTemp <- ifelse(is.na(rain_df$MaxTemp), mean(rain_df$MaxTemp, na.rm = TRUE), rain_df$MaxTemp)
@@ -600,18 +603,92 @@ There was a lot of outliers in variables **Rainfall, Evaporation, WindGustSpeed,
 
 ## 2.6. Data Simplification
 
-#```{r}
+```{r}
 # Since the wind direction were wide spread and very specific we decided to simplify the data by puting them into categories based on dominant direction, filled the missing data for wind direction using mode.
 
-rain_df$WindDir9am <- replace("NNW", rain_df$WindDir9am, "N")
+rain_df$WindDir9am[rain_df$WindDir9am == "NNW"] <- "N"
+rain_df$WindDir9am[rain_df$WindDir9am == "NNE"] <- "N"
+rain_df$WindDir9am[rain_df$WindDir9am == "NE"] <- "N"
+rain_df$WindDir9am[rain_df$WindDir9am == "N"] <- "N"
+rain_df$WindDir9am[rain_df$WindDir9am == "ENE"] <- "E"
+rain_df$WindDir9am[rain_df$WindDir9am == "ESE"] <- "E"
+rain_df$WindDir9am[rain_df$WindDir9am == "SE"] <- "E"
+rain_df$WindDir9am[rain_df$WindDir9am == "E"] <- "E"
+rain_df$WindDir9am[rain_df$WindDir9am == "SSE"] <- "S"
+rain_df$WindDir9am[rain_df$WindDir9am == "SSW"] <- "S"
+rain_df$WindDir9am[rain_df$WindDir9am == "SW"] <- "S"
+rain_df$WindDir9am[rain_df$WindDir9am == "s"] <- "S"
+rain_df$WindDir9am[rain_df$WindDir9am == "WSW"] <- "W"
+rain_df$WindDir9am[rain_df$WindDir9am == "WNW"] <- "W"
+rain_df$WindDir9am[rain_df$WindDir9am == "NW"] <- "W"
+rain_df$WindDir9am[rain_df$WindDir9am == "W"] <- "W"
 
+rain_df$WindDir9am[rain_df$WindDir9am == "NNW"] <- "N"
+rain_df$WindDir9am[rain_df$WindDir9am == "NNE"] <- "N"
+rain_df$WindDir9am[rain_df$WindDir9am == "NE"] <- "N"
+rain_df$WindDir9am[rain_df$WindDir9am == "N"] <- "N"
+rain_df$WindDir9am[rain_df$WindDir9am == "ENE"] <- "E"
+rain_df$WindDir9am[rain_df$WindDir9am == "ESE"] <- "E"
+rain_df$WindDir9am[rain_df$WindDir9am == "SE"] <- "E"
+rain_df$WindDir9am[rain_df$WindDir9am == "E"] <- "E"
+rain_df$WindDir9am[rain_df$WindDir9am == "SSE"] <- "S"
+rain_df$WindDir9am[rain_df$WindDir9am == "SSW"] <- "S"
+rain_df$WindDir9am[rain_df$WindDir9am == "SW"] <- "S"
+rain_df$WindDir9am[rain_df$WindDir9am == "s"] <- "S"
+rain_df$WindDir9am[rain_df$WindDir9am == "WSW"] <- "W"
+rain_df$WindDir9am[rain_df$WindDir9am == "WNW"] <- "W"
+rain_df$WindDir9am[rain_df$WindDir9am == "NW"] <- "W"
+rain_df$WindDir9am[rain_df$WindDir9am == "W"] <- "W"
 
-rain_df$WindDir9am <- ifelse(is.na(rain_df$WindDir9am), mode(rain_df$WindDir9am)[1], rain_df$WindDir9am)
-rain_df$WindDir3pm <- ifelse(is.na(rain_df$WindDir3pm), mode(rain_df$WindDir3pm)[1], rain_df$WindDir3pm)
-rain_df$WindGustDir <- ifelse(is.na(rain_df$WindGustDir), mode(rain_df$WindGustDir)[1], rain_df$WindGustDir)
+rain_df$WindDir3pm[rain_df$WindDir3pm == "NNW"] <- "N"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "NNE"] <- "N"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "NE"] <- "N"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "N"] <- "N"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "ENE"] <- "E"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "ESE"] <- "E"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "SE"] <- "E"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "E"] <- "E"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "SSE"] <- "S"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "SSW"] <- "S"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "SW"] <- "S"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "S"] <- "S"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "WSW"] <- "W"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "WNW"] <- "W"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "NW"] <- "W"
+rain_df$WindDir3pm[rain_df$WindDir3pm == "W"] <- "W"
+
+rain_df$WindGustDir[rain_df$WindGustDir == "NNW"] <- "N"
+rain_df$WindGustDir[rain_df$WindGustDir == "NNE"] <- "N"
+rain_df$WindGustDir[rain_df$WindGustDir == "NE"] <- "N"
+rain_df$WindGustDir[rain_df$WindGustDir == "N"] <- "N"
+rain_df$WindGustDir[rain_df$WindGustDir == "ENE"] <- "E"
+rain_df$WindGustDir[rain_df$WindGustDir == "ESE"] <- "E"
+rain_df$WindGustDir[rain_df$WindGustDir == "SE"] <- "E"
+rain_df$WindGustDir[rain_df$WindGustDir == "E"] <- "E"
+rain_df$WindGustDir[rain_df$WindGustDir == "SSE"] <- "S"
+rain_df$WindGustDir[rain_df$WindGustDir == "SSW"] <- "S"
+rain_df$WindGustDir[rain_df$WindGustDir == "SW"] <- "S"
+rain_df$WindGustDir[rain_df$WindGustDir == "S"] <- "S"
+rain_df$WindGustDir[rain_df$WindGustDir == "WSW"] <- "W"
+rain_df$WindGustDir[rain_df$WindGustDir == "WNW"] <- "W"
+rain_df$WindGustDir[rain_df$WindGustDir == "NW"] <- "W"
+rain_df$WindGustDir[rain_df$WindGustDir == "W"] <- "W"
 
 tail(rain_df)
-#```
+
+#Filling NA with mode
+
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+rain_df$RainToday[is.na(rain_df$RainToday)] <- Mode(rain_df$RainToday)
+rain_df$WindDir9am[is.na(rain_df$WindDir9am)] <- Mode(rain_df$WindDir9am)
+rain_df$WindDir3pm[is.na(rain_df$WindDir3pm)] <- Mode(rain_df$WindDir3pm)
+rain_df$WindGustDir[is.na(rain_df$WindGustDir)] <- Mode(rain_df$WindGustDir)
+
+```
 
 ## 2.7. Handling Date
 
@@ -633,9 +710,186 @@ tail(rain_df)
 
 ## 3.1. Creating new numerical variables
 
-NADIMS + MICHALS PART
+```{r}
+# Creating delta varibles to check if changes in relation to data for example: change of wind speed from 9am to 3pm has impact on 'raintommorow' prediction
+
+rain_df$DeltaWindSpeed <- rain_df$WindSpeed3pm - rain_df$WindSpeed9am
+rain_df$DeltaHumidity <- rain_df$Humidity3pm - rain_df$Humidity9am
+rain_df$DeltaPressure <- rain_df$Pressure3pm - rain_df$Pressure9am
+rain_df$DeltaCloud <- rain_df$Cloud3pm - rain_df$Cloud9am
+```
+
+```{r}
+tail(rain_df)
+```
+
+```{r}
+#Looking for correlation with the 'RainTommorow' to pick the best attributes
+
+Num_rain_df <- data.frame(rain_df$Month, rain_df$MinTemp, rain_df$MaxTemp, rain_df$Rainfall, rain_df$Evaporation, rain_df$Sunshine, rain_df$WindGustSpeed, rain_df$WindSpeed9am, rain_df$WindSpeed3pm, rain_df$Humidity9am, rain_df$Humidity3pm, rain_df$Pressure9am, rain_df$Pressure3pm, rain_df$Cloud9am, rain_df$Cloud3pm, rain_df$Temp9am, rain_df$Temp3pm, rain_df$RainTomorrow, rain_df$DeltaWindSpeed, rain_df$DeltaHumidity, rain_df$DeltaPressure, rain_df$DeltaCloud) 
+
+cor(Num_rain_df[, colnames(Num_rain_df) !="RainTomorrow"], Num_rain_df$rain_df.RainTomorrow)
+```
+
+Most correlated more than **0.09** with **RainTommorow**:
+
+**Sunshine, Pressure9am, Pressure3pm, Temp3pm, MaxTemp, Evaporation, WindGustSpeed, Rainfall, Cloud9am, Humidity9am, DeltaHumidity, Cloud3pm, Humidity3pm, DeltaPressure.**
+
+## 3.2. Creating new categorical variable
+
+```{r}
+# Like the previous case but with categorical data creating the variable to investigate relation of change in wind direction to the 'RainTommorow'
+
+rain_df$WindChange <- cbind (rain_df$WindDir3pm, rain_df$WindDir9am)
+```
+
+## 3.3. Investigating object-typed attribute distribution
+
+#```{r}
+pie()
+```
+
+#```{r}
+pie(WindDir9am ~ RainTomorrow, data = rain_df)
+```
+
+```{r}
+# Replace objects Yes with 1 and No with 0
+
+rain_df["RainToday"][rain_df["RainToday"] == "Yes"] <- 1
+rain_df["RainToday"][rain_df["RainToday"] == "No"] <- 0
+rain_df$RainToday <- as.numeric(rain_df$RainToday)
+rain_df$RainToday[is.na(rain_df$RainToday)] <- Mode(rain_df$RainToday)
+```
+
+```{r}
+# Look for missing data
+
+sum(is.na(rain_df$Date)) 
+sum(is.na(rain_df$Location))
+sum(is.na(rain_df$MinTemp))
+sum(is.na(rain_df$MaxTemp))
+sum(is.na(rain_df$Rainfall))
+sum(is.na(rain_df$Evaporation))
+sum(is.na(rain_df$Sunshine))
+sum(is.na(rain_df$WindGustDir))
+sum(is.na(rain_df$WindGustSpeed))
+sum(is.na(rain_df$WindDir9am))
+sum(is.na(rain_df$WindDir3pm))
+sum(is.na(rain_df$WindSpeed9am))
+sum(is.na(rain_df$WindSpeed3pm))
+sum(is.na(rain_df$Humidity9am))
+sum(is.na(rain_df$Humidity3pm))
+sum(is.na(rain_df$Pressure9am))
+sum(is.na(rain_df$Pressure3pm))
+sum(is.na(rain_df$Cloud9am))
+sum(is.na(rain_df$Cloud3pm))
+sum(is.na(rain_df$Temp9am))
+sum(is.na(rain_df$Temp3pm))
+sum(is.na(rain_df$RainToday))
+sum(is.na(rain_df$RainTomorrow))
+```
+
+```{r}
+#Change all variables into numerical to check correlation **added part**
+
+rain_df$WindDir9am[rain_df$WindDir9am == "N"] <- 1
+rain_df$WindDir9am[rain_df$WindDir9am == "E"] <- 10
+rain_df$WindDir9am[rain_df$WindDir9am == "S"] <- 100
+rain_df$WindDir9am[rain_df$WindDir9am == "W"] <- 1000
+
+rain_df$WindDir9am[rain_df$WindDir9am == "N"] <- 1
+rain_df$WindDir9am[rain_df$WindDir9am == "E"] <- 10
+rain_df$WindDir9am[rain_df$WindDir9am == "S"] <- 100
+rain_df$WindDir9am[rain_df$WindDir9am == "W"] <- 1000
+
+rain_df$WindDir3pm[rain_df$WindDir3pm == "N"] <- 1
+rain_df$WindDir3pm[rain_df$WindDir3pm == "E"] <- 10
+rain_df$WindDir3pm[rain_df$WindDir3pm == "S"] <- 100
+rain_df$WindDir3pm[rain_df$WindDir3pm == "W"] <- 1000
+
+rain_df$WindGustDir[rain_df$WindGustDir == "N"] <- 1
+rain_df$WindGustDir[rain_df$WindGustDir == "E"] <- 10
+rain_df$WindGustDir[rain_df$WindGustDir == "S"] <- 100
+rain_df$WindGustDir[rain_df$WindGustDir == "W"] <- 1000
+
+rain_df$WindGustDir <- as.numeric(rain_df$WindGustDir)
+rain_df$WindDir9am <- as.numeric(rain_df$WindDir9am)
+rain_df$WindDir3pm <- as.numeric(rain_df$WindDir3pm)
+rain_df$WindGustSpeed <- as.numeric(rain_df$WindGustSpeed)
+rain_df$Humidity3pm <- as.numeric(rain_df$Humidity3pm)
+rain_df$Humidity9am <- as.numeric(rain_df$Humidity9am)
+rain_df$WindSpeed3pm <- as.numeric(rain_df$WindSpeed3pm)
+rain_df$WindSpeed9am <- as.numeric(rain_df$WindSpeed9am)
+rain_df$Cloud3pm <- as.numeric(rain_df$Cloud3pm)
+rain_df$Cloud9am <- as.numeric(rain_df$Cloud9am)
+
+```
+
+## 3.4. Final feature selection
+
+```{r}
+#Select best features
+
+rain_df_selected <- data.frame(rain_df$Month, rain_df$RainTomorrow, rain_df$Sunshine, rain_df$Pressure9am, rain_df$Pressure3pm, rain_df$Temp3pm, rain_df$MaxTemp, rain_df$WindGustSpeed, rain_df$Rainfall, rain_df$Cloud9am, rain_df$Humidity9am, rain_df$DeltaHumidity, rain_df$Cloud3pm, rain_df$Evaporation , rain_df$RainToday, rain_df$Humidity3pm, rain_df$WindGustDir, rain_df$DeltaPressure)
+rain_df_selected$WindChange <- rain_df$WindDir3pm - rain_df$WindDir9am
+```
+
+```{r}
+#Look for correlation between features
+
+cor_df <- round(cor(rain_df_selected), 2)
+
+m_cor_df <- melt(cor_df)
+
+ggplot(data = m_cor_df, aes(x=Var1, y=Var2, fill=value)) + geom_tile() + geom_text(aes(label = value), size = 1) + scale_fill_gradient2(low = "darkred", high = "red",)
+```
+
+Strong correlation:
+
+**Pressure9am** and **Pressure3pm**
+
+**MaxTemp** and **Temp3pm**
+
+```{r}
+#Drop features with strong correlation
+
+rain_df_selected <- rain_df_selected[-4]
+rain_df_selected <- rain_df_selected[-5]
+```
+
+```{r}
+# Check selected data
+
+tail(rain_df_selected)
+```
+
+```{r}
+#Check again for strong correlation between features
+
+cor_df <- round(cor(rain_df_selected), 2)
+
+m_cor_df <- melt(cor_df)
+
+ggplot(data = m_cor_df, aes(x=Var1, y=Var2, fill=value)) + geom_tile() + geom_text(aes(label = value), size = 1) + scale_fill_gradient2(low = "darkred", high = "red",)
+```
+
+```{r}
+#Split features and label
+
+y <- rain_df_selected$rain_df.RainTomorrow
+x <- rain_df_selected[-2]
+```
+
+```{r}
+dim(x)
+```
 
 # 4. Balancing and Standarizing
+
+```{r}
+tail(x)
+```
 
 NADIMS PART
 
@@ -686,3 +940,45 @@ NADIMS PART
 # 10. Conclusion
 
 MICHALS PART
+
+# Replacing location to make it numerical data in order to check corelation 
+
+rain_df$Location[rain_df$Location == "Cobar"] <- 1
+rain_df$Location[rain_df$Location == "CoffsHarbour"] <- 2
+rain_df$Location[rain_df$Location == "Moree"] <- 3
+rain_df$Location[rain_df$Location == "NorfolkIsland"] <- 4
+rain_df$Location[rain_df$Location == "Sydney"] <- 5
+rain_df$Location[rain_df$Location == "SydneyAirport"] <- 6
+rain_df$Location[rain_df$Location == "WaggaWagga"] <- 7
+rain_df$Location[rain_df$Location == "Williamtown"] <- 8
+rain_df$Location[rain_df$Location == "Canberra"] <- 9
+rain_df$Location[rain_df$Location == "Sale"] <- 10
+rain_df$Location[rain_df$Location == "MelbourneAirport"] <- 11
+rain_df$Location[rain_df$Location == "Melbourne"] <- 12
+rain_df$Location[rain_df$Location == "Mildura"] <- 13
+rain_df$Location[rain_df$Location == "Portland"] <- 14
+rain_df$Location[rain_df$Location == "Watsonia"] <- 15
+rain_df$Location[rain_df$Location == "Dartmoor"] <- 16
+rain_df$Location[rain_df$Location == "Brisbane"] <- 17
+rain_df$Location[rain_df$Location == "Cairns"] <- 18
+rain_df$Location[rain_df$Location == "Townsville"] <- 19
+rain_df$Location[rain_df$Location == "Adelaide"] <- 20
+rain_df$Location[rain_df$Location == "MountGambier"] <- 21
+rain_df$Location[rain_df$Location == "Nuriootpa"] <- 22
+rain_df$Location[rain_df$Location == "Woomera"] <- 23
+rain_df$Location[rain_df$Location == "Albany"] <- 24
+rain_df$Location[rain_df$Location == "PearceRAAF"] <- 25
+rain_df$Location[rain_df$Location == "PerthAirport"] <- 26
+rain_df$Location[rain_df$Location == "Perth"] <- 27
+rain_df$Location[rain_df$Location == "Hobart"] <- 28
+rain_df$Location[rain_df$Location == "AliceSprings"] <- 29
+rain_df$Location[rain_df$Location == "Darwin"] <- 30
+
+#Changing RainToday into numerical
+
+
+rain_df$Location <- as.numeric(rain_df$Location)
+
+
+
+
