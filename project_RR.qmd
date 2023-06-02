@@ -19,6 +19,8 @@ output:
 (install Rtools43 first: https://cran.r-project.org/bin/windows/Rtools/rtools43/rtools.html)
 
 ```{r warning=FALSE}
+#| warning: false
+library(usethis)
 library(devtools)
 ```
 
@@ -29,39 +31,22 @@ devtools::install_github("dongyuanwu/RSBID")
 
 ```{r warning=FALSE}
 #| warning: false
-#<<<<<<< HEAD
-library(corrplot)
-library(xts)
-library(lmtest)
-library(quantmod)
-library(dplyr)
-library(tidyr)
-library(fUnitRoots)
-library(vars)
-library(tseries)
-library(aTSA)
-library(car)
-library(seasonal)
+library(corrplot) #visualization of correlation matrix
+library(tidyr) #to tidy messy data
 library(reshape2) #For creating correlation matrix for heatmap
-library(ggplot2) #Tables, heatmaps
-library(forecast)
-library(kableExtra)
-library(formattable)
-library(Metrics)
-library(TSEwgt)
-#library(RSBID) #We will need SMOTE_NC from it
-library(tidyverse)
-#=======
+library(ggplot2) #Tables, heatmaps, etc.
+library(forecast) #forecast for simple models
 library(dplyr) #data manipulation
+library(magrittr) # %>% pipeline
 library(formattable) #data manipulation
 library(Metrics) #metrics
-#library(MLmetrics) #metrics for machine learning (similar to Metrics library)
-#library(e1071) #svm
-#library(xgboost) #xgboost model
-#library(caret) #dummy variables, precision metrics, knn
-#library(RSBID) #We will need SMOTE_NC from it
+library(kableExtra) #complex tables, "kable" pipe syntax, helpfull in some cases
+library(MLmetrics) #metrics for machine learning (similar to Metrics library)
+library(e1071) #svm
+library(xgboost) #xgboost model
+library(caret) #dummy variables, precision metrics, knn
+library(RSBID) #We will need SMOTE_NC from it
 library(tidyverse) #collection of packages for data science
-#>>>>>>> 1b3e2b3bbf38c00b31d322a3bd672e29a047b39a
 ```
 
 Data loading:
@@ -94,7 +79,7 @@ sum(is.na(rain_df$RainTomorrow))
 ```{r}
 # Drop the data not including target variable since using them may later negativley influence the model
 
-rain_df <- rain_df %>% drop_na(c("RainTomorrow"))
+rain_df <- rain_df %>% drop_na("RainTomorrow")
 dim(rain_df)
 ```
 
@@ -143,31 +128,11 @@ We can see that there are 23 variables in which:
 
 ```{r}
 # Check for unique data for Categorical in order to decide weather one hot encoding is viable option.
-
-n_distinct(rain_df$Date)
-n_distinct(rain_df$Location)
-n_distinct(rain_df$MinTemp)
-n_distinct(rain_df$MaxTemp)
-n_distinct(rain_df$Rainfall)
-n_distinct(rain_df$Evaporation)
-n_distinct(rain_df$Sunshine)
-n_distinct(rain_df$WindGustDir)
-n_distinct(rain_df$WindGustDir)
-n_distinct(rain_df$WindGustSpeed)
-n_distinct(rain_df$WindDir9am)
-n_distinct(rain_df$WindDir3pm)
-n_distinct(rain_df$WindSpeed9am)
-n_distinct(rain_df$WindSpeed3pm)
-n_distinct(rain_df$Humidity9am)
-n_distinct(rain_df$Humidity3pm)
-n_distinct(rain_df$Pressure9am)
-n_distinct(rain_df$Pressure3pm)
-n_distinct(rain_df$Cloud9am)
-n_distinct(rain_df$Cloud3pm)
-n_distinct(rain_df$Temp9am)
-n_distinct(rain_df$Temp3pm)
-n_distinct(rain_df$RainToday)
-n_distinct(rain_df$RainTomorrow)
+for (i in 1:dim(rain_df)[2])
+{
+  print(colnames(rain_df[i]))
+  print(n_distinct(rain_df[,i]))
+}
 ```
 
 **Character** data have to be further transofrmed in order to be used in the model.
@@ -183,30 +148,11 @@ summary(rain_df)
 ```{r}
 # Look for missing data
 
-sum(is.na(rain_df$Date))
-sum(is.na(rain_df$Location))
-sum(is.na(rain_df$MinTemp))
-sum(is.na(rain_df$MaxTemp))
-sum(is.na(rain_df$Rainfall))
-sum(is.na(rain_df$Evaporation))
-sum(is.na(rain_df$Sunshine))
-sum(is.na(rain_df$WindGustDir))
-sum(is.na(rain_df$WindGustDir))
-sum(is.na(rain_df$WindGustSpeed))
-sum(is.na(rain_df$WindDir9am))
-sum(is.na(rain_df$WindDir3pm))
-sum(is.na(rain_df$WindSpeed9am))
-sum(is.na(rain_df$WindSpeed3pm))
-sum(is.na(rain_df$Humidity9am))
-sum(is.na(rain_df$Humidity3pm))
-sum(is.na(rain_df$Pressure9am))
-sum(is.na(rain_df$Pressure3pm))
-sum(is.na(rain_df$Cloud9am))
-sum(is.na(rain_df$Cloud3pm))
-sum(is.na(rain_df$Temp9am))
-sum(is.na(rain_df$Temp3pm))
-sum(is.na(rain_df$RainToday))
-sum(is.na(rain_df$RainTomorrow))
+for(i in 1:dim(rain_df)[2])
+{
+  print(colnames(rain_df[i]))
+  print(sum(is.na(rain_df[,i])))
+}
 ```
 
 There seems to be a lot of missing data epsepcially in: **Evaporation, Sunshine, Cloud9am, and Cloud3pm**
@@ -224,30 +170,11 @@ rain_df <- rain_df %>% drop_na(c("Sunshine"))
 ```{r}
 # Check for missing data
 
-sum(is.na(rain_df$Date)) 
-sum(is.na(rain_df$Location))
-sum(is.na(rain_df$MinTemp))
-sum(is.na(rain_df$MaxTemp))
-sum(is.na(rain_df$Rainfall))
-sum(is.na(rain_df$Evaporation))
-sum(is.na(rain_df$Sunshine))
-sum(is.na(rain_df$WindGustDir))
-sum(is.na(rain_df$WindGustDir))
-sum(is.na(rain_df$WindGustSpeed))
-sum(is.na(rain_df$WindDir9am))
-sum(is.na(rain_df$WindDir3pm))
-sum(is.na(rain_df$WindSpeed9am))
-sum(is.na(rain_df$WindSpeed3pm))
-sum(is.na(rain_df$Humidity9am))
-sum(is.na(rain_df$Humidity3pm))
-sum(is.na(rain_df$Pressure9am))
-sum(is.na(rain_df$Pressure3pm))
-sum(is.na(rain_df$Cloud9am))
-sum(is.na(rain_df$Cloud3pm))
-sum(is.na(rain_df$Temp9am))
-sum(is.na(rain_df$Temp3pm))
-sum(is.na(rain_df$RainToday))
-sum(is.na(rain_df$RainTomorrow))
+for(i in 1:dim(rain_df)[2])
+{
+  print(colnames(rain_df[i]))
+  print(sum(is.na(rain_df[,i])))
+}
 ```
 
 ```{r}
@@ -275,33 +202,15 @@ rain_df$MinTemp <- ifelse(is.na(rain_df$MinTemp), mean(rain_df$MinTemp, na.rm = 
 ```{r}
 # Look for missing data again
 
-sum(is.na(rain_df$Date)) 
-sum(is.na(rain_df$Location))
-sum(is.na(rain_df$MinTemp))
-sum(is.na(rain_df$MaxTemp))
-sum(is.na(rain_df$Rainfall))
-sum(is.na(rain_df$Evaporation))
-sum(is.na(rain_df$Sunshine))
-sum(is.na(rain_df$WindGustDir))
-sum(is.na(rain_df$WindGustSpeed))
-sum(is.na(rain_df$WindDir9am))
-sum(is.na(rain_df$WindDir3pm))
-sum(is.na(rain_df$WindSpeed9am))
-sum(is.na(rain_df$WindSpeed3pm))
-sum(is.na(rain_df$Humidity9am))
-sum(is.na(rain_df$Humidity3pm))
-sum(is.na(rain_df$Pressure9am))
-sum(is.na(rain_df$Pressure3pm))
-sum(is.na(rain_df$Cloud9am))
-sum(is.na(rain_df$Cloud3pm))
-sum(is.na(rain_df$Temp9am))
-sum(is.na(rain_df$Temp3pm))
-sum(is.na(rain_df$RainToday))
-sum(is.na(rain_df$RainTomorrow))
+for(i in 1:dim(rain_df)[2])
+{
+  print(colnames(rain_df[i]))
+  print(sum(is.na(rain_df[,i])))
+}
 ```
 
 ```{r}
-# Chgeck the amount of data after dropping sunshine variable na
+# Check the amount of data after dropping sunshine variable na
 
 dim(rain_df)
 ```
@@ -683,7 +592,6 @@ Mode <- function(x) {
   ux[which.max(tabulate(match(x, ux)))]
 }
 
-rain_df$RainToday[is.na(rain_df$RainToday)] <- Mode(rain_df$RainToday)
 rain_df$WindDir9am[is.na(rain_df$WindDir9am)] <- Mode(rain_df$WindDir9am)
 rain_df$WindDir3pm[is.na(rain_df$WindDir3pm)] <- Mode(rain_df$WindDir3pm)
 rain_df$WindGustDir[is.na(rain_df$WindGustDir)] <- Mode(rain_df$WindGustDir)
@@ -704,6 +612,7 @@ rain_df$Date <- month(rain_df$Date)
 names(rain_df)[names(rain_df) == "Date"] <- "Month"
 
 tail(rain_df)
+
 ```
 
 # 3. Selecting Features
@@ -740,7 +649,9 @@ Most correlated more than **0.09** with **RainTommorow**:
 ```{r}
 # Like the previous case but with categorical data creating the variable to investigate relation of change in wind direction to the 'RainTommorow'
 
-rain_df$WindChange <- cbind (rain_df$WindDir3pm, rain_df$WindDir9am)
+rain_df$WindChange <- paste(rain_df$WindDir3pm, rain_df$WindDir9am, sep="")
+
+tail(rain_df$WindChange)
 ```
 
 ## 3.3. Investigating object-typed attribute distribution
@@ -762,83 +673,57 @@ rain_df$RainToday <- as.numeric(rain_df$RainToday)
 rain_df$RainToday[is.na(rain_df$RainToday)] <- Mode(rain_df$RainToday)
 ```
 
-```{r}
-# Look for missing data
 
-sum(is.na(rain_df$Date)) 
-sum(is.na(rain_df$Location))
-sum(is.na(rain_df$MinTemp))
-sum(is.na(rain_df$MaxTemp))
-sum(is.na(rain_df$Rainfall))
-sum(is.na(rain_df$Evaporation))
-sum(is.na(rain_df$Sunshine))
-sum(is.na(rain_df$WindGustDir))
-sum(is.na(rain_df$WindGustSpeed))
-sum(is.na(rain_df$WindDir9am))
-sum(is.na(rain_df$WindDir3pm))
-sum(is.na(rain_df$WindSpeed9am))
-sum(is.na(rain_df$WindSpeed3pm))
-sum(is.na(rain_df$Humidity9am))
-sum(is.na(rain_df$Humidity3pm))
-sum(is.na(rain_df$Pressure9am))
-sum(is.na(rain_df$Pressure3pm))
-sum(is.na(rain_df$Cloud9am))
-sum(is.na(rain_df$Cloud3pm))
-sum(is.na(rain_df$Temp9am))
-sum(is.na(rain_df$Temp3pm))
-sum(is.na(rain_df$RainToday))
-sum(is.na(rain_df$RainTomorrow))
-```
-
-```{r}
-#Change all variables into numerical to check correlation **added part**
-
-rain_df$WindDir9am[rain_df$WindDir9am == "N"] <- 1
-rain_df$WindDir9am[rain_df$WindDir9am == "E"] <- 10
-rain_df$WindDir9am[rain_df$WindDir9am == "S"] <- 100
-rain_df$WindDir9am[rain_df$WindDir9am == "W"] <- 1000
-
-rain_df$WindDir9am[rain_df$WindDir9am == "N"] <- 1
-rain_df$WindDir9am[rain_df$WindDir9am == "E"] <- 10
-rain_df$WindDir9am[rain_df$WindDir9am == "S"] <- 100
-rain_df$WindDir9am[rain_df$WindDir9am == "W"] <- 1000
-
-rain_df$WindDir3pm[rain_df$WindDir3pm == "N"] <- 1
-rain_df$WindDir3pm[rain_df$WindDir3pm == "E"] <- 10
-rain_df$WindDir3pm[rain_df$WindDir3pm == "S"] <- 100
-rain_df$WindDir3pm[rain_df$WindDir3pm == "W"] <- 1000
-
-rain_df$WindGustDir[rain_df$WindGustDir == "N"] <- 1
-rain_df$WindGustDir[rain_df$WindGustDir == "E"] <- 10
-rain_df$WindGustDir[rain_df$WindGustDir == "S"] <- 100
-rain_df$WindGustDir[rain_df$WindGustDir == "W"] <- 1000
-
-rain_df$WindGustDir <- as.numeric(rain_df$WindGustDir)
-rain_df$WindDir9am <- as.numeric(rain_df$WindDir9am)
-rain_df$WindDir3pm <- as.numeric(rain_df$WindDir3pm)
-rain_df$WindGustSpeed <- as.numeric(rain_df$WindGustSpeed)
-rain_df$Humidity3pm <- as.numeric(rain_df$Humidity3pm)
-rain_df$Humidity9am <- as.numeric(rain_df$Humidity9am)
-rain_df$WindSpeed3pm <- as.numeric(rain_df$WindSpeed3pm)
-rain_df$WindSpeed9am <- as.numeric(rain_df$WindSpeed9am)
-rain_df$Cloud3pm <- as.numeric(rain_df$Cloud3pm)
-rain_df$Cloud9am <- as.numeric(rain_df$Cloud9am)
-
-```
+# ```{r}
+# #Change all variables into numerical to check correlation **added part**
+# 
+# rain_df$WindDir9am[rain_df$WindDir9am == "N"] <- 1
+# rain_df$WindDir9am[rain_df$WindDir9am == "E"] <- 10
+# rain_df$WindDir9am[rain_df$WindDir9am == "S"] <- 100
+# rain_df$WindDir9am[rain_df$WindDir9am == "W"] <- 1000
+# 
+# rain_df$WindDir9am[rain_df$WindDir9am == "N"] <- 1
+# rain_df$WindDir9am[rain_df$WindDir9am == "E"] <- 10
+# rain_df$WindDir9am[rain_df$WindDir9am == "S"] <- 100
+# rain_df$WindDir9am[rain_df$WindDir9am == "W"] <- 1000
+# 
+# rain_df$WindDir3pm[rain_df$WindDir3pm == "N"] <- 1
+# rain_df$WindDir3pm[rain_df$WindDir3pm == "E"] <- 10
+# rain_df$WindDir3pm[rain_df$WindDir3pm == "S"] <- 100
+# rain_df$WindDir3pm[rain_df$WindDir3pm == "W"] <- 1000
+# 
+# rain_df$WindGustDir[rain_df$WindGustDir == "N"] <- 1
+# rain_df$WindGustDir[rain_df$WindGustDir == "E"] <- 10
+# rain_df$WindGustDir[rain_df$WindGustDir == "S"] <- 100
+# rain_df$WindGustDir[rain_df$WindGustDir == "W"] <- 1000
+# 
+# rain_df$WindGustDir <- as.numeric(rain_df$WindGustDir)
+# rain_df$WindDir9am <- as.numeric(rain_df$WindDir9am)
+# rain_df$WindDir3pm <- as.numeric(rain_df$WindDir3pm)
+# rain_df$WindGustSpeed <- as.numeric(rain_df$WindGustSpeed)
+# rain_df$Humidity3pm <- as.numeric(rain_df$Humidity3pm)
+# rain_df$Humidity9am <- as.numeric(rain_df$Humidity9am)
+# rain_df$WindSpeed3pm <- as.numeric(rain_df$WindSpeed3pm)
+# rain_df$WindSpeed9am <- as.numeric(rain_df$WindSpeed9am)
+# rain_df$Cloud3pm <- as.numeric(rain_df$Cloud3pm)
+# rain_df$Cloud9am <- as.numeric(rain_df$Cloud9am)
+# 
+# ```
 
 ## 3.4. Final feature selection
 
 ```{r}
 #Select best features
 
-rain_df_selected <- data.frame(rain_df$Month, rain_df$RainTomorrow, rain_df$Sunshine, rain_df$Pressure9am, rain_df$Pressure3pm, rain_df$Temp3pm, rain_df$MaxTemp, rain_df$WindGustSpeed, rain_df$Rainfall, rain_df$Cloud9am, rain_df$Humidity9am, rain_df$DeltaHumidity, rain_df$Cloud3pm, rain_df$Evaporation , rain_df$RainToday, rain_df$Humidity3pm, rain_df$WindGustDir, rain_df$DeltaPressure)
-rain_df_selected$WindChange <- rain_df$WindDir3pm - rain_df$WindDir9am
+rain_df_selected <- data.frame(rain_df$Month, rain_df$RainTomorrow, rain_df$Sunshine, rain_df$Pressure9am, rain_df$Pressure3pm, rain_df$Temp3pm, rain_df$MaxTemp, rain_df$WindGustSpeed, rain_df$Rainfall, rain_df$Cloud9am, rain_df$Humidity9am, rain_df$DeltaHumidity, rain_df$Cloud3pm, rain_df$Evaporation , rain_df$RainToday, rain_df$Humidity3pm, rain_df$DeltaPressure, rain_df$WindGustDir, rain_df$WindChange)
+
+tail(rain_df_selected)
 ```
 
 ```{r}
 #Look for correlation between features
 
-cor_df <- round(cor(rain_df_selected), 2)
+cor_df <- round(cor(rain_df_selected[,-c(18,19)]), 2)
 
 m_cor_df <- melt(cor_df)
 
@@ -867,29 +752,14 @@ tail(rain_df_selected)
 ```{r}
 #Check again for strong correlation between features
 
-cor_df <- round(cor(rain_df_selected), 2)
+cor_df <- round(cor(rain_df_selected[,-c(16,17)]), 2)
 
 m_cor_df <- melt(cor_df)
 
 ggplot(data = m_cor_df, aes(x=Var1, y=Var2, fill=value)) + geom_tile() + geom_text(aes(label = value), size = 1) + scale_fill_gradient2(low = "darkred", high = "red",)
 ```
 
-```{r}
-#Split features and label
-
-y <- rain_df_selected$rain_df.RainTomorrow
-x <- rain_df_selected[-2]
-```
-
-```{r}
-dim(x)
-```
-
 # 4. Balancing and Standarizing
-
-```{r}
-tail(x)
-```
 
 NADIMS PART
 
