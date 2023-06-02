@@ -162,9 +162,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MLmetrics) <span class="co">#metrics for machine learning (similar to Metrics library)</span></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071) <span class="co">#svm</span></span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xgboost) <span class="co">#xgboost model</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret) <span class="co">#dummy variables, precision metrics, knn</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RSBID) <span class="co">#We will need SMOTE_NC from it</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#collection of packages for data science</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret) <span class="co">#precision metrics, knn</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fastDummies)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RSBID) <span class="co">#We will need SMOTE_NC from it</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#collection of packages for data science</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Data loading:</p>
 <div class="cell">
@@ -1308,52 +1309,31 @@ rain_df.DeltaCloud      0.044685159</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Select best features</span></span>
 <span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>rain_df_selected <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(rain_df<span class="sc">$</span>Month, rain_df<span class="sc">$</span>RainTomorrow, rain_df<span class="sc">$</span>Sunshine, rain_df<span class="sc">$</span>Pressure9am, rain_df<span class="sc">$</span>Pressure3pm, rain_df<span class="sc">$</span>Temp3pm, rain_df<span class="sc">$</span>MaxTemp, rain_df<span class="sc">$</span>WindGustSpeed, rain_df<span class="sc">$</span>Rainfall, rain_df<span class="sc">$</span>Cloud9am, rain_df<span class="sc">$</span>Humidity9am, rain_df<span class="sc">$</span>DeltaHumidity, rain_df<span class="sc">$</span>Cloud3pm, rain_df<span class="sc">$</span>Evaporation , rain_df<span class="sc">$</span>RainToday, rain_df<span class="sc">$</span>Humidity3pm, rain_df<span class="sc">$</span>DeltaPressure, rain_df<span class="sc">$</span>WindGustDir, rain_df<span class="sc">$</span>WindChange)</span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>rain_df_selected <span class="ot">&lt;-</span> rain_df[,<span class="fu">c</span>(<span class="st">"Month"</span>,<span class="st">"RainTomorrow"</span>,<span class="st">"Sunshine"</span>,<span class="st">"Pressure9am"</span>,<span class="st">"Pressure3pm"</span>,<span class="st">"Temp3pm"</span>,<span class="st">"MaxTemp"</span>,<span class="st">"WindGustSpeed"</span>,<span class="st">"Rainfall"</span>,<span class="st">"Cloud9am"</span>,<span class="st">"Humidity9am"</span>,<span class="st">"DeltaHumidity"</span>,<span class="st">"Cloud3pm"</span>,<span class="st">"Evaporation"</span>,<span class="st">"RainToday"</span>,<span class="st">"Humidity3pm"</span>,<span class="st">"DeltaPressure"</span>,<span class="st">"WindGustDir"</span>,<span class="st">"WindChange"</span>)]</span>
 <span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(rain_df_selected)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      rain_df.Month rain_df.RainTomorrow rain_df.Sunshine rain_df.Pressure9am
-74372             6                    0             10.9              1014.6
-74373             6                    0             11.0              1013.9
-74374             6                    0              8.6              1014.6
-74375             6                    0             11.0              1015.3
-74376             6                    0             10.6              1014.9
-74377             6                    0             10.7              1013.9
-      rain_df.Pressure3pm rain_df.Temp3pm rain_df.MaxTemp rain_df.WindGustSpeed
-74372              1010.6            32.7            33.0                    44
-74373              1010.5            32.3            33.4                    35
-74374              1011.2            32.0            32.6                    37
-74375              1011.8            32.1            32.8                    33
-74376              1010.7            29.2            31.8                    26
-74377              1009.7            31.0            31.7                    30
-      rain_df.Rainfall rain_df.Cloud9am rain_df.Humidity9am
-74372                0                1                  43
-74373                0                0                  63
-74374                0                7                  56
-74375                0                0                  46
-74376                0                1                  62
-74377                0                6                  73
-      rain_df.DeltaHumidity rain_df.Cloud3pm rain_df.Evaporation
-74372                   -15                1                 5.2
-74373                   -31                1                 6.0
-74374                   -28                0                 7.6
-74375                   -23                0                 5.6
-74376                    -4                1                 6.2
-74377                   -41                5                 5.6
-      rain_df.RainToday rain_df.Humidity3pm rain_df.DeltaPressure
-74372                 0                  28                  -4.0
-74373                 0                  32                  -3.4
-74374                 0                  28                  -3.4
-74375                 0                  23                  -3.5
-74376                 0                  58                  -4.2
-74377                 0                  32                  -4.2
-      rain_df.WindGustDir rain_df.WindChange
-74372                   E                 EE
-74373                   E                 NE
-74374                   E                 EE
-74375                   E                 WE
-74376                   E                 NE
-74377                   E                 NE</code></pre>
+<pre><code>      Month RainTomorrow Sunshine Pressure9am Pressure3pm Temp3pm MaxTemp
+74372     6            0     10.9      1014.6      1010.6    32.7    33.0
+74373     6            0     11.0      1013.9      1010.5    32.3    33.4
+74374     6            0      8.6      1014.6      1011.2    32.0    32.6
+74375     6            0     11.0      1015.3      1011.8    32.1    32.8
+74376     6            0     10.6      1014.9      1010.7    29.2    31.8
+74377     6            0     10.7      1013.9      1009.7    31.0    31.7
+      WindGustSpeed Rainfall Cloud9am Humidity9am DeltaHumidity Cloud3pm
+74372            44        0        1          43           -15        1
+74373            35        0        0          63           -31        1
+74374            37        0        7          56           -28        0
+74375            33        0        0          46           -23        0
+74376            26        0        1          62            -4        1
+74377            30        0        6          73           -41        5
+      Evaporation RainToday Humidity3pm DeltaPressure WindGustDir WindChange
+74372         5.2         0          28          -4.0           E         EE
+74373         6.0         0          32          -3.4           E         NE
+74374         7.6         0          28          -3.4           E         EE
+74375         5.6         0          23          -3.5           E         WE
+74376         6.2         0          58          -4.2           E         NE
+74377         5.6         0          32          -4.2           E         NE</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1382,41 +1362,27 @@ rain_df.DeltaCloud      0.044685159</code></pre>
 <span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(rain_df_selected)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      rain_df.Month rain_df.RainTomorrow rain_df.Sunshine rain_df.Pressure3pm
-74372             6                    0             10.9              1010.6
-74373             6                    0             11.0              1010.5
-74374             6                    0              8.6              1011.2
-74375             6                    0             11.0              1011.8
-74376             6                    0             10.6              1010.7
-74377             6                    0             10.7              1009.7
-      rain_df.MaxTemp rain_df.WindGustSpeed rain_df.Rainfall rain_df.Cloud9am
-74372            33.0                    44                0                1
-74373            33.4                    35                0                0
-74374            32.6                    37                0                7
-74375            32.8                    33                0                0
-74376            31.8                    26                0                1
-74377            31.7                    30                0                6
-      rain_df.Humidity9am rain_df.DeltaHumidity rain_df.Cloud3pm
-74372                  43                   -15                1
-74373                  63                   -31                1
-74374                  56                   -28                0
-74375                  46                   -23                0
-74376                  62                    -4                1
-74377                  73                   -41                5
-      rain_df.Evaporation rain_df.RainToday rain_df.Humidity3pm
-74372                 5.2                 0                  28
-74373                 6.0                 0                  32
-74374                 7.6                 0                  28
-74375                 5.6                 0                  23
-74376                 6.2                 0                  58
-74377                 5.6                 0                  32
-      rain_df.DeltaPressure rain_df.WindGustDir rain_df.WindChange
-74372                  -4.0                   E                 EE
-74373                  -3.4                   E                 NE
-74374                  -3.4                   E                 EE
-74375                  -3.5                   E                 WE
-74376                  -4.2                   E                 NE
-74377                  -4.2                   E                 NE</code></pre>
+<pre><code>      Month RainTomorrow Sunshine Pressure3pm MaxTemp WindGustSpeed Rainfall
+74372     6            0     10.9      1010.6    33.0            44        0
+74373     6            0     11.0      1010.5    33.4            35        0
+74374     6            0      8.6      1011.2    32.6            37        0
+74375     6            0     11.0      1011.8    32.8            33        0
+74376     6            0     10.6      1010.7    31.8            26        0
+74377     6            0     10.7      1009.7    31.7            30        0
+      Cloud9am Humidity9am DeltaHumidity Cloud3pm Evaporation RainToday
+74372        1          43           -15        1         5.2         0
+74373        0          63           -31        1         6.0         0
+74374        7          56           -28        0         7.6         0
+74375        0          46           -23        0         5.6         0
+74376        1          62            -4        1         6.2         0
+74377        6          73           -41        5         5.6         0
+      Humidity3pm DeltaPressure WindGustDir WindChange
+74372          28          -4.0           E         EE
+74373          32          -3.4           E         NE
+74374          28          -3.4           E         EE
+74375          23          -3.5           E         WE
+74376          58          -4.2           E         NE
+74377          32          -4.2           E         NE</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1435,14 +1401,131 @@ rain_df.DeltaCloud      0.044685159</code></pre>
 </section>
 <section id="balancing-and-standarizing" class="level1">
 <h1>4. Balancing and Standarizing</h1>
-<p>NADIMS PART</p>
+<p>First of all, we will be using SMOTE_NC (version of SMOTE which can use categorical variables) to rebalance our datasets:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>categorical <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Month"</span>,<span class="st">"RainTomorrow"</span>,<span class="st">"RainToday"</span>,<span class="st">"WindGustDir"</span>,<span class="st">"WindChange"</span>)</span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>rain_df_selected[,categorical] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(rain_df_selected[,categorical],factor)</span>
+<span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-5"><a href="#cb122-5" aria-hidden="true" tabindex="-1"></a>data_selected<span class="ot">&lt;-</span><span class="fu">SMOTE_NC</span>(rain_df_selected,<span class="st">"RainTomorrow"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, we will create dummy variables for our nonbinary categorical variables (k-1 dummy variables for factors with k levels, this wasn’t done in jupyter notebook code, but it should have been):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>data_selected<span class="ot">&lt;-</span><span class="fu">dummy_cols</span>(data_selected, <span class="at">select_columns =</span> <span class="fu">c</span>(<span class="st">"Month"</span>,<span class="st">"WindChange"</span>,<span class="st">"WindGustDir"</span>), <span class="at">remove_first_dummy =</span> <span class="cn">TRUE</span>, <span class="at">remove_selected_columns =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, we sould standarize our data. We will use min-max scaler for it:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>process <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(data_selected, <span class="at">method=</span><span class="fu">c</span>(<span class="st">"range"</span>))</span>
+<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>data_selected_normalized <span class="ot">&lt;-</span> <span class="fu">predict</span>(process, data_selected)</span>
+<span id="cb124-4"><a href="#cb124-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-5"><a href="#cb124-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>)</span>
+<span id="cb124-6"><a href="#cb124-6" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb124-7"><a href="#cb124-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">colnames</span>(data_selected_normalized[i]))</span>
+<span id="cb124-8"><a href="#cb124-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">mean</span>(data_selected_normalized[,i]))</span>
+<span id="cb124-9"><a href="#cb124-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Sunshine"
+[1] 0.4484937
+[1] "Pressure3pm"
+[1] 0.5969981
+[1] "MaxTemp"
+[1] 0.4294424
+[1] "WindGustSpeed"
+[1] 0.5153584
+[1] "Rainfall"
+[1] 0.04605154
+[1] "Cloud9am"
+[1] 0.5360402
+[1] "Humidity9am"
+[1] 0.7015975
+[1] "DeltaHumidity"
+[1] 0.4239085
+[1] "Cloud3pm"
+[1] 0.5508974
+[1] "Evaporation"
+[1] 0.365016
+[1] "RainToday"
+[1] NA
+[1] "Humidity3pm"
+[1] 0.5630995
+[1] "DeltaPressure"
+[1] 0.5178004</code></pre>
+</div>
+</div>
+<p>Mean values are not the same as in the jupyter notebook Python code, most probably it is due to the fact, that SMOTE_NC function works in slightly different way - sill changes are a magnitude of <span class="math inline">\(10^{-4}\)</span>.</p>
 </section>
 <section id="split-train-and-test" class="level1">
 <h1>5. Split train and test</h1>
-<p>#```{r} set.seed(111)</p>
-<p>split1&lt;- sample(nrow(rain_df),floor(nrow(rain_df)*0.7),replace=FALSE)</p>
-<p>train &lt;- rain_df[split1,]</p>
-<p>test &lt;- rain_df[-split1,] #&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD #<code>======= head(train)</code> &gt;&gt;&gt;&gt;&gt;&gt;&gt; 1b3e2b3bbf38c00b31d322a3bd672e29a047b39a</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">111</span>)</span>
+<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-3"><a href="#cb126-3" aria-hidden="true" tabindex="-1"></a>split1<span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(data_selected_normalized),<span class="fu">floor</span>(<span class="fu">nrow</span>(data_selected_normalized)<span class="sc">*</span><span class="fl">0.7</span>),<span class="at">replace=</span><span class="cn">FALSE</span>)</span>
+<span id="cb126-4"><a href="#cb126-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-5"><a href="#cb126-5" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> data_selected_normalized[split1,]</span>
+<span id="cb126-6"><a href="#cb126-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-7"><a href="#cb126-7" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> data_selected_normalized[<span class="sc">-</span>split1,]</span>
+<span id="cb126-8"><a href="#cb126-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-9"><a href="#cb126-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       RainTomorrow   Sunshine Pressure3pm   MaxTemp WindGustSpeed    Rainfall
+113147            1 0.38571500   0.4171573 0.6827921     0.6033740 0.044507845
+99283             1 0.50957170   0.4868742 0.6322059     0.3950592 0.062206801
+27417             0 0.60000000   0.6488673 0.5795455     0.3720930 0.000000000
+34885             0 0.44137931   0.7491909 0.2227273     0.1240310 0.002666667
+6140              0 0.59310345   0.5469256 0.4000000     0.5271318 0.002666667
+104218            1 0.04639283   0.5924522 0.2334527     0.6046512 0.091835773
+        Cloud9am Humidity9am DeltaHumidity  Cloud3pm Evaporation RainToday
+113147 0.7777778   0.7926191     0.3898836 0.6812173  0.40353748         1
+99283  0.8281049   0.6900000     0.4093036 0.5346418  0.25081387         1
+27417  0.7777778   0.5500000     0.3351648 0.7777778  0.90225564         0
+34885  0.4749152   0.9900000     0.3791209 0.4828924  0.04511278         0
+6140   0.4444444   0.7000000     0.4560440 0.4828924  0.48120301         0
+104218 0.8888889   0.9900000     0.4668469 0.5730597  0.10628169         1
+       Humidity3pm DeltaPressure Month_2 Month_3 Month_4 Month_5 Month_6
+113147   0.5900000     0.5103171       0       0       0       0       0
+99283    0.5249326     0.5068387       0       1       0       0       0
+27417    0.2500000     0.5340595       0       0       0       0       0
+34885    0.7700000     0.5168567       0       0       0       1       0
+6140     0.6200000     0.5082553       0       0       0       0       0
+104218   0.9338846     0.5521555       0       0       0       0       1
+       Month_7 Month_8 Month_9 Month_10 Month_11 Month_12 WindChange_EN
+113147       0       0       0        0        0        1             0
+99283        0       0       0        0        0        0             0
+27417        0       0       0        0        0        0             0
+34885        0       0       0        0        0        0             0
+6140         0       0       0        0        1        0             0
+104218       0       0       0        0        0        0             0
+       WindChange_ES WindChange_EW WindChange_NE WindChange_NN WindChange_NS
+113147             0             0             0             0             0
+99283              0             0             0             0             0
+27417              0             0             0             0             0
+34885              0             0             0             0             0
+6140               0             0             0             0             0
+104218             0             0             0             0             0
+       WindChange_NW WindChange_SE WindChange_SN WindChange_SS WindChange_SW
+113147             0             0             0             0             0
+99283              1             0             0             0             0
+27417              0             1             0             0             0
+34885              0             0             0             0             0
+6140               0             0             0             0             0
+104218             0             0             0             0             0
+       WindChange_WE WindChange_WN WindChange_WS WindChange_WW WindGustDir_N
+113147             0             0             0             1             0
+99283              0             0             0             0             1
+27417              0             0             0             0             0
+34885              0             1             0             0             1
+6140               0             0             1             0             0
+104218             0             1             0             0             0
+       WindGustDir_S WindGustDir_W
+113147             0             0
+99283              0             0
+27417              0             0
+34885              0             0
+6140               0             1
+104218             0             0</code></pre>
+</div>
+</div>
 </section>
 <section id="logistic-regression" class="level1">
 <h1>6. Logistic Regression</h1>

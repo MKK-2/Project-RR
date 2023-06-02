@@ -44,7 +44,8 @@ library(kableExtra) #complex tables, "kable" pipe syntax, helpfull in some cases
 library(MLmetrics) #metrics for machine learning (similar to Metrics library)
 library(e1071) #svm
 library(xgboost) #xgboost model
-library(caret) #dummy variables, precision metrics, knn
+library(caret) #precision metrics, knn
+library(fastDummies)
 library(RSBID) #We will need SMOTE_NC from it
 library(tidyverse) #collection of packages for data science
 ```
@@ -715,7 +716,7 @@ rain_df$RainToday[is.na(rain_df$RainToday)] <- Mode(rain_df$RainToday)
 ```{r}
 #Select best features
 
-rain_df_selected <- data.frame(rain_df$Month, rain_df$RainTomorrow, rain_df$Sunshine, rain_df$Pressure9am, rain_df$Pressure3pm, rain_df$Temp3pm, rain_df$MaxTemp, rain_df$WindGustSpeed, rain_df$Rainfall, rain_df$Cloud9am, rain_df$Humidity9am, rain_df$DeltaHumidity, rain_df$Cloud3pm, rain_df$Evaporation , rain_df$RainToday, rain_df$Humidity3pm, rain_df$DeltaPressure, rain_df$WindGustDir, rain_df$WindChange)
+rain_df_selected <- rain_df[,c("Month","RainTomorrow","Sunshine","Pressure9am","Pressure3pm","Temp3pm","MaxTemp","WindGustSpeed","Rainfall","Cloud9am","Humidity9am","DeltaHumidity","Cloud3pm","Evaporation","RainToday","Humidity3pm","DeltaPressure","WindGustDir","WindChange")]
 
 tail(rain_df_selected)
 ```
@@ -761,24 +762,52 @@ ggplot(data = m_cor_df, aes(x=Var1, y=Var2, fill=value)) + geom_tile() + geom_te
 
 # 4. Balancing and Standarizing
 
-NADIMS PART
+First of all, we will be using SMOTE_NC (version of SMOTE which can use categorical variables) to rebalance our datasets:
+
+```{r warning=FALSE}
+#| output: false
+categorical <- c("Month","RainTomorrow","RainToday","WindGustDir","WindChange")
+rain_df_selected[,categorical] <- lapply(rain_df_selected[,categorical],factor)
+
+
+data_selected<-SMOTE_NC(rain_df_selected,"RainTomorrow")
+```
+
+Now, we will create dummy variables for our nonbinary categorical variables (k-1 dummy variables for factors with k levels, this wasn't done in jupyter notebook code, but it should have been):
+
+```{r warning=FALSE}
+data_selected<-dummy_cols(data_selected, select_columns = c("Month","WindChange","WindGustDir"), remove_first_dummy = TRUE, remove_selected_columns = TRUE)
+```
+
+Now, we sould standarize our data. We will use min-max scaler for it:
+
+```{r warning=FALSE}
+process <- preProcess(data_selected, method=c("range"))
+
+data_selected_normalized <- predict(process, data_selected)
+
+for (i in 2:14)
+{
+  print(colnames(data_selected_normalized[i]))
+  print(mean(data_selected_normalized[,i]))
+}
+```
+Mean values are not the same as in the jupyter notebook Python code, most probably it is due to the fact, that SMOTE_NC function works in slightly different way - sill changes are a magnitude of $10^{-4}$.
 
 # 5. Split train and test
 
-#```{r}
+```{r}
 set.seed(111)
 
-split1<- sample(nrow(rain_df),floor(nrow(rain_df)*0.7),replace=FALSE)
+split1<- sample(nrow(data_selected_normalized),floor(nrow(data_selected_normalized)*0.7),replace=FALSE)
 
-train <- rain_df[split1,]
+train <- data_selected_normalized[split1,]
 
-test <- rain_df[-split1,]
-#<<<<<<< HEAD
-#```
-=======
+test <- data_selected_normalized[-split1,]
+
 head(train)
 ```
->>>>>>> 1b3e2b3bbf38c00b31d322a3bd672e29a047b39a
+
 
 # 6. Logistic Regression
 #```{r}
