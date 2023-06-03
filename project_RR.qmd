@@ -31,6 +31,7 @@ devtools::install_github("dongyuanwu/RSBID")
 
 ```{r warning=FALSE}
 #| warning: false
+library(tictoc) #for checking the training time of models
 library(corrplot) #visualization of correlation matrix
 library(tidyr) #to tidy messy data
 library(reshape2) #For creating correlation matrix for heatmap
@@ -43,9 +44,11 @@ library(Metrics) #metrics
 library(kableExtra) #complex tables, "kable" pipe syntax, helpfull in some cases
 library(MLmetrics) #metrics for machine learning (similar to Metrics library)
 library(e1071) #svm
+library(randomForest) #we need it for RandomForest
+library(ranger) #we need it for RandomForest
 library(xgboost) #xgboost model
 library(caret) #precision metrics, knn
-library(fastDummies)
+library(fastDummies) #dummy variables
 library(RSBID) #We will need SMOTE_NC from it
 library(tidyverse) #collection of packages for data science
 ```
@@ -806,78 +809,175 @@ train <- data_selected_normalized[split1,]
 test <- data_selected_normalized[-split1,]
 
 head(train)
+
+y_test=test[,1]
+x_test=test[,-1]
 ```
 
 
 # 6. Logistic Regression
-#```{r}
+
+First, let's count null accuracy in the data
+```{r}
+table(rain_df_selected[,2])
+
+cat("Null accuracy in the data:", table(rain_df_selected[,2])[1]/(table(rain_df_selected[,2])[1]+table(rain_df_selected[,2])[2]))
+```
+
+
+
+```{r}
+
 logistic_reg <- glm(RainTomorrow~.,family = binomial(link = "logit"),data=train)
+
+
+predicted <- predict(logistic_reg, newdata = test, type = "response")
+
+
+predicted<-round(predicted)
+
+table(y_test,predicted)
+
+
+cat("\n Accuracy of the model:",Accuracy(predicted,y_test),"\n")
+cat("Recall of the model:",Recall(y_test,predicted),"\n")
+cat("Precision of the model",Precision(y_test,predicted),"\n")
+cat("ROC AUC of the model:",AUC(y_test,predicted),"\n\n")
+
+cat("Accuracy scores in training set, test set and null accuracy: \n")
+cat("Training set:",Accuracy(round(predict(logistic_reg, newdata = train, type = "response")),train[1]),"\n")
+cat("Test set:",Accuracy(predicted,y_test),"\n")
+cat("Null:", table(rain_df_selected[,2])[1]/(table(rain_df_selected[,2])[1]+table(rain_df_selected[,2])[2]),"\n")
+
 ```
 We won't be doing hyperparameter tuning for logistic regression, as there is not much it could be done.
 
 # 7. SVC
-#```{r}
+```{r}
 SVM_model <- svm(RainTomorrow~., data=train)
 
+predicted_SVM_model <- predict(SVM_model, newdata = test, type = "response")
+
+predict_SVM_model_train <- predict(SVM_model, newdata = train, type="response")
+
+head(predicted_SVM_model)
+
+table(y_test,predicted_SVM_model)
+
+
+cat("\n Accuracy of the model:",Accuracy(predicted_SVM_model,y_test),"\n")
+cat("Recall of the model:",Recall(y_test,predicted_SVM_model),"\n")
+cat("Precision of the model",Precision(y_test,predicted_SVM_model),"\n")
+cat("ROC AUC of the model:",AUC(y_test,predicted_SVM_model),"\n\n")
+
+cat("Accuracy scores in training set, test set and null accuracy: \n")
+cat("Training set:",Accuracy(predict_SVM_model_train,train[,1]),"\n")
+cat("Test set:",Accuracy(predicted_SVM_model,y_test),"\n")
+cat("Null:", table(rain_df_selected[,2])[1]/(table(rain_df_selected[,2])[1]+table(rain_df_selected[,2])[2]),"\n")
+
+```
+We won't be doing CV for SVM model, due to high similarity of the training, and test set accuracy (those models take a long time to evaluate, so we will skip this step).
+
+```{r}
+tic()
 SVM_tuned <- tune.svm(RainTomorrow~., data=train,
                       degree = c(3,4),
-                      gamma = c(0.001 ,.005 ,0.01 ,0.1),
-                      cost = seq(0.1,1, by = 0.1),
+                      gamma = c(.005 ,0.01 ,0.1),
+                      cost = seq(0.1,0.9, by = 0.4),
                       epsilon = c(0.1,0.05)
                       )
+toc()
 print(SVM_tuned$best.performance)
 SVM_tuned$best.model
 ```
+
 # 8. Random Forest
 
-NADIMS PART
+
+We will use Random Forest model with similar hyperparameters as in the Jupyter Notebook code (we don't have exact set of hyperparameters, so we will use what there is, also we will use smaller number of cross validation, because R is less optimal than python and the evaluation is much longer).
+```{r}
+RF_trControl <- trainControl(method = "cv", number=4,savePredictions="final")
+
+RF_tuneGrid <- expand.grid(mtry=c(15,20,30,32),
+                           splitrule=c("gini","extratrees"),
+                           min.node.size=c(1,3))
+
+tic()
+RF_model <- train(RainTomorrow~.,
+                  data=train,method="ranger",
+                  trControl=RF_trControl, 
+                  tuneGrid=RF_tuneGrid,
+                  verbose=FALSE)
+toc()
+
+predicted_RF_model<-predict(RF_model,newdata = test, type="raw")
+
+predicted_RF_model_train<-predict(RF_model,newdata = train, type="raw")
+
+table(y_test,predicted_RF_model)
+
+RF_model$results
+RF_model$bestTune
+
+cat("\n Accuracy of the model:",Accuracy(predicted_RF_model,y_test),"\n")
+cat("Recall of the model:",Recall(y_test,predicted_RF_model),"\n")
+cat("Precision of the model",Precision(y_test,predicted_RF_model),"\n")
+cat("ROC AUC of the model:",AUC(y_test,predicted_RF_model),"\n\n")
+
+cat("Accuracy scores in training set, test set and null accuracy: \n")
+cat("Training set:",Accuracy(predicted_RF_model_train,train[,1]),"\n")
+cat("Test set:",Accuracy(predicted_RF_model,y_test),"\n")
+cat("Null:", table(rain_df_selected[,2])[1]/(table(rain_df_selected[,2])[1]+table(rain_df_selected[,2])[2]),"\n")
+```
+Overfitting in train data, or specification of this model.
+
+
 
 # 9. xgboost
 
-NADIMS PART
+We chose similar hyperparameters as in jupyter notebook code. We did full grid search in our hyperparameter grid.
+```{r}
+XGB_trControl <- trainControl(method = "cv", number=4,savePredictions="final")
+
+XGB_tuneGrid <- expand.grid(nrounds=c(150,200,225,250),
+                           max_depth=c(6,7),
+                           eta=c(0.15,0.2,0.225,0.25,0.3),
+                           gamma=0,
+                           colsample_bytree=c(0.8,0.75,0.7),
+                           min_child_weight=1,
+                           subsample=1)
+
+tic()
+XGB_model <- train(RainTomorrow~.,
+                  data=train,method="xgbTree",
+                  trControl=XGB_trControl, 
+                  tuneGrid=XGB_tuneGrid)
+toc()
+
+print(XGB_model$bestTune)
+
+predicted_XGB_model<-predict(XGB_model,newdata = test, type="raw")
+
+predicted_XGB_model_train<-predict(XGB_model,newdata = train, type="raw")
+
+table(y_test,predicted_XGB_model)
+
+cat("\n Accuracy of the model:",Accuracy(predicted_XGB_model,y_test),"\n")
+cat("Recall of the model:",Recall(y_test,predicted_XGB_model),"\n")
+cat("Precision of the model",Precision(y_test,predicted_XGB_model),"\n")
+cat("ROC AUC of the model:",AUC(y_test,predicted_XGB_model),"\n\n")
+
+cat("Accuracy scores in training set, test set and null accuracy: \n")
+cat("Training set:",Accuracy(predicted_XGB_model_train,train[,1]),"\n")
+cat("Test set:",Accuracy(predicted_XGB_model,y_test),"\n")
+cat("Null:", table(rain_df_selected[,2])[1]/(table(rain_df_selected[,2])[1]+table(rain_df_selected[,2])[2]),"\n")
+
+
+
+```
+Little bit of overfitting, but similar to what we have in jupyter notebook results.
+
 
 # 10. Conclusion
 
 MICHALS PART
-
-# Replacing location to make it numerical data in order to check corelation 
-
-rain_df$Location[rain_df$Location == "Cobar"] <- 1
-rain_df$Location[rain_df$Location == "CoffsHarbour"] <- 2
-rain_df$Location[rain_df$Location == "Moree"] <- 3
-rain_df$Location[rain_df$Location == "NorfolkIsland"] <- 4
-rain_df$Location[rain_df$Location == "Sydney"] <- 5
-rain_df$Location[rain_df$Location == "SydneyAirport"] <- 6
-rain_df$Location[rain_df$Location == "WaggaWagga"] <- 7
-rain_df$Location[rain_df$Location == "Williamtown"] <- 8
-rain_df$Location[rain_df$Location == "Canberra"] <- 9
-rain_df$Location[rain_df$Location == "Sale"] <- 10
-rain_df$Location[rain_df$Location == "MelbourneAirport"] <- 11
-rain_df$Location[rain_df$Location == "Melbourne"] <- 12
-rain_df$Location[rain_df$Location == "Mildura"] <- 13
-rain_df$Location[rain_df$Location == "Portland"] <- 14
-rain_df$Location[rain_df$Location == "Watsonia"] <- 15
-rain_df$Location[rain_df$Location == "Dartmoor"] <- 16
-rain_df$Location[rain_df$Location == "Brisbane"] <- 17
-rain_df$Location[rain_df$Location == "Cairns"] <- 18
-rain_df$Location[rain_df$Location == "Townsville"] <- 19
-rain_df$Location[rain_df$Location == "Adelaide"] <- 20
-rain_df$Location[rain_df$Location == "MountGambier"] <- 21
-rain_df$Location[rain_df$Location == "Nuriootpa"] <- 22
-rain_df$Location[rain_df$Location == "Woomera"] <- 23
-rain_df$Location[rain_df$Location == "Albany"] <- 24
-rain_df$Location[rain_df$Location == "PearceRAAF"] <- 25
-rain_df$Location[rain_df$Location == "PerthAirport"] <- 26
-rain_df$Location[rain_df$Location == "Perth"] <- 27
-rain_df$Location[rain_df$Location == "Hobart"] <- 28
-rain_df$Location[rain_df$Location == "AliceSprings"] <- 29
-rain_df$Location[rain_df$Location == "Darwin"] <- 30
-
-#Changing RainToday into numerical
-
-
-rain_df$Location <- as.numeric(rain_df$Location)
-
-
-
-
