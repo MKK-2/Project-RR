@@ -42,6 +42,7 @@ library(magrittr) # %>% pipeline
 library(formattable) #data manipulation
 library(Metrics) #metrics
 library(kableExtra) #complex tables, "kable" pipe syntax, helpfull in some cases
+library(kernlab) #for SVM
 library(MLmetrics) #metrics for machine learning (similar to Metrics library)
 library(e1071) #svm
 library(randomForest) #we need it for RandomForest
@@ -678,42 +679,6 @@ rain_df$RainToday[is.na(rain_df$RainToday)] <- Mode(rain_df$RainToday)
 ```
 
 
-# ```{r}
-# #Change all variables into numerical to check correlation **added part**
-# 
-# rain_df$WindDir9am[rain_df$WindDir9am == "N"] <- 1
-# rain_df$WindDir9am[rain_df$WindDir9am == "E"] <- 10
-# rain_df$WindDir9am[rain_df$WindDir9am == "S"] <- 100
-# rain_df$WindDir9am[rain_df$WindDir9am == "W"] <- 1000
-# 
-# rain_df$WindDir9am[rain_df$WindDir9am == "N"] <- 1
-# rain_df$WindDir9am[rain_df$WindDir9am == "E"] <- 10
-# rain_df$WindDir9am[rain_df$WindDir9am == "S"] <- 100
-# rain_df$WindDir9am[rain_df$WindDir9am == "W"] <- 1000
-# 
-# rain_df$WindDir3pm[rain_df$WindDir3pm == "N"] <- 1
-# rain_df$WindDir3pm[rain_df$WindDir3pm == "E"] <- 10
-# rain_df$WindDir3pm[rain_df$WindDir3pm == "S"] <- 100
-# rain_df$WindDir3pm[rain_df$WindDir3pm == "W"] <- 1000
-# 
-# rain_df$WindGustDir[rain_df$WindGustDir == "N"] <- 1
-# rain_df$WindGustDir[rain_df$WindGustDir == "E"] <- 10
-# rain_df$WindGustDir[rain_df$WindGustDir == "S"] <- 100
-# rain_df$WindGustDir[rain_df$WindGustDir == "W"] <- 1000
-# 
-# rain_df$WindGustDir <- as.numeric(rain_df$WindGustDir)
-# rain_df$WindDir9am <- as.numeric(rain_df$WindDir9am)
-# rain_df$WindDir3pm <- as.numeric(rain_df$WindDir3pm)
-# rain_df$WindGustSpeed <- as.numeric(rain_df$WindGustSpeed)
-# rain_df$Humidity3pm <- as.numeric(rain_df$Humidity3pm)
-# rain_df$Humidity9am <- as.numeric(rain_df$Humidity9am)
-# rain_df$WindSpeed3pm <- as.numeric(rain_df$WindSpeed3pm)
-# rain_df$WindSpeed9am <- as.numeric(rain_df$WindSpeed9am)
-# rain_df$Cloud3pm <- as.numeric(rain_df$Cloud3pm)
-# rain_df$Cloud9am <- as.numeric(rain_df$Cloud9am)
-# 
-# ```
-
 ## 3.4. Final feature selection
 
 ```{r}
@@ -876,20 +841,8 @@ cat("Test set:",Accuracy(predicted_SVM_model,y_test),"\n")
 cat("Null:", table(rain_df_selected[,2])[1]/(table(rain_df_selected[,2])[1]+table(rain_df_selected[,2])[2]),"\n")
 
 ```
-We won't be doing CV for SVM model, due to high similarity of the training, and test set accuracy (those models take a long time to evaluate, so we will skip this step).
+We won't be doing CV and hyperparameter tuning for SVM model, due to very long training time (several hours, we couldn't find good package, which would work faster).
 
-```{r}
-tic()
-SVM_tuned <- tune.svm(RainTomorrow~., data=train,
-                      degree = c(3,4),
-                      gamma = c(.005 ,0.01 ,0.1),
-                      cost = seq(0.1,0.9, by = 0.4),
-                      epsilon = c(0.1,0.05)
-                      )
-toc()
-print(SVM_tuned$best.performance)
-SVM_tuned$best.model
-```
 
 # 8. Random Forest
 
@@ -936,7 +889,8 @@ Overfitting in train data, or specification of this model.
 # 9. xgboost
 
 We chose similar hyperparameters as in jupyter notebook code. We did full grid search in our hyperparameter grid.
-```{r}
+```{r warning=FALSE}
+#| warning: false
 XGB_trControl <- trainControl(method = "cv", number=4,savePredictions="final")
 
 XGB_tuneGrid <- expand.grid(nrounds=c(150,200,225,250),
