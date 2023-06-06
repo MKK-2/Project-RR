@@ -50,7 +50,7 @@ library(ranger) #we need it for RandomForest
 library(xgboost) #xgboost model
 library(caret) #precision metrics, knn
 library(fastDummies) #dummy variables
-library(RSBID) #We will need SMOTE_NC from it
+#library(RSBID) #We will need SMOTE_NC from it
 library(tidyverse) #collection of packages for data science
 ```
 
@@ -73,7 +73,6 @@ tail(rain_df)
 
 dim(rain_df)
 ```
-
 
 ```{r}
 # Check for missing data in target variable
@@ -129,7 +128,7 @@ We can see that there are 23 variables in which:
 
 **5 Character:** Location, WindGustDir, WindDir9am, WindDir3pm ,RainToday.
 
-**9 Numerical:** Temp9am, Temp3pm, Pressure9am, Pressure3pm, MinTemp, MaxTemp, Rainfall, Evaporation, Sunshine, RainTomorrow.  
+**9 Numerical:** Temp9am, Temp3pm, Pressure9am, Pressure3pm, MinTemp, MaxTemp, Rainfall, Evaporation, Sunshine, RainTomorrow.
 
 ```{r}
 # Check for unique data for Categorical in order to decide weather one hot encoding is viable option.
@@ -398,7 +397,6 @@ boxplot(WindGustSpeed ~ RainTomorrow, data = rain_df)
 
 ### WindSpeed9am
 
-
 ```{r}
 # Check for outliers using Box Plot
 
@@ -649,7 +647,7 @@ Most correlated more than **0.09** with **RainTommorow**:
 
 **Sunshine, Pressure9am, Pressure3pm, Temp3pm, MaxTemp, Evaporation, WindGustSpeed, Rainfall, Cloud9am, Humidity9am, DeltaHumidity, Cloud3pm, Humidity3pm, DeltaPressure.**
 
-## 3.2. Creating new categorical variable
+## 3.2. Creating new character variable
 
 ```{r}
 # Like the previous case but with categorical data creating the variable to investigate relation of change in wind direction to the 'RainTommorow'
@@ -661,23 +659,81 @@ tail(rain_df$WindChange)
 
 ## 3.3. Investigating object-typed attribute distribution
 
-#```{r}
-pie()
-```
-
-#```{r}
-pie(WindDir9am ~ RainTomorrow, data = rain_df)
-```
-
-```{r}
+We had to move this line of code here in order to avoid plot error where RainToday variable was showing a "character"  
+```{r warning=FALSE}
 # Replace objects Yes with 1 and No with 0
-
 rain_df["RainToday"][rain_df["RainToday"] == "Yes"] <- 1
 rain_df["RainToday"][rain_df["RainToday"] == "No"] <- 0
 rain_df$RainToday <- as.numeric(rain_df$RainToday)
 rain_df$RainToday[is.na(rain_df$RainToday)] <- Mode(rain_df$RainToday)
 ```
 
+We had to add data filtration since we cannot plot it the same way as previous boxplots.
+```{r} 
+# Visualise and look for noticable between RainTomorrow 1 and 0
+
+fdf1 <- subset(rain_df, RainTomorrow == 1)
+fdf0 <- subset(rain_df, RainTomorrow == 0)
+
+pie(table(fdf1$WindDir9am), main = "RainRomorrow 1")
+pie(table(fdf0$WindDir9am), main = "RainRomorrow 0") 
+```
+
+```{r} 
+# Visualise and look for noticable between RainTomorrow 1 and 0
+
+pie(table(fdf1$WindDir3pm), main = "RainRomorrow 1")
+pie(table(fdf0$WindDir3pm), main = "RainRomorrow 0") 
+```
+
+
+
+```{r} 
+# Visualise and look for noticable between RainTomorrow 1 and 0
+
+pie(table(fdf1$WindGustDir), main = "RainRomorrow 1")
+pie(table(fdf0$WindGustDir), main = "RainRomorrow 0") 
+```
+
+```{r}
+# Visualise and look for noticable between RainTomorrow 1 and 0
+
+pie(table(fdf1$WindChange), main = "RainRomorrow 1")
+pie(table(fdf0$WindChange), main = "RainRomorrow 0")
+```
+
+```{r} 
+# Visualise and look for noticable between RainTomorrow 1 and 0
+
+barplot(prop.table(table(fdf1$WindChange)),main = "RainRomorrow 1")
+barplot(prop.table(table(fdf0$WindChange)),main = "RainRomorrow 0")
+```
+
+```{r}
+# Visualise and look for noticable between RainTomorrow 1 and 0
+
+barplot(prop.table(table(fdf1$Location)),main = "RainRomorrow 1")
+barplot(prop.table(table(fdf0$Location)),main = "RainRomorrow 0")
+```
+
+```{r}
+# Visualise and look for noticable between RainTomorrow 1 and 0
+
+pie(table(fdf1$RainToday), main = "RainRomorrow 1")
+pie(table(fdf0$RainToday), main = "RainRomorrow 0")
+```
+
+Looking at distributions above we decided to use **RainToday**, **WindChange** and **WindGusDir**, because of the difference in plots between situations where **RainTommorow** is equal to 0 and 1. We decided not to include Location because of not that big difference in relation to number of categories in that variable. We also did not include **WindDir9am** and **WindDir3pm**, because of big possibility of correlation to already used **WindGusDir**.
+
+```{r}
+# Look for missing data again
+
+for(i in 1:dim(rain_df)[2])
+{
+  print(colnames(rain_df[i]))
+  print(sum(is.na(rain_df[,i])))
+}
+```
 
 ## 3.4. Final feature selection
 
@@ -760,6 +816,7 @@ for (i in 2:14)
   print(mean(data_selected_normalized[,i]))
 }
 ```
+
 Mean values are not the same as in the jupyter notebook Python code, most probably it is due to the fact, that SMOTE_NC function works in slightly different way - sill changes are a magnitude of $10^{-4}$.
 
 # 5. Split train and test
@@ -779,17 +836,15 @@ y_test=test[,1]
 x_test=test[,-1]
 ```
 
-
 # 6. Logistic Regression
 
 First, let's count null accuracy in the data
+
 ```{r}
 table(rain_df_selected[,2])
 
 cat("Null accuracy in the data:", table(rain_df_selected[,2])[1]/(table(rain_df_selected[,2])[1]+table(rain_df_selected[,2])[2]))
 ```
-
-
 
 ```{r}
 
@@ -815,9 +870,11 @@ cat("Test set:",Accuracy(predicted,y_test),"\n")
 cat("Null:", table(rain_df_selected[,2])[1]/(table(rain_df_selected[,2])[1]+table(rain_df_selected[,2])[2]),"\n")
 
 ```
+
 We won't be doing hyperparameter tuning for logistic regression, as there is not much it could be done.
 
 # 7. SVC
+
 ```{r}
 SVM_model <- svm(RainTomorrow~., data=train)
 
@@ -841,13 +898,13 @@ cat("Test set:",Accuracy(predicted_SVM_model,y_test),"\n")
 cat("Null:", table(rain_df_selected[,2])[1]/(table(rain_df_selected[,2])[1]+table(rain_df_selected[,2])[2]),"\n")
 
 ```
-We won't be doing CV and hyperparameter tuning for SVM model, due to very long training time (several hours, we couldn't find good package, which would work faster).
 
+We won't be doing CV and hyperparameter tuning for SVM model, due to very long training time (several hours, we couldn't find good package, which would work faster).
 
 # 8. Random Forest
 
-
 We will use Random Forest model with similar hyperparameters as in the Jupyter Notebook code (we don't have exact set of hyperparameters, so we will use what there is, also we will use smaller number of cross validation, because R is less optimal than python and the evaluation is much longer).
+
 ```{r}
 RF_trControl <- trainControl(method = "cv", number=4,savePredictions="final")
 
@@ -882,13 +939,13 @@ cat("Training set:",Accuracy(predicted_RF_model_train,train[,1]),"\n")
 cat("Test set:",Accuracy(predicted_RF_model,y_test),"\n")
 cat("Null:", table(rain_df_selected[,2])[1]/(table(rain_df_selected[,2])[1]+table(rain_df_selected[,2])[2]),"\n")
 ```
+
 Overfitting in train data, or specification of this model.
-
-
 
 # 9. xgboost
 
 We chose similar hyperparameters as in jupyter notebook code. We did full grid search in our hyperparameter grid.
+
 ```{r warning=FALSE}
 #| warning: false
 XGB_trControl <- trainControl(method = "cv", number=4,savePredictions="final")
@@ -929,9 +986,58 @@ cat("Null:", table(rain_df_selected[,2])[1]/(table(rain_df_selected[,2])[1]+tabl
 
 
 ```
+
 Little bit of overfitting, but similar to what we have in jupyter notebook results.
 
+# 10. General conclusion on reproduction of ML model
 
-# 10. Conclusion
+## Exploration
+After uploading the dataset we retraced our steps deleting rows with missing data in target variable RainTomorrow and checked the data types with only difference being the data types naming since in R there is a distinction between intenger and numerical data, there is **1 Date**: Date. **5 Character**: Location, WindGustDir, WindDir9am, WindDir3pm, RainToday. **9 Numerical**: Temp9am, Temp3pm, Pressure9am, Pressure3pm, MinTemp, MaxTemp, Rainfall, Evaporation, Sunshine, RainTomorrow. **7 Integer**: Cloud9am, Cloud3pm, WindSpeed9am, WindSpeed3pm, Humidity9am, Humidity3pm, WindGustSpeed.
 
-MICHALS PART
+## Preprocessing
+We checked for missing data using a sum(is.na()) in a loop and invalid data by analysing the results from summary() we decided dropped the missing data rows for Sunshine since as before there was a large chunk of missing data in it, the left missng data has been filled as in original case using mean and median respectfully depending on any possibility of invalid data noticed in analysis. The Suspicious numerical data remained the same: **Rainfall**, **Evaporation**, **WindGustSpeed**, **WindSpeed9am**, **WindSpeed3pm** and had very high difference betwen the mean and max value we used boxplot() to look for outliers as in python case. Afte analyzing the results with the outliers in data we recreated lower and upper boundries using interquartile range for **Evaporation**, **WindGustSpeed**, **WindSpeed9am**, **WindSpeed3pm**, in the **Rainfall** we recreated the boundry of 75 since the results above this were pointing towards 1 in **RainTomorrow**. The changes between original and outlier free data has been presented using boxplot and histograms. We simplified the character variables related to wind directions: WindDir9am, WindDir3pm, WindGustDir by changing data into dominant wind direction N, E, S and W. We extracted the month from date.
+
+## Selecting the features
+We created delta varibles for numerical variables: **WindChange**, **DeltaWindSpeed**, **DeltaHumidity**, **DeltaPressure**, **DeltaCloud**.
+
+We filtrated into two groups one where RainTomorrow = 1 and the other where RainTomorrow = 0 in order to check the character data as in original python file. Looking at distributions of character variables we did not notice any differences and we used previousley chosen **RainToday**, **WindChange** and **WindGusDir**, because of the difference in plots between situations where RainTommorow is equal to 0 and 1.
+
+Numerical variables has been chosen as in original Python model (based on their correlation with target variable). Variables with correlation above 0.09: **Sunshine**, **Pressure9am**, **Pressure3pm**, **Temp3pm**, **MaxTemp**, **Evaporation**, **WindGustSpeed**, **Rainfall**, **Cloud9am**, **Humidity9am**, **DeltaHumidity**, **Cloud3pm**, **Humidity3pm**, **DeltaPressure**.
+
+We checked the correlation between the chosen numerical variables using the heatmap from its analysis we noticed that there is still a strong correlation between **Pressure9am** and **Pressure3pm** as well as between **MaxTemp** and **Temp3pm**, from which we dropped the Pressure9am and Temp3pm for consistency. We checked once again if there is no new high correlations between the variables.
+
+## Balancing and Standardizing
+Our character features were **Month**, **RainToday**, **WindChange**, **WindGustDir**, **RainTomorrow** using the SMOTENC. We created dummy variables for our nonbinary categorical variables (k-1 dummy variables for factors with k levels, this wasn’t done in jupyter notebook code, but it should have been. Subsequently we standardized the features using MinMaxScaler in order to avoid any strong changes to the original distribution and checked it using mean() in a loop where mean values were not the same as in the jupyter notebook Python code, most probably due to the fact, that SMOTE_NC function works in slightly different way. We split the data into train - 70% and test - 30% later checking with head().
+
+## Training with different models
+We recreated the four different models (Simple Logistic Regression, Support Vector Classifier, Random Forest Classifier and Extreme Gradient Boosting Classifier) in order to look for the possible changes in results. The final classification of the models stays the same aside from minor differences in results. We decided to exclude Tuned Logistic Regression as there was not much to be done.
+
+                  The accuracy of the models compared with null accuracy:
+Null accuracy - 77%
+
+Simple Logistic Regression - 80%
+Tuned Logistic Regression - Excluded
+Support Vector Classifier - 83%
+Random Forest Classifier - 90%
+Extreme Gradient Boosting Classifier - 91%
+
+                               The recall of the models:
+Simple Logistic Regression - 80%
+Tuned Logistic Regression - Excluded
+Support Vector Classifier - 82%
+Random Forest Classifier - 89%
+Extreme Gradient Boosting Classifier - 93%
+
+                            The precission of the models:
+Simple Logistic Regression - 80%
+Tuned Logistic Regression - Excluded
+Support Vector Classifier - 85%
+Random Forest Classifier - 91%
+Extreme Gradient Boosting Classifier - 89%
+
+                       The area under the ROC curve of the models:
+Simple Logistic Regression - 80%
+Tuned Logistic Regression - Excluded
+Support Vector Classifier - 84%
+Random Forest Classifier - 90%
+Extreme Gradient Boosting Classifier - 91%
