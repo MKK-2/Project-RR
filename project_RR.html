@@ -149,27 +149,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"dongyuanwu/RSBID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tictoc) <span class="co">#for checking the training time of models</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot) <span class="co">#visualization of correlation matrix</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr) <span class="co">#to tidy messy data</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2) <span class="co">#For creating correlation matrix for heatmap</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co">#Tables, heatmaps, etc.</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast) <span class="co">#forecast for simple models</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co">#data manipulation</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr) <span class="co"># %&gt;% pipeline</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(formattable) <span class="co">#data manipulation</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Metrics) <span class="co">#metrics</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra) <span class="co">#complex tables, "kable" pipe syntax, helpfull in some cases</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kernlab) <span class="co">#for SVM</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MLmetrics) <span class="co">#metrics for machine learning (similar to Metrics library)</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071) <span class="co">#svm</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest) <span class="co">#we need it for RandomForest</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ranger) <span class="co">#we need it for RandomForest</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xgboost) <span class="co">#xgboost model</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret) <span class="co">#precision metrics, knn</span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret) <span class="co">#precision metrics, knn</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tictoc) <span class="co">#for checking the training time of models</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot) <span class="co">#visualization of correlation matrix</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr) <span class="co">#to tidy messy data</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2) <span class="co">#For creating correlation matrix for heatmap</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co">#Tables, heatmaps, etc.</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast) <span class="co">#forecast for simple models</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co">#data manipulation</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr) <span class="co"># %&gt;% pipeline</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(formattable) <span class="co">#data manipulation</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Metrics) <span class="co">#metrics</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra) <span class="co">#complex tables, "kable" pipe syntax, helpfull in some cases</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kernlab) <span class="co">#for SVM</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MLmetrics) <span class="co">#metrics for machine learning (similar to Metrics library)</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071) <span class="co">#svm</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest) <span class="co">#we need it for RandomForest</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ranger) <span class="co">#we need it for RandomForest</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xgboost) <span class="co">#xgboost model</span></span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fastDummies) <span class="co">#dummy variables</span></span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RSBID) <span class="co">#We will need SMOTE_NC from it</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#collection of packages for data science</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#collection of packages for data science</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RSNNS) <span class="co">#neural network</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Data loading:</p>
 <div class="cell">
@@ -1276,8 +1277,8 @@ rain_df.DeltaCloud      0.044685159</code></pre>
 <p>Most correlated more than <strong>0.09</strong> with <strong>RainTommorow</strong>:</p>
 <p><strong>Sunshine, Pressure9am, Pressure3pm, Temp3pm, MaxTemp, Evaporation, WindGustSpeed, Rainfall, Cloud9am, Humidity9am, DeltaHumidity, Cloud3pm, Humidity3pm, DeltaPressure.</strong></p>
 </section>
-<section id="creating-new-categorical-variable" class="level2">
-<h2 class="anchored" data-anchor-id="creating-new-categorical-variable">3.2. Creating new categorical variable</h2>
+<section id="creating-new-character-variable" class="level2">
+<h2 class="anchored" data-anchor-id="creating-new-character-variable">3.2. Creating new character variable</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Like the previous case but with categorical data creating the variable to investigate relation of change in wind direction to the 'RainTommorow'</span></span>
 <span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1291,31 +1292,179 @@ rain_df.DeltaCloud      0.044685159</code></pre>
 </section>
 <section id="investigating-object-typed-attribute-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="investigating-object-typed-attribute-distribution">3.3. Investigating object-typed attribute distribution</h2>
-<p>#<code>{r} pie()</code></p>
-<p>#<code>{r} pie(WindDir9am ~ RainTomorrow, data = rain_df)</code></p>
+<p>We had to move this line of code here in order to avoid plot error where RainToday variable was showing a “character”</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace objects Yes with 1 and No with 0</span></span>
-<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>rain_df[<span class="st">"RainToday"</span>][rain_df[<span class="st">"RainToday"</span>] <span class="sc">==</span> <span class="st">"Yes"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>rain_df[<span class="st">"RainToday"</span>][rain_df[<span class="st">"RainToday"</span>] <span class="sc">==</span> <span class="st">"No"</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>RainToday <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rain_df<span class="sc">$</span>RainToday)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: pojawiły się wartości NA na skutek przekształcenia</code></pre>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>rain_df[<span class="st">"RainToday"</span>][rain_df[<span class="st">"RainToday"</span>] <span class="sc">==</span> <span class="st">"Yes"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>rain_df[<span class="st">"RainToday"</span>][rain_df[<span class="st">"RainToday"</span>] <span class="sc">==</span> <span class="st">"No"</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>RainToday <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rain_df<span class="sc">$</span>RainToday)</span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>RainToday[<span class="fu">is.na</span>(rain_df<span class="sc">$</span>RainToday)] <span class="ot">&lt;-</span> <span class="fu">Mode</span>(rain_df<span class="sc">$</span>RainToday)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>rain_df<span class="sc">$</span>RainToday[<span class="fu">is.na</span>(rain_df<span class="sc">$</span>RainToday)] <span class="ot">&lt;-</span> <span class="fu">Mode</span>(rain_df<span class="sc">$</span>RainToday)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We had to add data filtration since we cannot plot it the same way as previous boxplots.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise and look for noticable between RainTomorrow 1 and 0</span></span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>fdf1 <span class="ot">&lt;-</span> <span class="fu">subset</span>(rain_df, RainTomorrow <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>fdf0 <span class="ot">&lt;-</span> <span class="fu">subset</span>(rain_df, RainTomorrow <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">table</span>(fdf1<span class="sc">$</span>WindDir9am), <span class="at">main =</span> <span class="st">"RainRomorrow 1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-64-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">table</span>(fdf0<span class="sc">$</span>WindDir9am), <span class="at">main =</span> <span class="st">"RainRomorrow 0"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-64-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise and look for noticable between RainTomorrow 1 and 0</span></span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">table</span>(fdf1<span class="sc">$</span>WindDir3pm), <span class="at">main =</span> <span class="st">"RainRomorrow 1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-65-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">table</span>(fdf0<span class="sc">$</span>WindDir3pm), <span class="at">main =</span> <span class="st">"RainRomorrow 0"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-65-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise and look for noticable between RainTomorrow 1 and 0</span></span>
+<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">table</span>(fdf1<span class="sc">$</span>WindGustDir), <span class="at">main =</span> <span class="st">"RainRomorrow 1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-66-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">table</span>(fdf0<span class="sc">$</span>WindGustDir), <span class="at">main =</span> <span class="st">"RainRomorrow 0"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-66-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise and look for noticable between RainTomorrow 1 and 0</span></span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">table</span>(fdf1<span class="sc">$</span>WindChange), <span class="at">main =</span> <span class="st">"RainRomorrow 1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-67-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">table</span>(fdf0<span class="sc">$</span>WindChange), <span class="at">main =</span> <span class="st">"RainRomorrow 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-67-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise and look for noticable between RainTomorrow 1 and 0</span></span>
+<span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-3"><a href="#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(fdf1<span class="sc">$</span>WindChange)),<span class="at">main =</span> <span class="st">"RainRomorrow 1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-68-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(fdf0<span class="sc">$</span>WindChange)),<span class="at">main =</span> <span class="st">"RainRomorrow 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-68-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise and look for noticable between RainTomorrow 1 and 0</span></span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(fdf1<span class="sc">$</span>Location)),<span class="at">main =</span> <span class="st">"RainRomorrow 1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-69-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(fdf0<span class="sc">$</span>Location)),<span class="at">main =</span> <span class="st">"RainRomorrow 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-69-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise and look for noticable between RainTomorrow 1 and 0</span></span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">table</span>(fdf1<span class="sc">$</span>RainToday), <span class="at">main =</span> <span class="st">"RainRomorrow 1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-70-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">table</span>(fdf0<span class="sc">$</span>RainToday), <span class="at">main =</span> <span class="st">"RainRomorrow 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="project_RR_files/figure-html/unnamed-chunk-70-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Looking at distributions above we decided to use <strong>RainToday</strong>, <strong>WindChange</strong> and <strong>WindGusDir</strong>, because of the difference in plots between situations where <strong>RainTommorow</strong> is equal to 0 and 1. We decided not to include Location because of not that big difference in relation to number of categories in that variable. We also did not include <strong>WindDir9am</strong> and <strong>WindDir3pm</strong>, because of big possibility of correlation to already used <strong>WindGusDir</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Look for missing data again</span></span>
+<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(rain_df)[<span class="dv">2</span>])</span>
+<span id="cb127-4"><a href="#cb127-4" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb127-5"><a href="#cb127-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">colnames</span>(rain_df[i]))</span>
+<span id="cb127-6"><a href="#cb127-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">sum</span>(<span class="fu">is.na</span>(rain_df[,i])))</span>
+<span id="cb127-7"><a href="#cb127-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Month"
+[1] 0
+[1] "Location"
+[1] 0
+[1] "MinTemp"
+[1] 0
+[1] "MaxTemp"
+[1] 0
+[1] "Rainfall"
+[1] 0
+[1] "Evaporation"
+[1] 0
+[1] "Sunshine"
+[1] 0
+[1] "WindGustDir"
+[1] 0
+[1] "WindGustSpeed"
+[1] 0
+[1] "WindDir9am"
+[1] 0
+[1] "WindDir3pm"
+[1] 0
+[1] "WindSpeed9am"
+[1] 0
+[1] "WindSpeed3pm"
+[1] 0
+[1] "Humidity9am"
+[1] 0
+[1] "Humidity3pm"
+[1] 0
+[1] "Pressure9am"
+[1] 0
+[1] "Pressure3pm"
+[1] 0
+[1] "Cloud9am"
+[1] 0
+[1] "Cloud3pm"
+[1] 0
+[1] "Temp9am"
+[1] 0
+[1] "Temp3pm"
+[1] 0
+[1] "RainToday"
+[1] 0
+[1] "RainTomorrow"
+[1] 0
+[1] "DeltaWindSpeed"
+[1] 0
+[1] "DeltaHumidity"
+[1] 0
+[1] "DeltaPressure"
+[1] 0
+[1] "DeltaCloud"
+[1] 0
+[1] "WindChange"
+[1] 0</code></pre>
+</div>
 </div>
 </section>
-</section>
-<section id="r-change-all-variables-into-numerical-to-check-correlation-added-part-rain_dfwinddir9amrain_dfwinddir9am-n---1-rain_dfwinddir9amrain_dfwinddir9am-e---10-rain_dfwinddir9amrain_dfwinddir9am-s---100-rain_dfwinddir9amrain_dfwinddir9am-w---1000-rain_dfwinddir9amrain_dfwinddir9am-n---1-rain_dfwinddir9amrain_dfwinddir9am-e---10-rain_dfwinddir9amrain_dfwinddir9am-s---100-rain_dfwinddir9amrain_dfwinddir9am-w---1000-rain_dfwinddir3pmrain_dfwinddir3pm-n---1-rain_dfwinddir3pmrain_dfwinddir3pm-e---10-rain_dfwinddir3pmrain_dfwinddir3pm-s---100-rain_dfwinddir3pmrain_dfwinddir3pm-w---1000-rain_dfwindgustdirrain_dfwindgustdir-n---1-rain_dfwindgustdirrain_dfwindgustdir-e---10-rain_dfwindgustdirrain_dfwindgustdir-s---100-rain_dfwindgustdirrain_dfwindgustdir-w---1000-rain_dfwindgustdir---as.numericrain_dfwindgustdir-rain_dfwinddir9am---as.numericrain_dfwinddir9am-rain_dfwinddir3pm---as.numericrain_dfwinddir3pm-rain_dfwindgustspeed---as.numericrain_dfwindgustspeed-rain_dfhumidity3pm---as.numericrain_dfhumidity3pm-rain_dfhumidity9am---as.numericrain_dfhumidity9am-rain_dfwindspeed3pm---as.numericrain_dfwindspeed3pm-rain_dfwindspeed9am---as.numericrain_dfwindspeed9am-rain_dfcloud3pm---as.numericrain_dfcloud3pm-rain_dfcloud9am---as.numericrain_dfcloud9am" class="level1">
-<h1><code>{r} # #Change all variables into numerical to check correlation **added part** #  # rain_df$WindDir9am[rain_df$WindDir9am == "N"] &lt;- 1 # rain_df$WindDir9am[rain_df$WindDir9am == "E"] &lt;- 10 # rain_df$WindDir9am[rain_df$WindDir9am == "S"] &lt;- 100 # rain_df$WindDir9am[rain_df$WindDir9am == "W"] &lt;- 1000 #  # rain_df$WindDir9am[rain_df$WindDir9am == "N"] &lt;- 1 # rain_df$WindDir9am[rain_df$WindDir9am == "E"] &lt;- 10 # rain_df$WindDir9am[rain_df$WindDir9am == "S"] &lt;- 100 # rain_df$WindDir9am[rain_df$WindDir9am == "W"] &lt;- 1000 #  # rain_df$WindDir3pm[rain_df$WindDir3pm == "N"] &lt;- 1 # rain_df$WindDir3pm[rain_df$WindDir3pm == "E"] &lt;- 10 # rain_df$WindDir3pm[rain_df$WindDir3pm == "S"] &lt;- 100 # rain_df$WindDir3pm[rain_df$WindDir3pm == "W"] &lt;- 1000 #  # rain_df$WindGustDir[rain_df$WindGustDir == "N"] &lt;- 1 # rain_df$WindGustDir[rain_df$WindGustDir == "E"] &lt;- 10 # rain_df$WindGustDir[rain_df$WindGustDir == "S"] &lt;- 100 # rain_df$WindGustDir[rain_df$WindGustDir == "W"] &lt;- 1000 #  # rain_df$WindGustDir &lt;- as.numeric(rain_df$WindGustDir) # rain_df$WindDir9am &lt;- as.numeric(rain_df$WindDir9am) # rain_df$WindDir3pm &lt;- as.numeric(rain_df$WindDir3pm) # rain_df$WindGustSpeed &lt;- as.numeric(rain_df$WindGustSpeed) # rain_df$Humidity3pm &lt;- as.numeric(rain_df$Humidity3pm) # rain_df$Humidity9am &lt;- as.numeric(rain_df$Humidity9am) # rain_df$WindSpeed3pm &lt;- as.numeric(rain_df$WindSpeed3pm) # rain_df$WindSpeed9am &lt;- as.numeric(rain_df$WindSpeed9am) # rain_df$Cloud3pm &lt;- as.numeric(rain_df$Cloud3pm) # rain_df$Cloud9am &lt;- as.numeric(rain_df$Cloud9am) #  #</code></h1>
 <section id="final-feature-selection" class="level2">
 <h2 class="anchored" data-anchor-id="final-feature-selection">3.4. Final feature selection</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Select best features</span></span>
-<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>rain_df_selected <span class="ot">&lt;-</span> rain_df[,<span class="fu">c</span>(<span class="st">"Month"</span>,<span class="st">"RainTomorrow"</span>,<span class="st">"Sunshine"</span>,<span class="st">"Pressure9am"</span>,<span class="st">"Pressure3pm"</span>,<span class="st">"Temp3pm"</span>,<span class="st">"MaxTemp"</span>,<span class="st">"WindGustSpeed"</span>,<span class="st">"Rainfall"</span>,<span class="st">"Cloud9am"</span>,<span class="st">"Humidity9am"</span>,<span class="st">"DeltaHumidity"</span>,<span class="st">"Cloud3pm"</span>,<span class="st">"Evaporation"</span>,<span class="st">"RainToday"</span>,<span class="st">"Humidity3pm"</span>,<span class="st">"DeltaPressure"</span>,<span class="st">"WindGustDir"</span>,<span class="st">"WindChange"</span>)]</span>
-<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(rain_df_selected)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Select best features</span></span>
+<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb129-3"><a href="#cb129-3" aria-hidden="true" tabindex="-1"></a>rain_df_selected <span class="ot">&lt;-</span> rain_df[,<span class="fu">c</span>(<span class="st">"Month"</span>,<span class="st">"RainTomorrow"</span>,<span class="st">"Sunshine"</span>,<span class="st">"Pressure9am"</span>,<span class="st">"Pressure3pm"</span>,<span class="st">"Temp3pm"</span>,<span class="st">"MaxTemp"</span>,<span class="st">"WindGustSpeed"</span>,<span class="st">"Rainfall"</span>,<span class="st">"Cloud9am"</span>,<span class="st">"Humidity9am"</span>,<span class="st">"DeltaHumidity"</span>,<span class="st">"Cloud3pm"</span>,<span class="st">"Evaporation"</span>,<span class="st">"RainToday"</span>,<span class="st">"Humidity3pm"</span>,<span class="st">"DeltaPressure"</span>,<span class="st">"WindGustDir"</span>,<span class="st">"WindChange"</span>)]</span>
+<span id="cb129-4"><a href="#cb129-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb129-5"><a href="#cb129-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(rain_df_selected)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Month RainTomorrow Sunshine Pressure9am Pressure3pm Temp3pm MaxTemp
 74372     6            0     10.9      1014.6      1010.6    32.7    33.0
@@ -1341,30 +1490,30 @@ rain_df.DeltaCloud      0.044685159</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Look for correlation between features</span></span>
-<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a>cor_df <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(rain_df_selected[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">18</span>,<span class="dv">19</span>)]), <span class="dv">2</span>)</span>
-<span id="cb117-4"><a href="#cb117-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb117-5"><a href="#cb117-5" aria-hidden="true" tabindex="-1"></a>m_cor_df <span class="ot">&lt;-</span> <span class="fu">melt</span>(cor_df)</span>
-<span id="cb117-6"><a href="#cb117-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb117-7"><a href="#cb117-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> m_cor_df, <span class="fu">aes</span>(<span class="at">x=</span>Var1, <span class="at">y=</span>Var2, <span class="at">fill=</span>value)) <span class="sc">+</span> <span class="fu">geom_tile</span>() <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> value), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"darkred"</span>, <span class="at">high =</span> <span class="st">"red"</span>,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Look for correlation between features</span></span>
+<span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb131-3"><a href="#cb131-3" aria-hidden="true" tabindex="-1"></a>cor_df <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(rain_df_selected[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">18</span>,<span class="dv">19</span>)]), <span class="dv">2</span>)</span>
+<span id="cb131-4"><a href="#cb131-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb131-5"><a href="#cb131-5" aria-hidden="true" tabindex="-1"></a>m_cor_df <span class="ot">&lt;-</span> <span class="fu">melt</span>(cor_df)</span>
+<span id="cb131-6"><a href="#cb131-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb131-7"><a href="#cb131-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> m_cor_df, <span class="fu">aes</span>(<span class="at">x=</span>Var1, <span class="at">y=</span>Var2, <span class="at">fill=</span>value)) <span class="sc">+</span> <span class="fu">geom_tile</span>() <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> value), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"darkred"</span>, <span class="at">high =</span> <span class="st">"red"</span>,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="project_RR_files/figure-html/unnamed-chunk-65-1.png" class="img-fluid" width="672"></p>
+<p><img src="project_RR_files/figure-html/unnamed-chunk-73-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Strong correlation:</p>
 <p><strong>Pressure9am</strong> and <strong>Pressure3pm</strong></p>
 <p><strong>MaxTemp</strong> and <strong>Temp3pm</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Drop features with strong correlation</span></span>
-<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>rain_df_selected <span class="ot">&lt;-</span> rain_df_selected[<span class="sc">-</span><span class="dv">4</span>]</span>
-<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a>rain_df_selected <span class="ot">&lt;-</span> rain_df_selected[<span class="sc">-</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Drop features with strong correlation</span></span>
+<span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb132-3"><a href="#cb132-3" aria-hidden="true" tabindex="-1"></a>rain_df_selected <span class="ot">&lt;-</span> rain_df_selected[<span class="sc">-</span><span class="dv">4</span>]</span>
+<span id="cb132-4"><a href="#cb132-4" aria-hidden="true" tabindex="-1"></a>rain_df_selected <span class="ot">&lt;-</span> rain_df_selected[<span class="sc">-</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check selected data</span></span>
-<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(rain_df_selected)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check selected data</span></span>
+<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb133-3"><a href="#cb133-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(rain_df_selected)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Month RainTomorrow Sunshine Pressure3pm MaxTemp WindGustSpeed Rainfall
 74372     6            0     10.9      1010.6    33.0            44        0
@@ -1390,15 +1539,15 @@ rain_df.DeltaCloud      0.044685159</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Check again for strong correlation between features</span></span>
-<span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb121-3"><a href="#cb121-3" aria-hidden="true" tabindex="-1"></a>cor_df <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(rain_df_selected[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">16</span>,<span class="dv">17</span>)]), <span class="dv">2</span>)</span>
-<span id="cb121-4"><a href="#cb121-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb121-5"><a href="#cb121-5" aria-hidden="true" tabindex="-1"></a>m_cor_df <span class="ot">&lt;-</span> <span class="fu">melt</span>(cor_df)</span>
-<span id="cb121-6"><a href="#cb121-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb121-7"><a href="#cb121-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> m_cor_df, <span class="fu">aes</span>(<span class="at">x=</span>Var1, <span class="at">y=</span>Var2, <span class="at">fill=</span>value)) <span class="sc">+</span> <span class="fu">geom_tile</span>() <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> value), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"darkred"</span>, <span class="at">high =</span> <span class="st">"red"</span>,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Check again for strong correlation between features</span></span>
+<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb135-3"><a href="#cb135-3" aria-hidden="true" tabindex="-1"></a>cor_df <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(rain_df_selected[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">16</span>,<span class="dv">17</span>)]), <span class="dv">2</span>)</span>
+<span id="cb135-4"><a href="#cb135-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb135-5"><a href="#cb135-5" aria-hidden="true" tabindex="-1"></a>m_cor_df <span class="ot">&lt;-</span> <span class="fu">melt</span>(cor_df)</span>
+<span id="cb135-6"><a href="#cb135-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb135-7"><a href="#cb135-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> m_cor_df, <span class="fu">aes</span>(<span class="at">x=</span>Var1, <span class="at">y=</span>Var2, <span class="at">fill=</span>value)) <span class="sc">+</span> <span class="fu">geom_tile</span>() <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> value), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"darkred"</span>, <span class="at">high =</span> <span class="st">"red"</span>,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="project_RR_files/figure-html/unnamed-chunk-68-1.png" class="img-fluid" width="672"></p>
+<p><img src="project_RR_files/figure-html/unnamed-chunk-76-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -1407,54 +1556,54 @@ rain_df.DeltaCloud      0.044685159</code></pre>
 <h1>4. Balancing and Standarizing</h1>
 <p>First of all, we will be using SMOTE_NC (version of SMOTE which can use categorical variables) to rebalance our datasets:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>categorical <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Month"</span>,<span class="st">"RainTomorrow"</span>,<span class="st">"RainToday"</span>,<span class="st">"WindGustDir"</span>,<span class="st">"WindChange"</span>)</span>
-<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>rain_df_selected[,categorical] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(rain_df_selected[,categorical],factor)</span>
-<span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb122-5"><a href="#cb122-5" aria-hidden="true" tabindex="-1"></a>data_selected<span class="ot">&lt;-</span><span class="fu">SMOTE_NC</span>(rain_df_selected,<span class="st">"RainTomorrow"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>categorical <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Month"</span>,<span class="st">"RainTomorrow"</span>,<span class="st">"RainToday"</span>,<span class="st">"WindGustDir"</span>,<span class="st">"WindChange"</span>)</span>
+<span id="cb136-2"><a href="#cb136-2" aria-hidden="true" tabindex="-1"></a>rain_df_selected[,categorical] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(rain_df_selected[,categorical],factor)</span>
+<span id="cb136-3"><a href="#cb136-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb136-4"><a href="#cb136-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb136-5"><a href="#cb136-5" aria-hidden="true" tabindex="-1"></a>data_selected<span class="ot">&lt;-</span><span class="fu">SMOTE_NC</span>(rain_df_selected,<span class="st">"RainTomorrow"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, we will create dummy variables for our nonbinary categorical variables (k-1 dummy variables for factors with k levels, this wasn’t done in jupyter notebook code, but it should have been):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>data_selected<span class="ot">&lt;-</span><span class="fu">dummy_cols</span>(data_selected, <span class="at">select_columns =</span> <span class="fu">c</span>(<span class="st">"Month"</span>,<span class="st">"WindChange"</span>,<span class="st">"WindGustDir"</span>), <span class="at">remove_first_dummy =</span> <span class="cn">TRUE</span>, <span class="at">remove_selected_columns =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a>data_selected<span class="ot">&lt;-</span><span class="fu">dummy_cols</span>(data_selected, <span class="at">select_columns =</span> <span class="fu">c</span>(<span class="st">"Month"</span>,<span class="st">"WindChange"</span>,<span class="st">"WindGustDir"</span>), <span class="at">remove_first_dummy =</span> <span class="cn">TRUE</span>, <span class="at">remove_selected_columns =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, we sould standarize our data. We will use min-max scaler for it:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>process <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(data_selected, <span class="at">method=</span><span class="fu">c</span>(<span class="st">"range"</span>))</span>
-<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>data_selected_normalized <span class="ot">&lt;-</span> <span class="fu">predict</span>(process, data_selected)</span>
-<span id="cb124-4"><a href="#cb124-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-5"><a href="#cb124-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>)</span>
-<span id="cb124-6"><a href="#cb124-6" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb124-7"><a href="#cb124-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">colnames</span>(data_selected_normalized[i]))</span>
-<span id="cb124-8"><a href="#cb124-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">mean</span>(data_selected_normalized[,i]))</span>
-<span id="cb124-9"><a href="#cb124-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>process <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(data_selected, <span class="at">method=</span><span class="fu">c</span>(<span class="st">"range"</span>))</span>
+<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb138-3"><a href="#cb138-3" aria-hidden="true" tabindex="-1"></a>data_selected_normalized <span class="ot">&lt;-</span> <span class="fu">predict</span>(process, data_selected)</span>
+<span id="cb138-4"><a href="#cb138-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb138-5"><a href="#cb138-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>)</span>
+<span id="cb138-6"><a href="#cb138-6" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb138-7"><a href="#cb138-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">colnames</span>(data_selected_normalized[i]))</span>
+<span id="cb138-8"><a href="#cb138-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">mean</span>(data_selected_normalized[,i]))</span>
+<span id="cb138-9"><a href="#cb138-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Sunshine"
-[1] 0.4486211
+[1] 0.4485797
 [1] "Pressure3pm"
-[1] 0.5970399
+[1] 0.5970509
 [1] "MaxTemp"
-[1] 0.4294537
+[1] 0.4294019
 [1] "WindGustSpeed"
-[1] 0.5156618
+[1] 0.5156693
 [1] "Rainfall"
-[1] 0.04613298
+[1] 0.04610504
 [1] "Cloud9am"
-[1] 0.5353899
+[1] 0.5355483
 [1] "Humidity9am"
-[1] 0.7016435
+[1] 0.7017123
 [1] "DeltaHumidity"
-[1] 0.4239025
+[1] 0.4238615
 [1] "Cloud3pm"
-[1] 0.5507304
+[1] 0.5509866
 [1] "Evaporation"
-[1] 0.3648385
+[1] 0.3647775
 [1] "RainToday"
 [1] NA
 [1] "Humidity3pm"
-[1] 0.5631237
+[1] 0.5631634
 [1] "DeltaPressure"
-[1] 0.5178601</code></pre>
+[1] 0.5178677</code></pre>
 </div>
 </div>
 <p>Mean values are not the same as in the jupyter notebook Python code, most probably it is due to the fact, that SMOTE_NC function works in slightly different way - sill changes are a magnitude of <span class="math inline">\(10^{-4}\)</span>.</p>
@@ -1462,138 +1611,138 @@ rain_df.DeltaCloud      0.044685159</code></pre>
 <section id="split-train-and-test" class="level1">
 <h1>5. Split train and test</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">111</span>)</span>
-<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb126-3"><a href="#cb126-3" aria-hidden="true" tabindex="-1"></a>split1<span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(data_selected_normalized),<span class="fu">floor</span>(<span class="fu">nrow</span>(data_selected_normalized)<span class="sc">*</span><span class="fl">0.7</span>),<span class="at">replace=</span><span class="cn">FALSE</span>)</span>
-<span id="cb126-4"><a href="#cb126-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb126-5"><a href="#cb126-5" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> data_selected_normalized[split1,]</span>
-<span id="cb126-6"><a href="#cb126-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb126-7"><a href="#cb126-7" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> data_selected_normalized[<span class="sc">-</span>split1,]</span>
-<span id="cb126-8"><a href="#cb126-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb126-9"><a href="#cb126-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">111</span>)</span>
+<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb140-3"><a href="#cb140-3" aria-hidden="true" tabindex="-1"></a>split1<span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(data_selected_normalized),<span class="fu">floor</span>(<span class="fu">nrow</span>(data_selected_normalized)<span class="sc">*</span><span class="fl">0.7</span>),<span class="at">replace=</span><span class="cn">FALSE</span>)</span>
+<span id="cb140-4"><a href="#cb140-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb140-5"><a href="#cb140-5" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> data_selected_normalized[split1,]</span>
+<span id="cb140-6"><a href="#cb140-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb140-7"><a href="#cb140-7" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> data_selected_normalized[<span class="sc">-</span>split1,]</span>
+<span id="cb140-8"><a href="#cb140-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb140-9"><a href="#cb140-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       RainTomorrow  Sunshine Pressure3pm   MaxTemp WindGustSpeed    Rainfall
-113147            1 0.1226700   0.4397551 0.5884670     0.5032414 0.332583777
-99283             1 0.7148702   0.5054589 0.6526518     0.4961240 0.000000000
-27417             0 0.6000000   0.6488673 0.5795455     0.3720930 0.000000000
-34885             0 0.4413793   0.7491909 0.2227273     0.1240310 0.002666667
-6140              0 0.5931034   0.5469256 0.4000000     0.5271318 0.002666667
-104218            1 0.4987047   0.5531000 0.3767552     0.4881579 0.000000000
+<pre><code>       RainTomorrow   Sunshine Pressure3pm   MaxTemp WindGustSpeed    Rainfall
+113147            1 0.51571121   0.4781722 0.6640149     0.5527557 0.082960000
+99283             1 0.51117351   0.4566289 0.6534143     0.4328666 0.000000000
+27417             0 0.60000000   0.6488673 0.5795455     0.3720930 0.000000000
+34885             0 0.44137931   0.7491909 0.2227273     0.1240310 0.002666667
+6140              0 0.59310345   0.5469256 0.4000000     0.5271318 0.002666667
+104218            1 0.06293162   0.4916875 0.3333041     0.9457364 0.000000000
         Cloud9am Humidity9am DeltaHumidity  Cloud3pm Evaporation RainToday
-113147 0.7491523   0.8152456     0.5233858 0.8602635  0.44274728         1
-99283  0.2396227   0.6008339     0.4869583 0.5798586  0.46670459         0
+113147 0.7777778   0.8100000     0.3800175 0.7777778  0.30779965         1
+99283  0.7163609   0.7604005     0.4950458 0.7163609  0.39157975         0
 27417  0.7777778   0.5500000     0.3351648 0.7777778  0.90225564         0
 34885  0.4749152   0.9900000     0.3791209 0.4828924  0.04511278         0
 6140   0.4444444   0.7000000     0.4560440 0.4828924  0.48120301         0
-104218 0.4669468   0.9397236     0.2983179 0.4597751  0.06567602         0
+104218 0.8569301   0.6525963     0.6059023 0.7777778  0.41549488         0
        Humidity3pm DeltaPressure Month_2 Month_3 Month_4 Month_5 Month_6
-113147   0.8648757     0.5045742       0       0       0       0       0
-99283    0.6004170     0.4755334       0       0       0       0       0
+113147   0.5972219     0.5047013       0       0       0       0       0
+99283    0.7573223     0.5145978       1       0       0       0       0
 27417    0.2500000     0.5340595       0       0       0       0       0
 34885    0.7700000     0.5168567       0       0       0       1       0
 6140     0.6200000     0.5082553       0       0       0       0       0
-104218   0.5770614     0.5130999       0       0       0       0       0
+104218   0.8077890     0.5535922       0       0       0       0       0
        Month_7 Month_8 Month_9 Month_10 Month_11 Month_12 WindChange_EN
 113147       0       0       0        0        0        0             0
-99283        0       0       0        0        1        0             0
+99283        0       0       0        0        0        0             0
 27417        0       0       0        0        0        0             0
 34885        0       0       0        0        0        0             0
 6140         0       0       0        0        1        0             0
-104218       0       0       0        1        0        0             0
+104218       0       1       0        0        0        0             0
        WindChange_ES WindChange_EW WindChange_NE WindChange_NN WindChange_NS
 113147             0             0             0             0             0
-99283              0             0             1             0             0
+99283              0             0             0             0             0
 27417              0             0             0             0             0
 34885              0             0             0             0             0
 6140               0             0             0             0             0
 104218             0             0             0             0             0
        WindChange_NW WindChange_SE WindChange_SN WindChange_SS WindChange_SW
 113147             0             0             0             0             0
-99283              0             0             0             0             0
+99283              1             0             0             0             0
 27417              0             1             0             0             0
 34885              0             0             0             0             0
 6140               0             0             0             0             0
 104218             0             0             0             0             0
        WindChange_WE WindChange_WN WindChange_WS WindChange_WW WindGustDir_N
 113147             0             0             0             1             0
-99283              0             0             0             0             0
+99283              0             0             0             0             1
 27417              0             0             0             0             0
 34885              0             1             0             0             1
 6140               0             0             1             0             0
-104218             0             1             0             0             0
+104218             0             0             0             1             0
        WindGustDir_S WindGustDir_W
-113147             0             1
+113147             0             0
 99283              0             0
 27417              0             0
 34885              0             0
 6140               0             1
 104218             0             1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>y_test<span class="ot">=</span>test[,<span class="dv">1</span>]</span>
-<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>x_test<span class="ot">=</span>test[,<span class="sc">-</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a>y_test<span class="ot">=</span>test[,<span class="dv">1</span>]</span>
+<span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a>x_test<span class="ot">=</span>test[,<span class="sc">-</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="logistic-regression" class="level1">
 <h1>6. Logistic Regression</h1>
 <p>First, let’s count null accuracy in the data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     0     1 
 57556 16821 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null accuracy in the data:"</span>, <span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">/</span>(<span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">+</span><span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">2</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null accuracy in the data:"</span>, <span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">/</span>(<span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">+</span><span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">2</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Null accuracy in the data: 0.7738414</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>logistic_reg <span class="ot">&lt;-</span> <span class="fu">glm</span>(RainTomorrow<span class="sc">~</span>.,<span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),<span class="at">data=</span>train)</span>
-<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb133-3"><a href="#cb133-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb133-4"><a href="#cb133-4" aria-hidden="true" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">predict</span>(logistic_reg, <span class="at">newdata =</span> test, <span class="at">type =</span> <span class="st">"response"</span>)</span>
-<span id="cb133-5"><a href="#cb133-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb133-6"><a href="#cb133-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb133-7"><a href="#cb133-7" aria-hidden="true" tabindex="-1"></a>predicted<span class="ot">&lt;-</span><span class="fu">round</span>(predicted)</span>
-<span id="cb133-8"><a href="#cb133-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb133-9"><a href="#cb133-9" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(y_test,predicted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>logistic_reg <span class="ot">&lt;-</span> <span class="fu">glm</span>(RainTomorrow<span class="sc">~</span>.,<span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),<span class="at">data=</span>train)</span>
+<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb147-4"><a href="#cb147-4" aria-hidden="true" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">predict</span>(logistic_reg, <span class="at">newdata =</span> test, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb147-5"><a href="#cb147-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb147-6"><a href="#cb147-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb147-7"><a href="#cb147-7" aria-hidden="true" tabindex="-1"></a>predicted<span class="ot">&lt;-</span><span class="fu">round</span>(predicted)</span>
+<span id="cb147-8"><a href="#cb147-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb147-9"><a href="#cb147-9" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(y_test,predicted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      predicted
 y_test     0     1
-     0 13879  3364
-     1  3421 13870</code></pre>
+     0 13876  3367
+     1  3461 13830</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st"> Accuracy of the model:"</span>,<span class="fu">Accuracy</span>(predicted,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st"> Accuracy of the model:"</span>,<span class="fu">Accuracy</span>(predicted,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
- Accuracy of the model: 0.803527 </code></pre>
+ Accuracy of the model: 0.8022818 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Recall of the model:"</span>,<span class="fu">Recall</span>(y_test,predicted),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Recall of the model:"</span>,<span class="fu">Recall</span>(y_test,predicted),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Recall of the model: 0.8049063 </code></pre>
+<pre><code>Recall of the model: 0.8047324 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Precision of the model"</span>,<span class="fu">Precision</span>(y_test,predicted),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Precision of the model"</span>,<span class="fu">Precision</span>(y_test,predicted),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Precision of the model 0.8022543 </code></pre>
+<pre><code>Precision of the model 0.8003692 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"ROC AUC of the model:"</span>,<span class="fu">AUC</span>(y_test,predicted),<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"ROC AUC of the model:"</span>,<span class="fu">AUC</span>(y_test,predicted),<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>ROC AUC of the model: 0.8035294 </code></pre>
+<pre><code>ROC AUC of the model: 0.8022896 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Accuracy scores in training set, test set and null accuracy: </span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Accuracy scores in training set, test set and null accuracy: </span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Accuracy scores in training set, test set and null accuracy: </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Training set:"</span>,<span class="fu">Accuracy</span>(<span class="fu">round</span>(<span class="fu">predict</span>(logistic_reg, <span class="at">newdata =</span> train, <span class="at">type =</span> <span class="st">"response"</span>)),train[<span class="dv">1</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Training set:"</span>,<span class="fu">Accuracy</span>(<span class="fu">round</span>(<span class="fu">predict</span>(logistic_reg, <span class="at">newdata =</span> train, <span class="at">type =</span> <span class="st">"response"</span>)),train[<span class="dv">1</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Training set: 0.8041897 </code></pre>
+<pre><code>Training set: 0.8044752 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Test set:"</span>,<span class="fu">Accuracy</span>(predicted,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Test set:"</span>,<span class="fu">Accuracy</span>(predicted,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Test set: 0.803527 </code></pre>
+<pre><code>Test set: 0.8022818 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null:"</span>, <span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">/</span>(<span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">+</span><span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">2</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null:"</span>, <span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">/</span>(<span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">+</span><span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">2</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Null: 0.7738414 </code></pre>
 </div>
@@ -1603,55 +1752,55 @@ y_test     0     1
 <section id="svc" class="level1">
 <h1>7. SVC</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a>SVM_model <span class="ot">&lt;-</span> <span class="fu">svm</span>(RainTomorrow<span class="sc">~</span>., <span class="at">data=</span>train)</span>
-<span id="cb151-2"><a href="#cb151-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb151-3"><a href="#cb151-3" aria-hidden="true" tabindex="-1"></a>predicted_SVM_model <span class="ot">&lt;-</span> <span class="fu">predict</span>(SVM_model, <span class="at">newdata =</span> test, <span class="at">type =</span> <span class="st">"response"</span>)</span>
-<span id="cb151-4"><a href="#cb151-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb151-5"><a href="#cb151-5" aria-hidden="true" tabindex="-1"></a>predict_SVM_model_train <span class="ot">&lt;-</span> <span class="fu">predict</span>(SVM_model, <span class="at">newdata =</span> train, <span class="at">type=</span><span class="st">"response"</span>)</span>
-<span id="cb151-6"><a href="#cb151-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb151-7"><a href="#cb151-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(predicted_SVM_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a>SVM_model <span class="ot">&lt;-</span> <span class="fu">svm</span>(RainTomorrow<span class="sc">~</span>., <span class="at">data=</span>train)</span>
+<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-3"><a href="#cb165-3" aria-hidden="true" tabindex="-1"></a>predicted_SVM_model <span class="ot">&lt;-</span> <span class="fu">predict</span>(SVM_model, <span class="at">newdata =</span> test, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb165-4"><a href="#cb165-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-5"><a href="#cb165-5" aria-hidden="true" tabindex="-1"></a>predict_SVM_model_train <span class="ot">&lt;-</span> <span class="fu">predict</span>(SVM_model, <span class="at">newdata =</span> train, <span class="at">type=</span><span class="st">"response"</span>)</span>
+<span id="cb165-6"><a href="#cb165-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-7"><a href="#cb165-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(predicted_SVM_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> 5  8 15 16 18 21 
  0  0  0  0  0  1 
 Levels: 0 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(y_test,predicted_SVM_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(y_test,predicted_SVM_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      predicted_SVM_model
 y_test     0     1
-     0 14097  3146
-     1  2553 14738</code></pre>
+     0 14107  3136
+     1  2541 14750</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st"> Accuracy of the model:"</span>,<span class="fu">Accuracy</span>(predicted_SVM_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st"> Accuracy of the model:"</span>,<span class="fu">Accuracy</span>(predicted_SVM_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
- Accuracy of the model: 0.8349742 </code></pre>
+ Accuracy of the model: 0.8356113 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Recall of the model:"</span>,<span class="fu">Recall</span>(y_test,predicted_SVM_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Recall of the model:"</span>,<span class="fu">Recall</span>(y_test,predicted_SVM_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Recall of the model: 0.8175492 </code></pre>
+<pre><code>Recall of the model: 0.8181291 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Precision of the model"</span>,<span class="fu">Precision</span>(y_test,predicted_SVM_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Precision of the model"</span>,<span class="fu">Precision</span>(y_test,predicted_SVM_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Precision of the model 0.8466667 </code></pre>
+<pre><code>Precision of the model 0.8473691 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"ROC AUC of the model:"</span>,<span class="fu">AUC</span>(y_test,predicted_SVM_model),<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb175"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"ROC AUC of the model:"</span>,<span class="fu">AUC</span>(y_test,predicted_SVM_model),<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>ROC AUC of the model: 0.8353776 </code></pre>
+<pre><code>ROC AUC of the model: 0.8360182 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Accuracy scores in training set, test set and null accuracy: </span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb177"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Accuracy scores in training set, test set and null accuracy: </span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Accuracy scores in training set, test set and null accuracy: </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Training set:"</span>,<span class="fu">Accuracy</span>(predict_SVM_model_train,train[,<span class="dv">1</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Training set:"</span>,<span class="fu">Accuracy</span>(predict_SVM_model_train,train[,<span class="dv">1</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Training set: 0.8493013 </code></pre>
+<pre><code>Training set: 0.8503438 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Test set:"</span>,<span class="fu">Accuracy</span>(predicted_SVM_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Test set:"</span>,<span class="fu">Accuracy</span>(predicted_SVM_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Test set: 0.8349742 </code></pre>
+<pre><code>Test set: 0.8356113 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null:"</span>, <span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">/</span>(<span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">+</span><span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">2</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null:"</span>, <span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">/</span>(<span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">+</span><span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">2</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Null: 0.7738414 </code></pre>
 </div>
@@ -1662,88 +1811,88 @@ y_test     0     1
 <h1>8. Random Forest</h1>
 <p>We will use Random Forest model with similar hyperparameters as in the Jupyter Notebook code (we don’t have exact set of hyperparameters, so we will use what there is, also we will use smaller number of cross validation, because R is less optimal than python and the evaluation is much longer).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a>RF_trControl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number=</span><span class="dv">4</span>,<span class="at">savePredictions=</span><span class="st">"final"</span>)</span>
-<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb171-3"><a href="#cb171-3" aria-hidden="true" tabindex="-1"></a>RF_tuneGrid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mtry=</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">32</span>),</span>
-<span id="cb171-4"><a href="#cb171-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">splitrule=</span><span class="fu">c</span>(<span class="st">"gini"</span>,<span class="st">"extratrees"</span>),</span>
-<span id="cb171-5"><a href="#cb171-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">min.node.size=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
-<span id="cb171-6"><a href="#cb171-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb171-7"><a href="#cb171-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tic</span>()</span>
-<span id="cb171-8"><a href="#cb171-8" aria-hidden="true" tabindex="-1"></a>RF_model <span class="ot">&lt;-</span> <span class="fu">train</span>(RainTomorrow<span class="sc">~</span>.,</span>
-<span id="cb171-9"><a href="#cb171-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data=</span>train,<span class="at">method=</span><span class="st">"ranger"</span>,</span>
-<span id="cb171-10"><a href="#cb171-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">trControl=</span>RF_trControl, </span>
-<span id="cb171-11"><a href="#cb171-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tuneGrid=</span>RF_tuneGrid,</span>
-<span id="cb171-12"><a href="#cb171-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">verbose=</span><span class="cn">FALSE</span>)</span>
-<span id="cb171-13"><a href="#cb171-13" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a>RF_trControl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number=</span><span class="dv">4</span>,<span class="at">savePredictions=</span><span class="st">"final"</span>)</span>
+<span id="cb185-2"><a href="#cb185-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb185-3"><a href="#cb185-3" aria-hidden="true" tabindex="-1"></a>RF_tuneGrid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mtry=</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">32</span>),</span>
+<span id="cb185-4"><a href="#cb185-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">splitrule=</span><span class="fu">c</span>(<span class="st">"gini"</span>,<span class="st">"extratrees"</span>),</span>
+<span id="cb185-5"><a href="#cb185-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">min.node.size=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb185-6"><a href="#cb185-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb185-7"><a href="#cb185-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tic</span>()</span>
+<span id="cb185-8"><a href="#cb185-8" aria-hidden="true" tabindex="-1"></a>RF_model <span class="ot">&lt;-</span> caret<span class="sc">::</span><span class="fu">train</span>(RainTomorrow<span class="sc">~</span>.,</span>
+<span id="cb185-9"><a href="#cb185-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data=</span>train,<span class="at">method=</span><span class="st">"ranger"</span>,</span>
+<span id="cb185-10"><a href="#cb185-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">trControl=</span>RF_trControl, </span>
+<span id="cb185-11"><a href="#cb185-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tuneGrid=</span>RF_tuneGrid,</span>
+<span id="cb185-12"><a href="#cb185-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">verbose=</span><span class="cn">FALSE</span>)</span>
+<span id="cb185-13"><a href="#cb185-13" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>765.48 sec elapsed</code></pre>
+<pre><code>744.93 sec elapsed</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a>predicted_RF_model<span class="ot">&lt;-</span><span class="fu">predict</span>(RF_model,<span class="at">newdata =</span> test, <span class="at">type=</span><span class="st">"raw"</span>)</span>
-<span id="cb173-2"><a href="#cb173-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb173-3"><a href="#cb173-3" aria-hidden="true" tabindex="-1"></a>predicted_RF_model_train<span class="ot">&lt;-</span><span class="fu">predict</span>(RF_model,<span class="at">newdata =</span> train, <span class="at">type=</span><span class="st">"raw"</span>)</span>
-<span id="cb173-4"><a href="#cb173-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb173-5"><a href="#cb173-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(y_test,predicted_RF_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb187"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb187-1"><a href="#cb187-1" aria-hidden="true" tabindex="-1"></a>predicted_RF_model<span class="ot">&lt;-</span><span class="fu">predict</span>(RF_model,<span class="at">newdata =</span> test, <span class="at">type=</span><span class="st">"raw"</span>)</span>
+<span id="cb187-2"><a href="#cb187-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-3"><a href="#cb187-3" aria-hidden="true" tabindex="-1"></a>predicted_RF_model_train<span class="ot">&lt;-</span><span class="fu">predict</span>(RF_model,<span class="at">newdata =</span> train, <span class="at">type=</span><span class="st">"raw"</span>)</span>
+<span id="cb187-4"><a href="#cb187-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-5"><a href="#cb187-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(y_test,predicted_RF_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      predicted_RF_model
 y_test     0     1
-     0 15293  1950
-     1  1528 15763</code></pre>
+     0 15261  1982
+     1  1574 15717</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb175"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1" aria-hidden="true" tabindex="-1"></a>RF_model<span class="sc">$</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb189"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a>RF_model<span class="sc">$</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   mtry  splitrule min.node.size  Accuracy     Kappa   AccuracySD     KappaSD
-1    15       gini             1 0.8942516 0.7885057 0.0016053352 0.003210128
-2    15       gini             3 0.8933828 0.7867679 0.0012902961 0.002580447
-3    15 extratrees             1 0.8797315 0.7594688 0.0016442228 0.003287731
-4    15 extratrees             3 0.8779319 0.7558699 0.0011083782 0.002216255
-5    20       gini             1 0.8928119 0.7856262 0.0025847968 0.005169256
-6    20       gini             3 0.8928492 0.7857006 0.0018251969 0.003650018
-7    20 extratrees             1 0.8812828 0.7625716 0.0012414583 0.002482084
-8    20 extratrees             3 0.8793839 0.7587738 0.0015047843 0.003009233
-9    30       gini             1 0.8909628 0.7819276 0.0019271966 0.003853955
-10   30       gini             3 0.8900320 0.7800660 0.0020897137 0.004179015
-11   30 extratrees             1 0.8818288 0.7636641 0.0010249793 0.002049973
-12   30 extratrees             3 0.8814317 0.7628695 0.0012582122 0.002516092
-13   32       gini             1 0.8902802 0.7805624 0.0021488382 0.004297375
-14   32       gini             3 0.8892750 0.7785518 0.0017720346 0.003543741
-15   32 extratrees             1 0.8824865 0.7649794 0.0008725357 0.001744963
-16   32 extratrees             3 0.8815558 0.7631179 0.0013321751 0.002663959</code></pre>
+1    15       gini             1 0.8949465 0.7898956 0.0014629529 0.002925600
+2    15       gini             3 0.8938668 0.7877361 0.0013742990 0.002748382
+3    15 extratrees             1 0.8807119 0.7614298 0.0015838121 0.003166850
+4    15 extratrees             3 0.8791854 0.7583766 0.0014972551 0.002993990
+5    20       gini             1 0.8948473 0.7896970 0.0017702359 0.003539988
+6    20       gini             3 0.8941647 0.7883317 0.0020348098 0.004069299
+7    20 extratrees             1 0.8821142 0.7642347 0.0011716639 0.002342853
+8    20 extratrees             3 0.8807863 0.7615789 0.0014110281 0.002821554
+9    30       gini             1 0.8916702 0.7833427 0.0023407289 0.004681055
+10   30       gini             3 0.8912855 0.7825731 0.0016339735 0.003267480
+11   30 extratrees             1 0.8834297 0.7668662 0.0019459227 0.003891277
+12   30 extratrees             3 0.8828589 0.7657242 0.0017105763 0.003420594
+13   32       gini             1 0.8916206 0.7832434 0.0018753774 0.003750295
+14   32       gini             3 0.8906898 0.7813818 0.0022673313 0.004534112
+15   32 extratrees             1 0.8838641 0.7677348 0.0009634189 0.001926381
+16   32 extratrees             3 0.8821143 0.7642350 0.0018434181 0.003686190</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb177"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a>RF_model<span class="sc">$</span>bestTune</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb191"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a href="#cb191-1" aria-hidden="true" tabindex="-1"></a>RF_model<span class="sc">$</span>bestTune</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  mtry splitrule min.node.size
 1   15      gini             1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st"> Accuracy of the model:"</span>,<span class="fu">Accuracy</span>(predicted_RF_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb193"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb193-1"><a href="#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st"> Accuracy of the model:"</span>,<span class="fu">Accuracy</span>(predicted_RF_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
- Accuracy of the model: 0.8992877 </code></pre>
+ Accuracy of the model: 0.897029 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Recall of the model:"</span>,<span class="fu">Recall</span>(y_test,predicted_RF_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb195"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb195-1"><a href="#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Recall of the model:"</span>,<span class="fu">Recall</span>(y_test,predicted_RF_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Recall of the model: 0.8869106 </code></pre>
+<pre><code>Recall of the model: 0.8850548 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Precision of the model"</span>,<span class="fu">Precision</span>(y_test,predicted_RF_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb197"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Precision of the model"</span>,<span class="fu">Precision</span>(y_test,predicted_RF_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Precision of the model 0.9091612 </code></pre>
+<pre><code>Precision of the model 0.9065043 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"ROC AUC of the model:"</span>,<span class="fu">AUC</span>(y_test,predicted_RF_model),<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb199"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"ROC AUC of the model:"</span>,<span class="fu">AUC</span>(y_test,predicted_RF_model),<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>ROC AUC of the model: 0.8995363 </code></pre>
+<pre><code>ROC AUC of the model: 0.8972603 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb187"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb187-1"><a href="#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Accuracy scores in training set, test set and null accuracy: </span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb201"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Accuracy scores in training set, test set and null accuracy: </span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Accuracy scores in training set, test set and null accuracy: </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb189"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Training set:"</span>,<span class="fu">Accuracy</span>(predicted_RF_model_train,train[,<span class="dv">1</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb203"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Training set:"</span>,<span class="fu">Accuracy</span>(predicted_RF_model_train,train[,<span class="dv">1</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Training set: 1 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb191"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a href="#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Test set:"</span>,<span class="fu">Accuracy</span>(predicted_RF_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb205"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Test set:"</span>,<span class="fu">Accuracy</span>(predicted_RF_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Test set: 0.8992877 </code></pre>
+<pre><code>Test set: 0.897029 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb193"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb193-1"><a href="#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null:"</span>, <span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">/</span>(<span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">+</span><span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">2</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb207"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb207-1"><a href="#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null:"</span>, <span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">/</span>(<span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">+</span><span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">2</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Null: 0.7738414 </code></pre>
 </div>
@@ -1754,442 +1903,173 @@ y_test     0     1
 <h1>9. xgboost</h1>
 <p>We chose similar hyperparameters as in jupyter notebook code. We did full grid search in our hyperparameter grid.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb195"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb195-1"><a href="#cb195-1" aria-hidden="true" tabindex="-1"></a>XGB_trControl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number=</span><span class="dv">4</span>,<span class="at">savePredictions=</span><span class="st">"final"</span>)</span>
-<span id="cb195-2"><a href="#cb195-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb195-3"><a href="#cb195-3" aria-hidden="true" tabindex="-1"></a>XGB_tuneGrid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">nrounds=</span><span class="fu">c</span>(<span class="dv">150</span>,<span class="dv">200</span>,<span class="dv">225</span>,<span class="dv">250</span>),</span>
-<span id="cb195-4"><a href="#cb195-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">max_depth=</span><span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">7</span>),</span>
-<span id="cb195-5"><a href="#cb195-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">eta=</span><span class="fu">c</span>(<span class="fl">0.15</span>,<span class="fl">0.2</span>,<span class="fl">0.225</span>,<span class="fl">0.25</span>,<span class="fl">0.3</span>),</span>
-<span id="cb195-6"><a href="#cb195-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">gamma=</span><span class="dv">0</span>,</span>
-<span id="cb195-7"><a href="#cb195-7" aria-hidden="true" tabindex="-1"></a>                           <span class="at">colsample_bytree=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">0.75</span>,<span class="fl">0.7</span>),</span>
-<span id="cb195-8"><a href="#cb195-8" aria-hidden="true" tabindex="-1"></a>                           <span class="at">min_child_weight=</span><span class="dv">1</span>,</span>
-<span id="cb195-9"><a href="#cb195-9" aria-hidden="true" tabindex="-1"></a>                           <span class="at">subsample=</span><span class="dv">1</span>)</span>
-<span id="cb195-10"><a href="#cb195-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb195-11"><a href="#cb195-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tic</span>()</span>
-<span id="cb195-12"><a href="#cb195-12" aria-hidden="true" tabindex="-1"></a>XGB_model <span class="ot">&lt;-</span> <span class="fu">train</span>(RainTomorrow<span class="sc">~</span>.,</span>
-<span id="cb195-13"><a href="#cb195-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data=</span>train,<span class="at">method=</span><span class="st">"xgbTree"</span>,</span>
-<span id="cb195-14"><a href="#cb195-14" aria-hidden="true" tabindex="-1"></a>                  <span class="at">trControl=</span>XGB_trControl, </span>
-<span id="cb195-15"><a href="#cb195-15" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tuneGrid=</span>XGB_tuneGrid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb209"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a>XGB_trControl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number=</span><span class="dv">4</span>,<span class="at">savePredictions=</span><span class="st">"final"</span>)</span>
+<span id="cb209-2"><a href="#cb209-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb209-3"><a href="#cb209-3" aria-hidden="true" tabindex="-1"></a>XGB_tuneGrid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">nrounds=</span><span class="fu">c</span>(<span class="dv">150</span>,<span class="dv">200</span>,<span class="dv">225</span>,<span class="dv">250</span>),</span>
+<span id="cb209-4"><a href="#cb209-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">max_depth=</span><span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">7</span>),</span>
+<span id="cb209-5"><a href="#cb209-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">eta=</span><span class="fu">c</span>(<span class="fl">0.15</span>,<span class="fl">0.2</span>,<span class="fl">0.225</span>,<span class="fl">0.25</span>,<span class="fl">0.3</span>),</span>
+<span id="cb209-6"><a href="#cb209-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">gamma=</span><span class="dv">0</span>,</span>
+<span id="cb209-7"><a href="#cb209-7" aria-hidden="true" tabindex="-1"></a>                           <span class="at">colsample_bytree=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">0.75</span>,<span class="fl">0.7</span>),</span>
+<span id="cb209-8"><a href="#cb209-8" aria-hidden="true" tabindex="-1"></a>                           <span class="at">min_child_weight=</span><span class="dv">1</span>,</span>
+<span id="cb209-9"><a href="#cb209-9" aria-hidden="true" tabindex="-1"></a>                           <span class="at">subsample=</span><span class="dv">1</span>)</span>
+<span id="cb209-10"><a href="#cb209-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb209-11"><a href="#cb209-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tic</span>()</span>
+<span id="cb209-12"><a href="#cb209-12" aria-hidden="true" tabindex="-1"></a>XGB_model <span class="ot">&lt;-</span> caret<span class="sc">::</span><span class="fu">train</span>(RainTomorrow<span class="sc">~</span>.,</span>
+<span id="cb209-13"><a href="#cb209-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data=</span>train,<span class="at">method=</span><span class="st">"xgbTree"</span>,</span>
+<span id="cb209-14"><a href="#cb209-14" aria-hidden="true" tabindex="-1"></a>                  <span class="at">trControl=</span>XGB_trControl, </span>
+<span id="cb209-15"><a href="#cb209-15" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tuneGrid=</span>XGB_tuneGrid,</span>
+<span id="cb209-16"><a href="#cb209-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
+<span id="cb209-17"><a href="#cb209-17" aria-hidden="true" tabindex="-1"></a>                  <span class="at">verbosity=</span><span class="dv">0</span>)</span>
+<span id="cb209-18"><a href="#cb209-18" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[02:28:54] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:28:54] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:28:54] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:28:57] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:28:57] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:28:57] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:00] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:00] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:00] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:03] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:03] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:03] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:07] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:07] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:07] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:10] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:10] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:10] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:13] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:13] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:13] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:16] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:16] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:16] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:19] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:19] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:19] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:23] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:23] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:23] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:26] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:26] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:26] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:30] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:30] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:30] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:33] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:33] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:33] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:36] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:36] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:36] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:39] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:39] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:39] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:42] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:42] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:42] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:46] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:46] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:46] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:49] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:49] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:49] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:52] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:52] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:52] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:55] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:55] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:55] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:58] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:58] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:29:58] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:02] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:02] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:02] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:05] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:05] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:05] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:09] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:09] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:09] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:12] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:12] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:12] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:15] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:15] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:15] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:18] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:18] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:18] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:21] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:21] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:21] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:25] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:25] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:25] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:29] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:29] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:29] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:31] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:31] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:31] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:34] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:34] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:34] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:37] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:37] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:37] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:41] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:41] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:41] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:44] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:44] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:44] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:48] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:48] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:48] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:51] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:51] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:51] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:54] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:54] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:54] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:57] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:57] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:30:57] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:00] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:00] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:00] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:04] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:04] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:04] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:07] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:07] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:07] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:10] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:10] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:10] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:13] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:13] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:13] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:16] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:16] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:16] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:20] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:20] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:20] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:23] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:23] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:23] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:27] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:27] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:27] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:29] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:29] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:29] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:32] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:32] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:32] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:36] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:36] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:36] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:39] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:39] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:39] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:42] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:42] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:42] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:46] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:46] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:46] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:49] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:49] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:49] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:52] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:52] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:52] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:55] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:55] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:55] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:58] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:58] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:31:58] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:02] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:02] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:02] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:06] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:06] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:06] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:08] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:08] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:08] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:11] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:11] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:11] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:14] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:14] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:14] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:18] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:18] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:18] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:21] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:21] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:21] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:25] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:25] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:25] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:28] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:28] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:28] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:31] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:31] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:31] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:34] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:34] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:34] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:38] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:38] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:38] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:41] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:41] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:41] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:45] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:45] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:45] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:47] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:47] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:47] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:51] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:51] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:51] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:54] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:54] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:54] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:57] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:57] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:32:57] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:00] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:00] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:00] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:04] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:04] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:04] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:07] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:07] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:07] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:10] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:10] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:10] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:13] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:13] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:13] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:17] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:17] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:17] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:20] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:20] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:20] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:24] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:24] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:24] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:27] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:27] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:27] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:30] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:30] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:30] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:33] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:33] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:33] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:36] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:36] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:36] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:40] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:40] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:40] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:43] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:43] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:43] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:46] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:46] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:46] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:49] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:49] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:49] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:52] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:52] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:52] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:55] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:55] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:55] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:59] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:59] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:33:59] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:03] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:03] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:03] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:06] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:06] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:06] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:09] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:09] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:09] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:12] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:12] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:12] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:15] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:15] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:15] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:19] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:19] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:19] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:22] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:22] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:22] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:25] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:25] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:25] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:28] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:28] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:28] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:31] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:31] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:31] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:35] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:35] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:35] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:38] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:38] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:38] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:42] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:42] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:42] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:45] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:45] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:45] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:48] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:48] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:48] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:51] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:51] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:51] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:54] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:54] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:54] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:58] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:58] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:34:58] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:01] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:01] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:01] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:04] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:04] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:04] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:07] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:07] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:07] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:10] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:10] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:10] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:14] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:14] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:14] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:17] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:17] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:17] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:21] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:21] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.
-[02:35:21] WARNING: src/c_api/c_api.cc:935: `ntree_limit` is deprecated, use `iteration_range` instead.</code></pre>
+<pre><code>423.4 sec elapsed</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb197"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb211"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(XGB_model<span class="sc">$</span>bestTune)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>429.1 sec elapsed</code></pre>
+<pre><code>   nrounds max_depth  eta gamma colsample_bytree min_child_weight subsample
+20     250         7 0.15     0             0.75                1         1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb199"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(XGB_model<span class="sc">$</span>bestTune)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   nrounds max_depth eta gamma colsample_bytree min_child_weight subsample
-48     250         7 0.2     0              0.8                1         1</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb201"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a>predicted_XGB_model<span class="ot">&lt;-</span><span class="fu">predict</span>(XGB_model,<span class="at">newdata =</span> test, <span class="at">type=</span><span class="st">"raw"</span>)</span>
-<span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb201-3"><a href="#cb201-3" aria-hidden="true" tabindex="-1"></a>predicted_XGB_model_train<span class="ot">&lt;-</span><span class="fu">predict</span>(XGB_model,<span class="at">newdata =</span> train, <span class="at">type=</span><span class="st">"raw"</span>)</span>
-<span id="cb201-4"><a href="#cb201-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb201-5"><a href="#cb201-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(y_test,predicted_XGB_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb213"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a>predicted_XGB_model<span class="ot">&lt;-</span><span class="fu">predict</span>(XGB_model,<span class="at">newdata =</span> test, <span class="at">type=</span><span class="st">"raw"</span>)</span>
+<span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb213-3"><a href="#cb213-3" aria-hidden="true" tabindex="-1"></a>predicted_XGB_model_train<span class="ot">&lt;-</span><span class="fu">predict</span>(XGB_model,<span class="at">newdata =</span> train, <span class="at">type=</span><span class="st">"raw"</span>)</span>
+<span id="cb213-4"><a href="#cb213-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb213-5"><a href="#cb213-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(y_test,predicted_XGB_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      predicted_XGB_model
 y_test     0     1
-     0 16054  1189
-     1  2021 15270</code></pre>
+     0 16052  1191
+     1  2020 15271</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb203"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st"> Accuracy of the model:"</span>,<span class="fu">Accuracy</span>(predicted_XGB_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb215"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st"> Accuracy of the model:"</span>,<span class="fu">Accuracy</span>(predicted_XGB_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
- Accuracy of the model: 0.9070481 </code></pre>
+ Accuracy of the model: 0.9070192 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb205"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Recall of the model:"</span>,<span class="fu">Recall</span>(y_test,predicted_XGB_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb217"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Recall of the model:"</span>,<span class="fu">Recall</span>(y_test,predicted_XGB_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Recall of the model: 0.9310445 </code></pre>
+<pre><code>Recall of the model: 0.9309285 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb207"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb207-1"><a href="#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Precision of the model"</span>,<span class="fu">Precision</span>(y_test,predicted_XGB_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb219"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Precision of the model"</span>,<span class="fu">Precision</span>(y_test,predicted_XGB_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Precision of the model 0.8881881 </code></pre>
+<pre><code>Precision of the model 0.8882249 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb209"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"ROC AUC of the model:"</span>,<span class="fu">AUC</span>(y_test,predicted_XGB_model),<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb221"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb221-1"><a href="#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"ROC AUC of the model:"</span>,<span class="fu">AUC</span>(y_test,predicted_XGB_model),<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>ROC AUC of the model: 0.907974 </code></pre>
+<pre><code>ROC AUC of the model: 0.9079382 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb211"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Accuracy scores in training set, test set and null accuracy: </span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb223"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb223-1"><a href="#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Accuracy scores in training set, test set and null accuracy: </span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Accuracy scores in training set, test set and null accuracy: </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb213"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Training set:"</span>,<span class="fu">Accuracy</span>(predicted_XGB_model_train,train[,<span class="dv">1</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb225"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb225-1"><a href="#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Training set:"</span>,<span class="fu">Accuracy</span>(predicted_XGB_model_train,train[,<span class="dv">1</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Training set: 0.9590211 </code></pre>
+<pre><code>Training set: 0.9476036 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb215"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Test set:"</span>,<span class="fu">Accuracy</span>(predicted_XGB_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb227"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb227-1"><a href="#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Test set:"</span>,<span class="fu">Accuracy</span>(predicted_XGB_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Test set: 0.9070481 </code></pre>
+<pre><code>Test set: 0.9070192 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb217"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null:"</span>, <span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">/</span>(<span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">+</span><span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">2</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb229"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb229-1"><a href="#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null:"</span>, <span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">/</span>(<span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">+</span><span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">2</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Null: 0.7738414 </code></pre>
 </div>
 </div>
 <p>Little bit of overfitting, but similar to what we have in jupyter notebook results.</p>
 </section>
-<section id="conclusion" class="level1">
-<h1>10. Conclusion</h1>
-<p>MICHALS PART</p>
+<section id="simple-neural-network" class="level1">
+<h1>10. Simple Neural Network</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb231"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb231-1"><a href="#cb231-1" aria-hidden="true" tabindex="-1"></a>NN_trControl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number=</span><span class="dv">4</span>,<span class="at">savePredictions=</span><span class="st">"final"</span>)</span>
+<span id="cb231-2"><a href="#cb231-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb231-3"><a href="#cb231-3" aria-hidden="true" tabindex="-1"></a>NN_tuneGrid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">layer1=</span><span class="fu">c</span>(<span class="dv">20</span>,<span class="dv">50</span>,<span class="dv">100</span>),</span>
+<span id="cb231-4"><a href="#cb231-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">layer2=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">50</span>,<span class="dv">100</span>,<span class="dv">150</span>),</span>
+<span id="cb231-5"><a href="#cb231-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">layer3=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">20</span>,<span class="dv">40</span>,<span class="dv">80</span>),</span>
+<span id="cb231-6"><a href="#cb231-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">decay=</span><span class="fu">c</span>(<span class="fl">0.1</span>,<span class="dv">0</span>,<span class="dv">2</span>))</span>
+<span id="cb231-7"><a href="#cb231-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tic</span>()</span>
+<span id="cb231-8"><a href="#cb231-8" aria-hidden="true" tabindex="-1"></a>NN_model <span class="ot">&lt;-</span> caret<span class="sc">::</span><span class="fu">train</span>(RainTomorrow<span class="sc">~</span>.,</span>
+<span id="cb231-9"><a href="#cb231-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data=</span>train,<span class="at">method=</span><span class="st">"mlpWeightDecayML"</span>,</span>
+<span id="cb231-10"><a href="#cb231-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">trControl=</span>NN_trControl, </span>
+<span id="cb231-11"><a href="#cb231-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tuneGrid=</span>NN_tuneGrid)</span>
+<span id="cb231-12"><a href="#cb231-12" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span>
+<span id="cb231-13"><a href="#cb231-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb231-14"><a href="#cb231-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(NN_model<span class="sc">$</span>bestTune)</span>
+<span id="cb231-15"><a href="#cb231-15" aria-hidden="true" tabindex="-1"></a>NN_model</span>
+<span id="cb231-16"><a href="#cb231-16" aria-hidden="true" tabindex="-1"></a>predicted_NN_model<span class="ot">&lt;-</span><span class="fu">predict</span>(NN_model,<span class="at">newdata =</span> test, <span class="at">type=</span><span class="st">"raw"</span>)</span>
+<span id="cb231-17"><a href="#cb231-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb231-18"><a href="#cb231-18" aria-hidden="true" tabindex="-1"></a>predicted_NN_model_train<span class="ot">&lt;-</span><span class="fu">predict</span>(NN_model,<span class="at">newdata =</span> train, <span class="at">type=</span><span class="st">"raw"</span>)</span>
+<span id="cb231-19"><a href="#cb231-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb231-20"><a href="#cb231-20" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(y_test,predicted_NN_model)</span>
+<span id="cb231-21"><a href="#cb231-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb231-22"><a href="#cb231-22" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st"> Accuracy of the model:"</span>,<span class="fu">Accuracy</span>(predicted_NN_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb231-23"><a href="#cb231-23" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Recall of the model:"</span>,<span class="fu">Recall</span>(y_test,predicted_NN_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb231-24"><a href="#cb231-24" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Precision of the model"</span>,<span class="fu">Precision</span>(y_test,predicted_NN_model),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb231-25"><a href="#cb231-25" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"ROC AUC of the model:"</span>,<span class="fu">AUC</span>(y_test,predicted_NN_model),<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb231-26"><a href="#cb231-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb231-27"><a href="#cb231-27" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Accuracy scores in training set, test set and null accuracy: </span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb231-28"><a href="#cb231-28" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Training set:"</span>,<span class="fu">Accuracy</span>(predicted_NN_model_train,train[,<span class="dv">1</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb231-29"><a href="#cb231-29" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Test set:"</span>,<span class="fu">Accuracy</span>(predicted_NN_model,y_test),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb231-30"><a href="#cb231-30" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Null:"</span>, <span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">/</span>(<span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">1</span>]<span class="sc">+</span><span class="fu">table</span>(rain_df_selected[,<span class="dv">2</span>])[<span class="dv">2</span>]),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb231-31"><a href="#cb231-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb231-32"><a href="#cb231-32" aria-hidden="true" tabindex="-1"></a><span class="co">#NOT WORKING, ALL PREDICTIONS ARE SET TO 0. DONT RUN IT</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="general-conclusion-on-reproduction-of-ml-model" class="level1">
+<h1>11. General conclusion on reproduction of ML model</h1>
+<section id="exploration" class="level2">
+<h2 class="anchored" data-anchor-id="exploration">Exploration</h2>
+<p>After uploading the dataset we retraced our steps deleting rows with missing data in target variable RainTomorrow and checked the data types with only difference being the data types naming since in R there is a distinction between intenger and numerical data, there is <strong>1 Date</strong>: Date. <strong>5 Character</strong>: Location, WindGustDir, WindDir9am, WindDir3pm, RainToday. <strong>9 Numerical</strong>: Temp9am, Temp3pm, Pressure9am, Pressure3pm, MinTemp, MaxTemp, Rainfall, Evaporation, Sunshine, RainTomorrow. <strong>7 Integer</strong>: Cloud9am, Cloud3pm, WindSpeed9am, WindSpeed3pm, Humidity9am, Humidity3pm, WindGustSpeed.</p>
+</section>
+<section id="preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="preprocessing">Preprocessing</h2>
+<p>We checked for missing data using a sum(is.na()) in a loop and invalid data by analysing the results from summary() we decided dropped the missing data rows for Sunshine since as before there was a large chunk of missing data in it, the left missng data has been filled as in original case using mean and median respectfully depending on any possibility of invalid data noticed in analysis. The Suspicious numerical data remained the same: <strong>Rainfall</strong>, <strong>Evaporation</strong>, <strong>WindGustSpeed</strong>, <strong>WindSpeed9am</strong>, <strong>WindSpeed3pm</strong> and had very high difference betwen the mean and max value we used boxplot() to look for outliers as in python case. Afte analyzing the results with the outliers in data we recreated lower and upper boundries using interquartile range for <strong>Evaporation</strong>, <strong>WindGustSpeed</strong>, <strong>WindSpeed9am</strong>, <strong>WindSpeed3pm</strong>, in the <strong>Rainfall</strong> we recreated the boundry of 75 since the results above this were pointing towards 1 in <strong>RainTomorrow</strong>. The changes between original and outlier free data has been presented using boxplot and histograms. We simplified the character variables related to wind directions: WindDir9am, WindDir3pm, WindGustDir by changing data into dominant wind direction N, E, S and W. We extracted the month from date.</p>
+</section>
+<section id="selecting-the-features" class="level2">
+<h2 class="anchored" data-anchor-id="selecting-the-features">Selecting the features</h2>
+<p>We created delta varibles for numerical variables: <strong>WindChange</strong>, <strong>DeltaWindSpeed</strong>, <strong>DeltaHumidity</strong>, <strong>DeltaPressure</strong>, <strong>DeltaCloud</strong>.</p>
+<p>We filtrated into two groups one where RainTomorrow = 1 and the other where RainTomorrow = 0 in order to check the character data as in original python file. Looking at distributions of character variables we did not notice any differences and we used previousley chosen <strong>RainToday</strong>, <strong>WindChange</strong> and <strong>WindGusDir</strong>, because of the difference in plots between situations where RainTommorow is equal to 0 and 1.</p>
+<p>Numerical variables has been chosen as in original Python model (based on their correlation with target variable). Variables with correlation above 0.09: <strong>Sunshine</strong>, <strong>Pressure9am</strong>, <strong>Pressure3pm</strong>, <strong>Temp3pm</strong>, <strong>MaxTemp</strong>, <strong>Evaporation</strong>, <strong>WindGustSpeed</strong>, <strong>Rainfall</strong>, <strong>Cloud9am</strong>, <strong>Humidity9am</strong>, <strong>DeltaHumidity</strong>, <strong>Cloud3pm</strong>, <strong>Humidity3pm</strong>, <strong>DeltaPressure</strong>.</p>
+<p>We checked the correlation between the chosen numerical variables using the heatmap from its analysis we noticed that there is still a strong correlation between <strong>Pressure9am</strong> and <strong>Pressure3pm</strong> as well as between <strong>MaxTemp</strong> and <strong>Temp3pm</strong>, from which we dropped the Pressure9am and Temp3pm for consistency. We checked once again if there is no new high correlations between the variables.</p>
+</section>
+<section id="balancing-and-standardizing" class="level2">
+<h2 class="anchored" data-anchor-id="balancing-and-standardizing">Balancing and Standardizing</h2>
+<p>Our character features were <strong>Month</strong>, <strong>RainToday</strong>, <strong>WindChange</strong>, <strong>WindGustDir</strong>, <strong>RainTomorrow</strong> using the SMOTENC. We created dummy variables for our nonbinary categorical variables (k-1 dummy variables for factors with k levels, this wasn’t done in jupyter notebook code, but it should have been. Subsequently we standardized the features using MinMaxScaler in order to avoid any strong changes to the original distribution and checked it using mean() in a loop where mean values were not the same as in the jupyter notebook Python code, most probably due to the fact, that SMOTE_NC function works in slightly different way. We split the data into train - 70% and test - 30%.</p>
+</section>
+<section id="training-with-different-models" class="level2">
+<h2 class="anchored" data-anchor-id="training-with-different-models">Training with different models</h2>
+<p>We recreated the four different models (Simple Logistic Regression, Support Vector Classifier, Random Forest Classifier and Extreme Gradient Boosting Classifier) in order to look for the possible changes in results. The final classification of the models stays the same aside from minor differences in results. We decided to exclude Tuned Logistic Regression as there was not much to be done.</p>
+<pre><code>              The accuracy of the models compared with null accuracy:</code></pre>
+<p>Null accuracy - 77%<br>
+</p>
+<p>Simple Logistic Regression RStudio - 80% vs Python - 80%<br>
+Tuned Logistic Regression RStudio - Excluded vs Python - 80%<br>
+Support Vector Classifier RStudio - 83% vs Python - 83%<br>
+Random Forest Classifier RStudio - 90% vs Python - 84%<br>
+Extreme Gradient Boosting Classifier RStudio - 91% vs Python - 90%<br>
+</p>
+<pre><code>                           The recall of the models:</code></pre>
+<p>Simple Logistic Regression RStudio - 80% vs Python - 80%<br>
+Tuned Logistic Regression RStudio - Excluded vs Python - 80%<br>
+Support Vector Classifier RStudio - 82% vs Python - 85%<br>
+Random Forest Classifier RStudio - 89% vs Python - 85%<br>
+Extreme Gradient Boosting Classifier RStudio - 93% vs Python - 88%<br>
+</p>
+<pre><code>                        The precission of the models:</code></pre>
+<p>Simple Logistic Regression RStudio - 80% vs Python - 80%<br>
+Tuned Logistic Regression RStudio - Excluded vs Python - 80%<br>
+Support Vector Classifier RStudio - 85% vs Python - 82%<br>
+Random Forest Classifier RStudio - 91% vs Python - 83%<br>
+Extreme Gradient Boosting Classifier RStudio - 89% vs Python - 92%<br>
+</p>
+<pre><code>                   The area under the ROC curve of the models:</code></pre>
+<p>Simple Logistic Regression RStudio - 80% vs Python - 80%<br>
+Tuned Logistic Regression RStudio - Excluded vs Python - 80%<br>
+Support Vector Classifier RStudio - 84% vs Python - 83%<br>
+Random Forest Classifier RStudio - 90% vs Python - 84%<br>
+Extreme Gradient Boosting Classifier RStudio - 91% vs Python - 90%<br>
+</p>
+</section>
 </section>
 
 </main>

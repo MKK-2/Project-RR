@@ -31,6 +31,7 @@ devtools::install_github("dongyuanwu/RSBID")
 
 ```{r warning=FALSE}
 #| warning: false
+library(caret) #precision metrics, knn
 library(tictoc) #for checking the training time of models
 library(corrplot) #visualization of correlation matrix
 library(tidyr) #to tidy messy data
@@ -48,10 +49,10 @@ library(e1071) #svm
 library(randomForest) #we need it for RandomForest
 library(ranger) #we need it for RandomForest
 library(xgboost) #xgboost model
-library(caret) #precision metrics, knn
 library(fastDummies) #dummy variables
-#library(RSBID) #We will need SMOTE_NC from it
+library(RSBID) #We will need SMOTE_NC from it
 library(tidyverse) #collection of packages for data science
+library(RSNNS) #neural network
 ```
 
 Data loading:
@@ -659,7 +660,8 @@ tail(rain_df$WindChange)
 
 ## 3.3. Investigating object-typed attribute distribution
 
-We had to move this line of code here in order to avoid plot error where RainToday variable was showing a "character"  
+We had to move this line of code here in order to avoid plot error where RainToday variable was showing a "character"
+
 ```{r warning=FALSE}
 # Replace objects Yes with 1 and No with 0
 rain_df["RainToday"][rain_df["RainToday"] == "Yes"] <- 1
@@ -669,7 +671,8 @@ rain_df$RainToday[is.na(rain_df$RainToday)] <- Mode(rain_df$RainToday)
 ```
 
 We had to add data filtration since we cannot plot it the same way as previous boxplots.
-```{r} 
+
+```{r}
 # Visualise and look for noticable between RainTomorrow 1 and 0
 
 fdf1 <- subset(rain_df, RainTomorrow == 1)
@@ -679,16 +682,14 @@ pie(table(fdf1$WindDir9am), main = "RainRomorrow 1")
 pie(table(fdf0$WindDir9am), main = "RainRomorrow 0") 
 ```
 
-```{r} 
+```{r}
 # Visualise and look for noticable between RainTomorrow 1 and 0
 
 pie(table(fdf1$WindDir3pm), main = "RainRomorrow 1")
 pie(table(fdf0$WindDir3pm), main = "RainRomorrow 0") 
 ```
 
-
-
-```{r} 
+```{r}
 # Visualise and look for noticable between RainTomorrow 1 and 0
 
 pie(table(fdf1$WindGustDir), main = "RainRomorrow 1")
@@ -702,7 +703,7 @@ pie(table(fdf1$WindChange), main = "RainRomorrow 1")
 pie(table(fdf0$WindChange), main = "RainRomorrow 0")
 ```
 
-```{r} 
+```{r}
 # Visualise and look for noticable between RainTomorrow 1 and 0
 
 barplot(prop.table(table(fdf1$WindChange)),main = "RainRomorrow 1")
@@ -913,7 +914,7 @@ RF_tuneGrid <- expand.grid(mtry=c(15,20,30,32),
                            min.node.size=c(1,3))
 
 tic()
-RF_model <- train(RainTomorrow~.,
+RF_model <- caret::train(RainTomorrow~.,
                   data=train,method="ranger",
                   trControl=RF_trControl, 
                   tuneGrid=RF_tuneGrid,
@@ -959,12 +960,17 @@ XGB_tuneGrid <- expand.grid(nrounds=c(150,200,225,250),
                            subsample=1)
 
 tic()
-XGB_model <- train(RainTomorrow~.,
+XGB_model <- caret::train(RainTomorrow~.,
                   data=train,method="xgbTree",
                   trControl=XGB_trControl, 
-                  tuneGrid=XGB_tuneGrid)
+                  tuneGrid=XGB_tuneGrid,
+                  verbose=FALSE,
+                  verbosity=0)
 toc()
+```
 
+```{r warning=FALSE}
+#| warning: false
 print(XGB_model$bestTune)
 
 predicted_XGB_model<-predict(XGB_model,newdata = test, type="raw")
@@ -989,15 +995,59 @@ cat("Null:", table(rain_df_selected[,2])[1]/(table(rain_df_selected[,2])[1]+tabl
 
 Little bit of overfitting, but similar to what we have in jupyter notebook results.
 
-# 10. General conclusion on reproduction of ML model
+# 10. Simple Neural Network
+
+```{r warning=FALSE}
+#| warning: false
+#| eval: false
+NN_trControl <- trainControl(method = "cv", number=4,savePredictions="final")
+
+NN_tuneGrid <- expand.grid(layer1=c(20,50,100),
+                           layer2=c(10,50,100,150),
+                           layer3=c(5,20,40,80),
+                           decay=c(0.1,0,2))
+tic()
+NN_model <- caret::train(RainTomorrow~.,
+                  data=train,method="mlpWeightDecayML",
+                  trControl=NN_trControl, 
+                  tuneGrid=NN_tuneGrid)
+toc()
+
+print(NN_model$bestTune)
+NN_model
+predicted_NN_model<-predict(NN_model,newdata = test, type="raw")
+
+predicted_NN_model_train<-predict(NN_model,newdata = train, type="raw")
+
+table(y_test,predicted_NN_model)
+
+cat("\n Accuracy of the model:",Accuracy(predicted_NN_model,y_test),"\n")
+cat("Recall of the model:",Recall(y_test,predicted_NN_model),"\n")
+cat("Precision of the model",Precision(y_test,predicted_NN_model),"\n")
+cat("ROC AUC of the model:",AUC(y_test,predicted_NN_model),"\n\n")
+
+cat("Accuracy scores in training set, test set and null accuracy: \n")
+cat("Training set:",Accuracy(predicted_NN_model_train,train[,1]),"\n")
+cat("Test set:",Accuracy(predicted_NN_model,y_test),"\n")
+cat("Null:", table(rain_df_selected[,2])[1]/(table(rain_df_selected[,2])[1]+table(rain_df_selected[,2])[2]),"\n")
+
+#NOT WORKING, ALL PREDICTIONS ARE SET TO 0. DONT RUN IT
+
+
+```
+
+# 11. General conclusion on reproduction of ML model
 
 ## Exploration
+
 After uploading the dataset we retraced our steps deleting rows with missing data in target variable RainTomorrow and checked the data types with only difference being the data types naming since in R there is a distinction between intenger and numerical data, there is **1 Date**: Date. **5 Character**: Location, WindGustDir, WindDir9am, WindDir3pm, RainToday. **9 Numerical**: Temp9am, Temp3pm, Pressure9am, Pressure3pm, MinTemp, MaxTemp, Rainfall, Evaporation, Sunshine, RainTomorrow. **7 Integer**: Cloud9am, Cloud3pm, WindSpeed9am, WindSpeed3pm, Humidity9am, Humidity3pm, WindGustSpeed.
 
 ## Preprocessing
+
 We checked for missing data using a sum(is.na()) in a loop and invalid data by analysing the results from summary() we decided dropped the missing data rows for Sunshine since as before there was a large chunk of missing data in it, the left missng data has been filled as in original case using mean and median respectfully depending on any possibility of invalid data noticed in analysis. The Suspicious numerical data remained the same: **Rainfall**, **Evaporation**, **WindGustSpeed**, **WindSpeed9am**, **WindSpeed3pm** and had very high difference betwen the mean and max value we used boxplot() to look for outliers as in python case. Afte analyzing the results with the outliers in data we recreated lower and upper boundries using interquartile range for **Evaporation**, **WindGustSpeed**, **WindSpeed9am**, **WindSpeed3pm**, in the **Rainfall** we recreated the boundry of 75 since the results above this were pointing towards 1 in **RainTomorrow**. The changes between original and outlier free data has been presented using boxplot and histograms. We simplified the character variables related to wind directions: WindDir9am, WindDir3pm, WindGustDir by changing data into dominant wind direction N, E, S and W. We extracted the month from date.
 
 ## Selecting the features
+
 We created delta varibles for numerical variables: **WindChange**, **DeltaWindSpeed**, **DeltaHumidity**, **DeltaPressure**, **DeltaCloud**.
 
 We filtrated into two groups one where RainTomorrow = 1 and the other where RainTomorrow = 0 in order to check the character data as in original python file. Looking at distributions of character variables we did not notice any differences and we used previousley chosen **RainToday**, **WindChange** and **WindGusDir**, because of the difference in plots between situations where RainTommorow is equal to 0 and 1.
@@ -1007,37 +1057,51 @@ Numerical variables has been chosen as in original Python model (based on their 
 We checked the correlation between the chosen numerical variables using the heatmap from its analysis we noticed that there is still a strong correlation between **Pressure9am** and **Pressure3pm** as well as between **MaxTemp** and **Temp3pm**, from which we dropped the Pressure9am and Temp3pm for consistency. We checked once again if there is no new high correlations between the variables.
 
 ## Balancing and Standardizing
-Our character features were **Month**, **RainToday**, **WindChange**, **WindGustDir**, **RainTomorrow** using the SMOTENC. We created dummy variables for our nonbinary categorical variables (k-1 dummy variables for factors with k levels, this wasn’t done in jupyter notebook code, but it should have been. Subsequently we standardized the features using MinMaxScaler in order to avoid any strong changes to the original distribution and checked it using mean() in a loop where mean values were not the same as in the jupyter notebook Python code, most probably due to the fact, that SMOTE_NC function works in slightly different way. We split the data into train - 70% and test - 30% later checking with head().
+
+Our character features were **Month**, **RainToday**, **WindChange**, **WindGustDir**, **RainTomorrow** using the SMOTENC. We created dummy variables for our nonbinary categorical variables (k-1 dummy variables for factors with k levels, this wasn't done in jupyter notebook code, but it should have been. Subsequently we standardized the features using MinMaxScaler in order to avoid any strong changes to the original distribution and checked it using mean() in a loop where mean values were not the same as in the jupyter notebook Python code, most probably due to the fact, that SMOTE_NC function works in slightly different way. We split the data into train - 70% and test - 30%.
 
 ## Training with different models
+
 We recreated the four different models (Simple Logistic Regression, Support Vector Classifier, Random Forest Classifier and Extreme Gradient Boosting Classifier) in order to look for the possible changes in results. The final classification of the models stays the same aside from minor differences in results. We decided to exclude Tuned Logistic Regression as there was not much to be done.
 
-                  The accuracy of the models compared with null accuracy:
-Null accuracy - 77%
+```         
+              The accuracy of the models compared with null accuracy:
+```
 
-Simple Logistic Regression - 80%
-Tuned Logistic Regression - Excluded
-Support Vector Classifier - 83%
-Random Forest Classifier - 90%
-Extreme Gradient Boosting Classifier - 91%
+Null accuracy - 77%\
 
-                               The recall of the models:
-Simple Logistic Regression - 80%
-Tuned Logistic Regression - Excluded
-Support Vector Classifier - 82%
-Random Forest Classifier - 89%
-Extreme Gradient Boosting Classifier - 93%
+Simple Logistic Regression RStudio - 80% vs Python - 80%\
+Tuned Logistic Regression RStudio - Excluded vs Python - 80%\
+Support Vector Classifier RStudio - 83% vs Python - 83%\
+Random Forest Classifier RStudio - 90% vs Python - 84%\
+Extreme Gradient Boosting Classifier RStudio - 91% vs Python - 90%\
 
-                            The precission of the models:
-Simple Logistic Regression - 80%
-Tuned Logistic Regression - Excluded
-Support Vector Classifier - 85%
-Random Forest Classifier - 91%
-Extreme Gradient Boosting Classifier - 89%
+```         
+                           The recall of the models:
+```
 
-                       The area under the ROC curve of the models:
-Simple Logistic Regression - 80%
-Tuned Logistic Regression - Excluded
-Support Vector Classifier - 84%
-Random Forest Classifier - 90%
-Extreme Gradient Boosting Classifier - 91%
+Simple Logistic Regression RStudio - 80% vs Python - 80%\
+Tuned Logistic Regression RStudio - Excluded vs Python - 80%\
+Support Vector Classifier RStudio - 82% vs Python - 85%\
+Random Forest Classifier RStudio - 89% vs Python - 85%\
+Extreme Gradient Boosting Classifier RStudio - 93% vs Python - 88%\
+
+```         
+                        The precission of the models:
+```
+
+Simple Logistic Regression RStudio - 80% vs Python - 80%\
+Tuned Logistic Regression RStudio - Excluded vs Python - 80%\
+Support Vector Classifier RStudio - 85% vs Python - 82%\
+Random Forest Classifier RStudio - 91% vs Python - 83%\
+Extreme Gradient Boosting Classifier RStudio - 89% vs Python - 92%\
+
+```         
+                   The area under the ROC curve of the models:
+```
+
+Simple Logistic Regression RStudio - 80% vs Python - 80%\
+Tuned Logistic Regression RStudio - Excluded vs Python - 80%\
+Support Vector Classifier RStudio - 84% vs Python - 83%\
+Random Forest Classifier RStudio - 90% vs Python - 84%\
+Extreme Gradient Boosting Classifier RStudio - 91% vs Python - 90%\
