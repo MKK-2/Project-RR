@@ -55,6 +55,9 @@ library(tidyverse) #collection of packages for data science
 library(RSNNS) #neural network
 ```
 
+```{r}
+sessionInfo()
+```
 Data loading:
 
 ```{r}
